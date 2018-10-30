@@ -17,11 +17,11 @@ before_script:
   - psql -c 'create database "tastygravy-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
 
 # before_deploy:
-#   - npm run build-client # make the bundle
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE # see README
+  - npm run build-client # make the bundle
+  - rm -rf node_modules # omit from the tarball, since we skip cleanup
+deploy:
+  skip_cleanup: true # prevents travis from deleting the build
+  provider: heroku
+  app: gravytrainofficial # see README
+  api_key:
+    secure: ooY/swmzzjEJlSpyPUOVq0T7Ouaupc7YA0tC16BWTLo8RTeXkOccxyPY7PIWwFsVQp35W70G/cYjt7QOQlxoDuRB2LEYeXwOBEnvmceiKhtfd4SW3QmGEEGVm44mjEx5ZWU1Jfkl4A4Fv4QGaScq+MT+lTDw+n4OOeeaiP4I5QcrUMVO6tJK04/+PB6SVpmSPLT3EoWd+XARv8GzHcQ7LIdLqBwwwXiwaE2leiXpcFJsS7AIXHLMhgvbB44jN8kWQ86gv3K5UuZfYFHB4xQ+/ZxjWAAcj+4DgNmBEGZN/X1j2fiL72Y9VrDjpG0tu/Tr407E1BY+A9M+Balz1Ox9mtv09hSdsrJF6lFAPL9YhIWNNSdsOUUIWcftfumLdUBEBkodJn9t1d3VP8/eiZyB+soDVoWFHpo3yk1q6bhN2siK9x+Ey/jYLByclbRUsSxBPIKRQja5tZPs0lpCaavt2+Oxc1LjPOGKGUAhLMt3pB4YH1huoaaBOUXLgvXpypGXEKKNj6JFGPRThA+G4ncFsV01RGDTLKmuOSYUWlrF8yN5E+0wcD5r8mwBFD8Go8xQsCyWgamyfp+fiVsSCBxibVQMP9gzlAf7kn6zkFkM4iqyvS6Dx9irgeMRZNZIVeul6/MxKN2lQ691Rsx0vYaxGhe/GrXAFLDof5SEF8Hq2ss= # see README
