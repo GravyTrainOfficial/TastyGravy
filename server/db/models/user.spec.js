@@ -12,6 +12,7 @@ describe('User model', () => {
   describe('instanceMethods', () => {
     describe('correctPassword', () => {
       let cody
+      const codysEmail = 'cody@puppybook.com'
 
       beforeEach(async () => {
         cody = await User.create({
