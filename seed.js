@@ -1,5 +1,4 @@
-const {db} = require('./server/db')
-const { User, Product } = require('./server/db')
+const { db, User, Product } = require('./server/db')
 
 const users = [
   {
@@ -42,9 +41,9 @@ const products = [
 ]
 
 const seed = async () => {
-  await db.sync({force: true})
+  await db.sync({ force: true })
   await Promise.all(users.map(user => User.create(user)))
-  await Promise.all(products.map(student => Product.create(product)))
+  await Promise.all(products.map(product => Product.create(product)))
 
   console.log('Seeding success!')
   db.close()
