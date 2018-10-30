@@ -14,11 +14,11 @@ module.exports = router
  * set these environment variables like so:
  */
 
- //TEMPORARY, MOVE LATER
- process.env.GOOGLE_CLIENT_ID = '756493388144-pgppod2upt0pm3mncnoh0qd18e7ot787.apps.googleusercontent.com'
- process.env.GOOGLE_CLIENT_SECRET = '67CgTEWcvW5GI7xfvGLdIlz0'
- process.env.GOOGLE_CALLBACK = '/auth/google/callback'
- 
+//TEMPORARY, MOVE LATER
+process.env.GOOGLE_CLIENT_ID =
+  '756493388144-pgppod2upt0pm3mncnoh0qd18e7ot787.apps.googleusercontent.com'
+process.env.GOOGLE_CLIENT_SECRET = '67CgTEWcvW5GI7xfvGLdIlz0'
+process.env.GOOGLE_CALLBACK = '/auth/google/callback'
 
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   console.log('Google client ID / secret not found. Skipping Google OAuth.')
