@@ -1,4 +1,5 @@
-const { db, User, Product } = require('./server/db')
+const { User, Product } = require('./server/db/models')
+const db = require('./server/db')
 
 const users = [
   {
