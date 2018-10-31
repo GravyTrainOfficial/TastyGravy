@@ -14,6 +14,10 @@ class ProductListing extends Component {
   render() {
     return (
       <div>
+        <select >
+          {this.props.products.map(product =>
+            <option key={product.id}>{product.category}</option>)}
+        </select>
         <ul>{this.props.products && this.props.products.map(product => <ProductDetails product={product} key={product.id} />)}</ul>
       </div >
     )
