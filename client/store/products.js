@@ -2,12 +2,11 @@ import axios from 'axios'
 
 const GET_ALL_PRODUCTS_FROM_SERVER = 'GET_ALL_PRODUCTS_FROM_SERVER'
 const GET_SINGLE_PRODUCT_FROM_SERVER = 'GET_SINGLE_PRODUCT_FROM_SERVER'
-const GET_CATEGORY_FROM_SERVER = 'GET_CATEGORY_FROM_SERVER'
+const GET_FILTERED_PRODUCTS_FROM_SERVER = 'GET_FILTERED_PRODUCTS_FROM_SERVER'
 
 const initialState = {
   products: [],
   singleProduct: {},
-  category: null
 }
 
 export const getAllProductsFromServer = products => {
@@ -24,10 +23,10 @@ export const getIndividualProductFromServer = singleProduct => {
   }
 }
 
-export const getCategoryFromServer = category => {
+export const getFilteredProductsFromServer = filteredProducts => {
   return {
-    type: GET_CATEGORY_FROM_SERVER,
-    category
+    type: GET_FILTERED_PRODUCTS_FROM_SERVER,
+    filteredProducts
   }
 }
 
@@ -42,18 +41,18 @@ export const fetchProductData = function () {
 
 export const fetchSingleProduct = function (productId) {
   return async dispatch => {
-    const response = await axios.get(`/api/${productId}`)
+    const response = await axios.get(`/api/products/${productId}`)
     const singleProduct = response.data
     const action = getIndividualProductFromServer(singleProduct)
     dispatch(action)
   }
 }
 
-export const fetchCategory = function (categoryId) {
+export const fetchFilteredProducts = function (category) {
   return async dispatch => {
-    const response = await axios.get(`/api/${categoryId}`)
-    const category = response.data
-    const action = getCategoryFromServer(category)
+    const response = await axios.get(`/api/products/categories/${category}`)
+    const filteredProducts = response.data
+    const action = getFilteredProductsFromServer(filteredProducts)
     dispatch(action)
   }
 }
@@ -70,10 +69,10 @@ export default function productReducer(state = initialState, action) {
         ...state,
         singleProduct: action.singleProduct
       }
-    case GET_CATEGORY_FROM_SERVER:
+    case GET_FILTERED_PRODUCTS_FROM_SERVER:
       return {
         ...state,
-        category: action.category
+        products: action.filteredProducts
       }
     default:
       return state
