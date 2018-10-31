@@ -7,7 +7,7 @@ const GET_CATEGORY_FROM_SERVER = 'GET_CATEGORY_FROM_SERVER'
 const initialState = {
   products: [],
   singleProduct: {},
-  cattegory: null
+  category: null
 }
 
 export const getAllProductsFromServer = products => {
@@ -31,28 +31,28 @@ export const getCategoryFromServer = category => {
   }
 }
 
-export const fetchProductData = function() {
+export const fetchProductData = function () {
   return async dispatch => {
     const response = await axios.get('/api/products')
-    const products = response.products
+    const products = response.data
     const action = getAllProductsFromServer(products)
     dispatch(action)
   }
 }
 
-export const fetchSingleProduct = function(productId) {
+export const fetchSingleProduct = function (productId) {
   return async dispatch => {
     const response = await axios.get(`/api/${productId}`)
-    const singleProduct = response.product
+    const singleProduct = response.data
     const action = getIndividualProductFromServer(singleProduct)
     dispatch(action)
   }
 }
 
-export const fetchCategory = function(categoryId) {
+export const fetchCategory = function (categoryId) {
   return async dispatch => {
     const response = await axios.get(`/api/${categoryId}`)
-    const category = response.category
+    const category = response.data
     const action = getCategoryFromServer(category)
     dispatch(action)
   }

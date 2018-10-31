@@ -3,10 +3,10 @@ import React from 'react'
 export default function ProductDetails(props) {
   return (
     <td key={props.product.id}>
-      {props.product.firstName}
+      {props.product.name}
       <ul>
-        <li>{props.product.lastName}</li>
-        <li>{props.product.email}</li>
+        <li>{props.product.description}</li>
+        <li>{props.product.category}</li>
       </ul>
     </td>
   )
