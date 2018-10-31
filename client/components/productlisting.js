@@ -1,56 +1,45 @@
-import React from 'react'
+import React, { Component } from 'react'
 import ProductDetails from './productdetails'
+import { fetchProductData } from '../reducers/products'
 
-function ProductListing(props) {
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
-  //Temporary
-  props = {
-    products: [{
-      id: 1, firstName: 'Maria',
-      lastName: 'Johnson',
-      email: 'maryj@test.com',
-      isAdmin: false
-    }, {
-      id: 2, firstName: 'Pegmann',
-      lastName: 'College',
-      email: 'whyisthisacollege@what.com',
-      isAdmin: false
-    }, {
-      id: 3, firstName: 'Larry',
-      lastName: 'Larryson',
-      email: 'basicbro@geemail.com',
-      isAdmin: false
-    }]
+class ProductListing extends Component {
+
+  async componentDidMount() {
+    await this.props.fetchProductData()
   }
 
-  return (
-    <div>
-      <table>
-        <tbody>
-          <tr>{props.products.map(product => <ProductDetails product={product} key={product.id} />)}</tr>
-        </tbody>
-      </table>
-    </div >
-  )
+  render() {
+
+    return (
+      <div>
+        <table>
+          <tbody>
+            <tr>{this.props.products && this.props.products.map(product => <ProductDetails product={product} key={product.id} />)}</tr>
+          </tbody>
+        </table>
+      </div >
+    )
+  }
 }
 
 //Temporary
-export default ProductListing
+// export default ProductListing
 
 /**
  * CONTAINER
  */
-// const mapState = state => {
-//   return {
-//     products: state.products
-//   }
-// }
+const mapState = state => {
+  let newState = { products: state.productReducer.products }
+  return newState
+}
 
-// const mapDispatch = { dispatch products thunk name }
-// }
+const mapDispatch = { fetchProductData }
 
 
-// export default withRouter(connect(mapState, mapDispatch)(ProductListing))
+export default withRouter(connect(mapState, mapDispatch)(ProductListing))
 
 /**
  * PROP TYPES
