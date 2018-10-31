@@ -2,6 +2,12 @@ import React from 'react'
 
 export default function ProductDetails(props) {
   return (
-    <h1>{props.product.firstName}</h1>
+    <td key={props.product.id}>
+      {props.product.firstName}
+      <ul>
+        <li>{props.product.lastName}</li>
+        <li>{props.product.email}</li>
+      </ul>
+    </td>
   )
 }

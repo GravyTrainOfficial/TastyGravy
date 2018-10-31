@@ -24,8 +24,12 @@ function ProductListing(props) {
   }
 
   return (
-    < div >
-      <ul>{props.products.map(product => <li key={product.id}><ProductDetails product={product} /></li>)}</ul>
+    <div>
+      <table>
+        <tbody>
+          <tr>{props.products.map(product => <ProductDetails product={product} key={product.id} />)}</tr>
+        </tbody>
+      </table>
     </div >
   )
 }
