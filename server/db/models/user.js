@@ -6,24 +6,24 @@ const User = db.define('user', {
   firstName: {
     type: Sequelize.STRING,
     allowNull: false,
-    // validate: {
-    //   notEmpty: true
-    // }
+    validate: {
+      notEmpty: true
+    }
   },
   lastName: {
     type: Sequelize.STRING,
     allowNull: false,
-    // validate: {
-    //   notEmpty: true
-    // }
+    validate: {
+      notEmpty: true
+    }
   },
   email: {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,
-    // validate: {
-    //   notEmpty: true
-    // }
+    validate: {
+      notEmpty: true
+    }
   },
   password: {
     type: Sequelize.STRING,
@@ -45,9 +45,8 @@ const User = db.define('user', {
     type: Sequelize.STRING
   },
   isAdmin: {
-    type: Sequelize.BOOLEAN,
-    allowNull: false,
-    defaultValue: false
+    type: Sequelize.BOOLEAN
+    // defaultValue: false
   }
 })
 
