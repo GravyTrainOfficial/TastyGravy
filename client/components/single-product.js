@@ -17,7 +17,7 @@ class SingleProduct extends Component {
   componentDidMount() {
     if (!this.props.product) { // mapStateToProps will be product: state.whateverSubReducer.currentProduct
       // ^^ Will this ever not run? Should it be in componentDidUpdate?
-      const { id } = this.props.match.params
+      const { id } = this.props.match.params // Will need withRouter for this, as below in my suggestion
       // this.props.fetchProduct(id)
     }
   }
@@ -28,7 +28,7 @@ class SingleProduct extends Component {
 
   handleSubmit(event) {
     event.preventDefault
-    this.props.addToCart(this.props.product.id, this.state.amount)
+    // this.props.addToCart(this.props.product.id, this.state.amount)
   }
 
   render() {
@@ -49,7 +49,6 @@ class SingleProduct extends Component {
     )
   }
 }
-
 
 // *****JUST A SUGGESTION:
 
