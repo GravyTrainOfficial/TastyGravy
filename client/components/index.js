@@ -7,5 +7,7 @@ export { default as Navbar } from './navbar'
 export { default as UserHome } from './user-home'
 export { Login, Signup } from './auth-form'
 export { default as ProductListing } from './productlisting'
+export { default as ProductDetails } from './productdetails'
 export { default as AddProduct } from './addProduct'
+export { default as SingleProduct } from './single-product'
 
