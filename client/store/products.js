@@ -41,7 +41,7 @@ export const fetchProductData = function () {
         total.push(current.category)
       }
       return total
-    }, [])
+    }, ['All'])
     const action = getAllProductsFromServer(products, categories)
     dispatch(action)
   }
