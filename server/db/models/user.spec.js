@@ -1,12 +1,12 @@
 /* global describe beforeEach it */
 
-const {expect} = require('chai')
+const { expect } = require('chai')
 const db = require('../index')
 const User = db.model('user')
 
 describe('User model', () => {
   beforeEach(() => {
-    return db.sync({force: true})
+    return db.sync({ force: true })
   })
 
   describe('instanceMethods', () => {
@@ -19,7 +19,7 @@ describe('User model', () => {
           firstName: 'Cody',
           lastName: 'Codyson',
           email: codysEmail,
-          isAdmin: false,
+          role: 'member',
           password: 'bones'
         })
       })

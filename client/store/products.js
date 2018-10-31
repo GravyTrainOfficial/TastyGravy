@@ -7,12 +7,14 @@ const GET_FILTERED_PRODUCTS_FROM_SERVER = 'GET_FILTERED_PRODUCTS_FROM_SERVER'
 const initialState = {
   products: [],
   singleProduct: {},
+  categories: []
 }
 
-export const getAllProductsFromServer = products => {
+export const getAllProductsFromServer = (products, categories) => {
   return {
     type: GET_ALL_PRODUCTS_FROM_SERVER,
-    products
+    products,
+    categories
   }
 }
 
@@ -34,7 +36,13 @@ export const fetchProductData = function () {
   return async dispatch => {
     const response = await axios.get('/api/products')
     const products = response.data
-    const action = getAllProductsFromServer(products)
+    const categories = products.reduce((total, current) => {
+      if (!total.includes(current.category)) {
+        total.push(current.category)
+      }
+      return total
+    }, ['All'])
+    const action = getAllProductsFromServer(products, categories)
     dispatch(action)
   }
 }
@@ -62,7 +70,8 @@ export default function productReducer(state = initialState, action) {
     case GET_ALL_PRODUCTS_FROM_SERVER:
       return {
         ...state,
-        products: action.products
+        products: action.products,
+        categories: action.categories
       }
     case GET_SINGLE_PRODUCT_FROM_SERVER:
       return {
