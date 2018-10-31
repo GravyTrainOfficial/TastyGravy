@@ -23,7 +23,7 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
-router.get('/:category', async (req, res, next) => {
+router.get('/categories/:category', async (req, res, next) => {
   try {
     const filteredProducts = await Product.findAll({
       where: {

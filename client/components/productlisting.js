@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ProductDetails from './productdetails'
-import { fetchProductData } from '../reducers/products'
+import { fetchProductData } from '../store/products'
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -12,7 +12,6 @@ class ProductListing extends Component {
   }
 
   render() {
-
     return (
       <div>
         <table>
@@ -25,15 +24,10 @@ class ProductListing extends Component {
   }
 }
 
-//Temporary
-// export default ProductListing
-
-/**
- * CONTAINER
- */
 const mapState = state => {
-  let newState = { products: state.productReducer.products }
-  return newState
+  return {
+    products: state.productReducer.products
+  }
 }
 
 const mapDispatch = { fetchProductData }
