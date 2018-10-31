@@ -2,36 +2,42 @@
 
 const db = require('../server/db')
 const { User, Product } = require('../server/db/models')
+const devPassword = 'test'
 
 const users = [
   {
     firstName: 'Maria',
     lastName: 'Johnson',
     email: 'maryj@test.com',
+    password: devPassword,
     isAdmin: false
   },
   {
     firstName: 'Pegmann',
     lastName: 'College',
     email: 'whyisthisacollege@what.com',
+    password: devPassword,
     isAdmin: false
   },
   {
     firstName: 'Larry',
     lastName: 'Larryson',
     email: 'basicbro@geemail.com',
+    password: devPassword,
     isAdmin: false
   },
   {
     firstName: 'Dot',
     lastName: 'Cat',
     email: 'meowmeowmeowmeow@meow.com',
+    password: devPassword,
     isAdmin: false
   },
   {
     firstName: 'Russel',
     lastName: 'Moore',
     email: 'heiscool@cool.com',
+    password: devPassword,
     isAdmin: false
   }
 ]
