@@ -14,11 +14,7 @@ class ProductListing extends Component {
   render() {
     return (
       <div>
-        <table>
-          <tbody>
-            <tr>{this.props.products && this.props.products.map(product => <ProductDetails product={product} key={product.id} />)}</tr>
-          </tbody>
-        </table>
+        <ul>{this.props.products && this.props.products.map(product => <ProductDetails product={product} key={product.id} />)}</ul>
       </div >
     )
   }
