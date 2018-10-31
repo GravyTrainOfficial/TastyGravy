@@ -5,6 +5,9 @@ const Order = db.define({
   quantity: {
     type: Sequelize.INTEGER,
     allowNull: false
+  },
+  datePurchased: {
+    type: Sequelize.DATE
   }
 })
 
