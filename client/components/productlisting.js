@@ -1,11 +1,23 @@
 import React, { Component } from 'react'
 import ProductDetails from './productdetails'
-import { fetchProductData } from '../store/products'
+import { fetchProductData, fetchFilteredProducts } from '../store/products'
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 class ProductListing extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '--'
+    }
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  async handleChange(event) {
+    this.setState({ value: event.target.value })
+    await this.props.fetchFilteredProducts(event.target.value)
+  }
 
   async componentDidMount() {
     await this.props.fetchProductData()
@@ -14,9 +26,9 @@ class ProductListing extends Component {
   render() {
     return (
       <div>
-        <select >
-          {this.props.products.map(product =>
-            <option key={product.id}>{product.category}</option>)}
+        <select onChange={this.handleChange} value={this.state.value}>
+          {this.props.categories && this.props.categories.map(category =>
+            <option key={category} value={category}>{category}</option>)}
         </select>
         <ul>{this.props.products && this.props.products.map(product => <ProductDetails product={product} key={product.id} />)}</ul>
       </div >
@@ -26,11 +38,12 @@ class ProductListing extends Component {
 
 const mapState = state => {
   return {
-    products: state.productReducer.products
+    products: state.productReducer.products,
+    categories: state.productReducer.categories
   }
 }
 
-const mapDispatch = { fetchProductData }
+const mapDispatch = { fetchProductData, fetchFilteredProducts }
 
 
 export default withRouter(connect(mapState, mapDispatch)(ProductListing))
