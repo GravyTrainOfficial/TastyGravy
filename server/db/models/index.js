@@ -1,6 +1,6 @@
 const User = require('./user')
 const Product = require('./product')
-const Order = require('./order')
+// const Order = require('./order')
 
 // Order.belongsTo(User)
 // Order.belongsTo(Product)
@@ -14,6 +14,5 @@ const Order = require('./order')
  */
 module.exports = {
   User,
-  Product,
-  Order
+  Product
 }
