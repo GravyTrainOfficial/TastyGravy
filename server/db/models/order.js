@@ -6,9 +6,9 @@ const Order = db.define({
     type: Sequelize.INTEGER,
     allowNull: false
   },
-  datePurchased: {
-    type: Sequelize.DATE
-  }
+  // datePurchased: {
+  //   type: Sequelize.DATE
+  // }
 })
 
 module.exports = Order
