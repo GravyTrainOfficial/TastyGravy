@@ -20,14 +20,14 @@ const users = [
     firstName: 'Larry',
     lastName: 'Larryson',
     email: 'basicbro@geemail.com',
-    password: basicbro,
+    password: 'basicbro',
     isAdmin: false
   },
   {
     firstName: 'Dot',
     lastName: 'Cat',
     email: 'meowmeowmeowmeow@meow.com',
-    password: meowmeow,
+    password: 'meowmeow',
     isAdmin: false
   }
 ]
