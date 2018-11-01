@@ -9,7 +9,7 @@ import {ItemPreview} from './item-preview'
 const adapter = new Adapter()
 enzyme.configure({adapter})
 
-describe('ItemPreview', () => {
+xdescribe('ItemPreview', () => {
   let itemPreview
 
   beforeEach(() => {
