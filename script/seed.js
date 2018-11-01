@@ -10,35 +10,35 @@ const users = [
     lastName: 'Johnson',
     email: 'maryj@test.com',
     password: devPassword,
-    isAdmin: false
+    role: 'member'
   },
   {
     firstName: 'Pegmann',
     lastName: 'College',
     email: 'whyisthisacollege@what.com',
     password: devPassword,
-    isAdmin: false
+    role: 'member'
   },
   {
     firstName: 'Larry',
     lastName: 'Larryson',
     email: 'basicbro@geemail.com',
     password: devPassword,
-    isAdmin: false
+    role: 'member'
   },
   {
     firstName: 'Dot',
     lastName: 'Cat',
     email: 'meowmeowmeowmeow@meow.com',
     password: devPassword,
-    isAdmin: false
+    role: 'member'
   },
   {
     firstName: 'Russel',
     lastName: 'Moore',
     email: 'heiscool@cool.com',
     password: devPassword,
-    isAdmin: false
+    role: 'admin'
   }
 ]
 
