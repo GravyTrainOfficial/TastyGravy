@@ -42,4 +42,22 @@ router.get('/me', (req, res) => {
   res.json(req.user)
 })
 
+router.put('/edit-user', async (req, res, next) => {
+  try {
+    const { firstName, lastName, email } = req.body
+    const updates = {}
+    if (firstName) updates.firstName = firstName
+    if (lastName) updates.lastName = lastName
+    if (email) updates.email = email
+    const updatedUser = await User.update(updates, {
+        where: { id: req.user.id },
+        returning: true
+      }
+    )
+    res.json(updatedUser[1][0])
+  } catch(err) {
+    next(err)
+  }
+})
+
 router.use('/google', require('./google'))
