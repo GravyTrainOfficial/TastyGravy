@@ -1,9 +1,10 @@
-import React, {Component, Fragment} from 'react'
-import {connect} from 'react-redux'
-import {fetchSingleProduct} from '../store/products'
+import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
+import { fetchSingleProduct } from '../store/products'
+// import {addToDb} from '../store/cart'
+
 // import thunks etc
 
-// NOT CURRENTLY USABLE; DO NOT RENDER YET
 class SingleProduct extends Component {
   constructor(props) {
     super(props)
@@ -22,12 +23,12 @@ class SingleProduct extends Component {
   }
 
   handleChange(event) {
-    this.setState({[event.target.name]: event.target.value})
+    this.setState({ [event.target.name]: event.target.value })
   }
 
   handleSubmit(event) {
     event.preventDefault()
-    // this.props.addToCart(this.props.product.id, this.state.amount)
+    // this.props.addToDb(this.props.product)
   }
 
   render() {
@@ -48,7 +49,7 @@ class SingleProduct extends Component {
                 required
                 onChange={this.handleChange}
               />
-              <input type="submit" value="Add To Cart" />
+              <input type="submit" value='this.handleSubmit' />
             </form>
           </Fragment>
         </div>
@@ -67,9 +68,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchSingleProduct: productId => dispatch(fetchSingleProduct(productId))
+    fetchSingleProduct: productId => dispatch(fetchSingleProduct(productId)),
+    // addToDb: productObj => dispatch(addToDb(productObj))
+
     //^the above will be a thunk with an axios request to /api/products/<productId>
-    // addToCart: (productId, amount) dispatch(addToCart(productId, amount))
     // put functionality for admin product editing
     // I'm so sick of writing "product"
   }
