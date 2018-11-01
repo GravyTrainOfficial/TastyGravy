@@ -81,7 +81,7 @@ export const removeLineItem = (itemId) => { //just need itemId here
 export default function cartReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_TO_CART:
-      return [...state, action.itemId]
+      return [...state, action.item]
     case REMOVE_FROM_CART:
       return state.filter(item => item !== action.itemId)
     case GET_ALL_ITEMS:
