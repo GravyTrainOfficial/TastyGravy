@@ -16,10 +16,9 @@ router.get('/cart', async (req, res, next) => {
   try {
     let cartItems
     if (req.user) {
-      // will this work?
       cartItems = await LineItem.findAll({
-        where: {
-          userId: req.user.id, // ?????
+        where: { 
+          userId: req.user.id,
           status: 'cart'
         }
       })
@@ -31,11 +30,47 @@ router.get('/cart', async (req, res, next) => {
   }
 })
 
-router.post('/addToCart', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
-    let {productId, quantity, status, userId} = req.body
-    const newItem = await LineItem.create({productId, quantity, status, userId})
-    res.json(newItem)
+    const { quantity, productId } = req.body
+    if (req.user) {
+      const newItem = await LineItem.create({
+        quantity,
+        status: 'cart',
+        productId,
+        userId: req.user.id
+      })
+      res.json(newItem)
+    } else {
+      res.status(403).send()
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/', async (req, res, next) => {
+  try {
+    const { quantity, productId } = req.body
+    if (req.user) {
+      const oldItemQuantity = LineItems.findOne({
+        where: { id: itemId },
+        attributes: ['quantity']
+      })
+      const updatedItem = await LineItem.update({ quantity: oldItemQuantity + quantity })
+      res.json(newItem)
+    } else {
+      res.status(403).send()
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.delete('/:itemId', async (req, res, next) => {
+  try {
+    await LineItem.destroy({ where: { id: req.params.id } })
+    res.status(204).end()
   } catch (err) {
     next(err)
   }
