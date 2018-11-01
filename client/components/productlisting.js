@@ -30,7 +30,7 @@ class ProductListing extends Component {
           {this.props.categories && this.props.categories.map(category =>
             <option key={category} value={category}>{category}</option>)}
         </select>
-        <ul>{this.props.products && this.props.products.map(product => <ProductDetails product={product} key={product.id} />)}</ul>
+        {this.props.products && this.props.products.map(product => <ProductDetails product={product} key={product.id} />)}
       </div >
     )
   }
