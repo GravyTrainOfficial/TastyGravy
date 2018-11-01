@@ -1,5 +1,5 @@
-import React from 'react'
-import { ItemPreview } from './index'
+// import React from 'react'
+// import { ItemPreview } from './index'
 
 const dummyItems = [
   {
@@ -18,52 +18,55 @@ const dummyItems = [
   }
 ]
 
-const Cart = (props) => {
-  // props.products = dummyItems // delete when not using dummy data, obviously
-  return (
-    <div>
-      <h1>My Cart</h1>
-      {dummyItems.map(item => <ItemPreview key={item.name} item={item} />)}
-    </div>
-  )
-}
+// const Cart = (props) => {
+//   // props.products = dummyItems // delete when not using dummy data, obviously
+//   return (
+//     <div>
+//       <h1>My Cart</h1>
+//       {dummyItems.map(item => <ItemPreview key={item.name} item={item} />)}
+//     </div>
+//   )
+// }
 
-export default Cart
+// export default Cart
 
 //to edit
 
-// import React, {Component} from 'react'
-// import { getAllItems, removeLineItem } fromxw '../store/cart'
-// import { ItemPreview } from './index'
+import React, { Component } from 'react'
+import { getAllItems, removeLineItem, } from '../store/cart'
+import { ItemPreview } from './index'
 
-// import { connect } from 'react-redux';
-// import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 
-// class Cart extends Component {
- // constrctuor(props) {
-   //   super(props)
-   //
-// }
-  // async componentDidMount() {
-  //  await this.getAllItems()
-  //}
-  //
-  //
-  // render() {
-  //   return (
-  //     <div>
-  //       <h1>My Cart</h1>
-  //       {this.props.cart.map(item => <ItemPreview key={item.id} item={item} />)}
-  //     </div>
-  //   )
-  // }
+class Cart extends Component {
+  constructor(props) {
+    super(props)
 
-// const mapState = (state) => { return {
-//     //cart: state.cartReducer.cart
-//   }
-// }
+  }
+  async componentDidMount() {
+    await this.props.getAllItems()
+  }
 
-// const mapDispatch = { getAllItems, removeLineItem }
 
-// export default withRouter(connect(mapState, mapDispatch)(Cart))
+  render() {
+    console.log(this.props)
+    return (
+      <div>
+        <h1>My Cart</h1>
+        {this.props.cart && this.props.cart.map(item => <ItemPreview key={item.id} item={item} />)}
+      </div>
+    )
+  }
+}
+
+const mapState = (state) => {
+  return {
+    cart: state.cartReducer.cart
+  }
+}
+
+const mapDispatch = { getAllItems, removeLineItem }
+
+export default withRouter(connect(mapState, mapDispatch)(Cart))

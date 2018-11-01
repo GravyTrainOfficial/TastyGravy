@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Order, LineItem} = require('../db/models')
+const { Order, LineItem } = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -17,7 +17,7 @@ router.get('/cart', async (req, res, next) => {
     let cartItems
     if (req.user) {
       cartItems = await LineItem.findAll({
-        where: { 
+        where: {
           userId: req.user.id,
           status: 'cart'
         }
