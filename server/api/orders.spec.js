@@ -26,7 +26,7 @@ describe('Order routes', () => {
         .expect(200)
 
       expect(res.body).to.be.an('array')
-      expect(res.body[0].datePurchased).to.be.equal(datePurchased)
+      expect(res.body[0].datePurchased.parse()).to.be.equal(datePurchased.parse())
     })
 
     // TODO: test with assigned LineItems
