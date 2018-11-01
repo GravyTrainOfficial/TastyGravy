@@ -47,8 +47,8 @@ describe('Order routes', () => {
 
       expect(res.body).to.be.an('object')
       expect(new Date(res.body.datePurchased)).to.eql(datePurchased)
+    })
   })
-
   // TODO: test other routes
 
 }) // end describe('Order routes')
