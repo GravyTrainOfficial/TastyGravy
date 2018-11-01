@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Order, LineItem } = require('../db/models')
+const {Order, LineItem} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -22,7 +22,7 @@ router.get('/cart', async (req, res, next) => {
           status: 'cart'
         }
       })
-    } 
+    }
     // else get the cart from the session? does that belong here?
     res.json(cartItems)
   } catch (err) {
