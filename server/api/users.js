@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { User } = require('../db/models')
+const { User, Order } = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -25,5 +25,22 @@ router.get('/:userId', async (req, res, next) => {
     res.json(user)
   } catch (err) {
     next(err)
+  }
+})
+
+router.get('/orders/:userId', async (req, res, next) => {
+  const { userId } = req.params
+  if (req.user.id === userId || req.user.role === 'admin') { // ???
+    try {
+      const orders = await Order.findAll({
+        where: { userId },
+        include: [ LineItem ]
+      })
+      res.json(orders)
+    } catch (err) {
+      next(err)
+    }
+  } else {
+    res.status(403).send()
   }
 })

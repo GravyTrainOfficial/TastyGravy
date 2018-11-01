@@ -17,6 +17,10 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const { lineItems } = req.body
+    // TODO: add authentications:
+    // -lineItems exist in database
+    // -all line item user IDs are the current user
+    // -all line items have an orderId of null
     const datePurchased = new Date()
     const newOrder = await Order.create({ datePurchased })
     newOrder.setLineItems(lineItems) //Needs to be awaited? Do I need to save the models now? 

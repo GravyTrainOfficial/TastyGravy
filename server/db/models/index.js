@@ -6,7 +6,9 @@ const LineItem = require('./line-item')
 LineItem.belongsTo(Product)
 LineItem.belongsTo(User)
 LineItem.belongsTo(Order)
+Order.belongsTo(User)
 User.hasMany(LineItem)
+User.hasMany(Order)
 Order.hasMany(LineItem)
 
 
