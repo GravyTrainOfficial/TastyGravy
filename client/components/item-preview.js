@@ -6,7 +6,7 @@ const ItemPreview = ({ item }) => {
   return (
     <div id='item-preview-container'> {/*will be a flexbox!*/}
       <div>
-        <img href={item.image_URL} />
+        <img src={item.image_URL} />
       </div>
       <div>
         <h3>{item.name}</h3>
