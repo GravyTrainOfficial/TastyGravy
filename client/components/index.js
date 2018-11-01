@@ -10,4 +10,6 @@ export { default as ProductListing } from './productlisting'
 export { default as ProductDetails } from './productdetails'
 export { default as AddProduct } from './addProduct'
 export { default as SingleProduct } from './single-product'
+export { default as Cart } from './cart'
+export { default as ItemPreview } from './item-preview'
 
