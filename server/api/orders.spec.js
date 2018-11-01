@@ -31,7 +31,24 @@ describe('Order routes', () => {
 
     // TODO: test with assigned LineItems
   }) // end describe('/api/orders')
+  describe('api/orders/:orderId', () => {
+    const datePurchased = new Date('December 17, 1995 11:11:11')
 
+    beforeEach(() => {
+      return Order.create({
+        datePurchased
+      })
+    })
+
+    it('GET /api/orders/:orderId responds with the correct fields', async () => {
+      const res = await request(app)
+        .get('/api/orders/1')
+        .expect(200)
+
+      expect(res.body).to.be.an('object')
+      expect(new Date(res.body.datePurchased)).to.eql(datePurchased)
+    })
+  })
   // TODO: test other routes
 
 }) // end describe('Order routes')

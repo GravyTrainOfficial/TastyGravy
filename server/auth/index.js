@@ -50,7 +50,7 @@ router.put('/edit-user', async (req, res, next) => {
     if (lastName) updates.lastName = lastName
     if (email) updates.email = email
     const updatedUser = await User.update(updates, {
-        where: { id: req.user.id },
+        where: { id: req.user.id }, // ??????
         returning: true
       }
     )
