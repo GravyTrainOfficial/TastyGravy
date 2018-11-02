@@ -46,6 +46,9 @@ router.post('/', async (req, res, next) => {
         userId: req.user.id,
         price,
       })
+      newItem.dataValues.product = await Product.findOne({
+        where: { id: productId }
+      })
       res.json(newItem)
     } else {
       res.status(403).send()
@@ -75,7 +78,7 @@ router.put('/', async (req, res, next) => {
 
 router.delete('/:itemId', async (req, res, next) => {
   try {
-    await LineItem.destroy({ where: { id: req.params.id } })
+    await LineItem.destroy({ where: { id: req.params.itemId } })
     res.status(204).end()
   } catch (err) {
     next(err)

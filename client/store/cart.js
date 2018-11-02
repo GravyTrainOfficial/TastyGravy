@@ -64,7 +64,7 @@ export const addLineItem = (item) => { // itemId and Quantity in form
 export const removeLineItem = (itemId) => { //just need itemId here
   return async dispatch => {
     try {
-      const { data } = await axios.delete('/api/line-items', itemId);
+      const { data } = await axios.delete(`/api/line-items/${itemId}`);
       dispatch(removeFromCart(data))
     } catch (error) {
       console.error(error)
@@ -81,7 +81,7 @@ export const removeLineItem = (itemId) => { //just need itemId here
 export default function cartReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_TO_CART:
-      return [...state, action.item]
+      return [action.item, ...state]
     case REMOVE_FROM_CART:
       return state.filter(item => item !== action.itemId)
     case GET_ALL_ITEMS:
