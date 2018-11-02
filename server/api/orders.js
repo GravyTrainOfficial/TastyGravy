@@ -37,7 +37,10 @@ router.get('/:orderId', async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: { id: req.params.orderId },
-      include: [ LineItem ]
+      include: [{
+        model: LineItem,
+        include: [Product]
+      }]
     })
     res.json(order)
   } catch (err) {

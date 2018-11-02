@@ -4,7 +4,9 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const allLineItems = await LineItem.findAll()
+    const allLineItems = await LineItem.findAll({
+      include: { all: true }
+    })
     res.json(allLineItems)
   } catch (err) {
     next(err)
@@ -20,10 +22,12 @@ router.get('/cart', async (req, res, next) => {
         where: {
           userId: req.user.id,
           status: 'cart'
-        }
+        },
+        include: [Product]
       })
+    } else {
+      cartItems = req.session.cart || []
     }
-    // else get the cart from the session? does that belong here?
     res.json(cartItems)
   } catch (err) {
     next(err)
@@ -34,6 +38,7 @@ router.post('/', async (req, res, next) => {
   try {
     const { quantity, productId } = req.body
     let newItemData = { quantity, productId }
+    const associatedProduct =  await Product.findOne({ where: { id: productId } })
     if (req.user) {
       newItemData.userId = req.user.id
       const newItem = await LineItem.create({
@@ -41,9 +46,11 @@ router.post('/', async (req, res, next) => {
         status: 'cart',
         userId: req.user.id
       })
+      newItem.dataValues.product = associatedProduct
       res.json(newItem)
     } else {
       if (!req.session.cart) req.session.cart = []
+      newItemData.product = associatedProduct
       req.session.cart.push(newItemData)
     }
   } catch (err) {
@@ -54,16 +61,24 @@ router.post('/', async (req, res, next) => {
 router.put('/', async (req, res, next) => {
   try {
     const { quantity, productId } = req.body
+    const associatedProduct =  await Product.findOne({ where: { id: productId } })
     if (req.user) {
-      const oldItemQuantity = LineItems.findOne({
-        where: { id: itemId },
-        attributes: ['quantity']
+      const oldItem = LineItems.findOne({
+        where: {
+          productId,
+          userId: req.user.id,
+          status: 'cart'
+        }
       })
-      const updatedItem = await LineItem.update({ quantity: oldItemQuantity + quantity })
-      res.json(newItem)
+      const updatedItem = await LineItem.update({ quantity: oldItem.quantity + quantity },
+        { where: { id: oldItem.id } })
+      updatedItem.dataValues.product = associatedProduct
+      res.json(updatedItem)
     } else {
-      const oldItem = req.session.cart.find(item => item.productId === productId)
-      oldItem.quantity += quantity
+      const itemToUpdate = req.session.cart.find(item => item.productId === productId)
+      itemToUpdate.quantity += quantity
+      itemToUpdate.product = associatedProduct
+      res.json(itemToUpdate)
     }
   } catch (err) {
     next(err)
@@ -72,7 +87,11 @@ router.put('/', async (req, res, next) => {
 
 router.delete('/:itemId', async (req, res, next) => {
   try {
-    await LineItem.destroy({ where: { id: req.params.id } })
+    if (req.user) {
+      await LineItem.destroy({ where: { id: req.params.id } })
+    } else {
+      const item = req.session.cart.find(item => item.productId)
+    }
     res.status(204).end()
   } catch (err) {
     next(err)
