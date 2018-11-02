@@ -11,9 +11,7 @@ class Cart extends Component {
     await this.props.getAllItems()
   }
 
-
   render() {
-    console.log(this.props)
     return (
       <div>
         <h1>My Cart</h1>

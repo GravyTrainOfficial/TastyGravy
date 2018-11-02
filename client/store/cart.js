@@ -52,10 +52,10 @@ export const getAllItems = () => { // componenentDidMount?
 }
 
 export const addLineItem = (item) => { // itemId and Quantity in form
+  console.log('item price?', item)
   return async dispatch => {
     try {
       const { data } = await axios.post('/api/line-items', item);
-      console.log('data', data)
       dispatch(addToCart(data))
     } catch (error) {
       console.error(error)

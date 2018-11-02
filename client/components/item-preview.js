@@ -3,7 +3,6 @@ import React from 'react'
 //Used for cart items and product listing items, maybe?
 
 const ItemPreview = ({ item }) => {
-  console.log(item)
   return (
     <div id='item-preview-container'> {/*will be a flexbox!*/}
       <div>

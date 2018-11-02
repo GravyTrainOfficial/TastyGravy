@@ -1,10 +1,12 @@
 const router = require('express').Router()
-const { Order, LineItem } = require('../db/models')
+const { Order, LineItem, Product } = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const allLineItems = await LineItem.findAll()
+    const allLineItems = await LineItem.findAll({
+      include: [{ all: true }]
+    })
     res.json(allLineItems)
   } catch (err) {
     next(err)
@@ -17,12 +19,16 @@ router.get('/cart', async (req, res, next) => {
     let cartItems
     if (req.user) {
       cartItems = await LineItem.findAll({
-        where: {
-          userId: req.user.id,
-          status: 'cart'
-        }
+        //   where: {
+        //     userId: req.user.id,
+        //     status: 'cart'
+        //   }
+        // }, {
+        include: [{ model: Product, attributes: ['price'], required: false }]
       })
     }
+    console.log('cartItems', cartItems)
+
     // else get the cart from the session? does that belong here?
     res.json(cartItems)
   } catch (err) {
@@ -32,13 +38,14 @@ router.get('/cart', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const { quantity, productId } = req.body
+    const { quantity, productId, price } = req.body
     if (req.user) {
       const newItem = await LineItem.create({
         quantity,
         status: 'cart',
         productId,
-        userId: req.user.id
+        userId: req.user.id,
+        price,
       })
       res.json(newItem)
     } else {
