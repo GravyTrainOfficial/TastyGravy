@@ -19,3 +19,18 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.productsList {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.productDetails {
+  flex-grow: 2;
+  max-width: 300px;
+  padding: 10px;
+}
+
+.productName {
+  min-height: 150px;
+}
