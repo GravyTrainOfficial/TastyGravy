@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 
 export default function ProductDetails(props) {
   return (
-    <div key={props.product.id}>
-      <Link to={`/products/${props.product.id}`} ><h1>{props.product.name}</h1></Link>
+    <div className='productDetails' key={props.product.id}>
+      <div className='productName'>
+        <Link to={`/products/${props.product.id}`} ><h1>{props.product.name}</h1></Link>
+      </div>
       <img src={props.product.image_URL} />
       <ul>
         <li>{props.product.description}</li>

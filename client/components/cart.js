@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import { getAllItems, removeLineItem, } from '../store/cart'
+import { getAllItems, removeLineItem } from '../store/cart'
 import { ItemPreview } from './index'
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+
+const checkout = () => console.log('Hey checked out!')
 
 class Cart extends Component {
 
@@ -15,7 +17,8 @@ class Cart extends Component {
     return (
       <div>
         <h1>My Cart</h1>
-        {this.props.cart && this.props.cart.map(item => <ItemPreview key={item.id} item={item} />)}
+        {this.props.cart && this.props.cart.map(item => <ItemPreview key={item.id} item={item} removeLineItem={this.props.removeLineItem} />)}
+        <button type="button" onClick={() => checkout()}>CHECKOUT</button>
       </div>
     )
   }

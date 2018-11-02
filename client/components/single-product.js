@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { fetchSingleProduct } from '../store/products'
 import { addLineItem } from '../store/cart'
 
@@ -18,7 +19,8 @@ class SingleProduct extends Component {
   componentDidMount() {
     // mapStateToProps will be product: state.whateverSubReducer.currentProduct
     // ^^ Will this ever not run? Should it be in componentDidUpdate?
-    const productId = this.props.match.params.productId // Will need withRouter for this, as below in my suggestion
+    const productId = this.props.match.params.productId
+    // Will need withRouter for this, as below in my suggestion
     this.props.fetchSingleProduct(productId)
   }
 
@@ -30,7 +32,7 @@ class SingleProduct extends Component {
     event.preventDefault()
 
     const obj = {
-      productId: this.props.product.id,
+      productId: this.props.match.params.productId,
       quantity: this.state.quantity,
       price: this.props.product.price
     }
@@ -84,9 +86,9 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const connectedSingleProduct = connect(mapStateToProps, mapDispatchToProps)(
+const connectedSingleProduct = withRouter(connect(mapStateToProps, mapDispatchToProps)(
   SingleProduct
-)
+))
 
 export default connectedSingleProduct
 
