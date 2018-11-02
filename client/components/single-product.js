@@ -28,11 +28,11 @@ class SingleProduct extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    console.log(this.props.product)
 
     const obj = {
       productId: this.props.product.id,
-      quantity: this.state.quantity
+      quantity: this.state.quantity,
+      price: this.props.product.price
     }
     this.props.addLineItem(obj)
   }
@@ -47,6 +47,7 @@ class SingleProduct extends Component {
             <img src={product.image_URL} />
             <h1>{product.name}</h1>
             <p>{product.description}</p>
+            <p>{product.price}</p>
             <form id="add-to-cart-form" onSubmit={this.handleSubmit}>
               <input
                 type="number"
