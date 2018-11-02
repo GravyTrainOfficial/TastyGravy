@@ -1,11 +1,11 @@
 const router = require('express').Router()
-const { Order, LineItem } = require('../db/models')
+const { Order, LineItem, Product } = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
     const allLineItems = await LineItem.findAll({
-      include: { all: true }
+      include: [{ all: true }]
     })
     res.json(allLineItems)
   } catch (err) {
