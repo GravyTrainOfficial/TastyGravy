@@ -33,16 +33,18 @@ router.get('/cart', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const { quantity, productId } = req.body
+    let newItemData = { quantity, productId }
     if (req.user) {
+      newItemData.userId = req.user.id
       const newItem = await LineItem.create({
-        quantity,
+        ...newItemData,
         status: 'cart',
-        productId,
         userId: req.user.id
       })
       res.json(newItem)
     } else {
-      res.status(403).send()
+      if (!req.session.cart) req.session.cart = []
+      req.session.cart.push(newItemData)
     }
   } catch (err) {
     next(err)
@@ -60,7 +62,8 @@ router.put('/', async (req, res, next) => {
       const updatedItem = await LineItem.update({ quantity: oldItemQuantity + quantity })
       res.json(newItem)
     } else {
-      res.status(403).send()
+      const oldItem = req.session.cart.find(item => item.productId === productId)
+      oldItem.quantity += quantity
     }
   } catch (err) {
     next(err)
