@@ -311,6 +311,13 @@ const products = [
   }
 ]
 
+const orders = [
+  {
+    datePurchased: new Date('1995-12-17T03:24:00'),
+    userId: 1
+  }
+]
+
 const lineItems = [
   {
     quantity: 1,
@@ -342,13 +349,6 @@ const lineItems = [
   }
 ]
 
-const orders = [
-  {
-    datePurchased: new Date('1995-12-17T03:24:00'),
-    userId: 1
-  }
-]
-
 async function seed() {
   await db.sync({ force: true })
   console.log('db synced!')
@@ -357,10 +357,10 @@ async function seed() {
   console.log(`seeded ${users.length} users`)
   await Promise.all(products.map(product => Product.create(product)))
   console.log(`seeded ${products.length} products`)
-  await Promise.all(lineItems.map(item => LineItem.create(item)))
-  console.log(`seeded ${lineItems.length} products`)
   await Promise.all(orders.map(entry => Order.create(entry)))
-  console.log(`seeded ${orders.length} products`)
+  console.log(`seeded ${orders.length} orders`)
+  await Promise.all(lineItems.map(item => LineItem.create(item)))
+  console.log(`seeded ${lineItems.length} line items`)
 
   console.log(`seeded successfully`)
 }
