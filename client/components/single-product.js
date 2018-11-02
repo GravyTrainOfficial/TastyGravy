@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { fetchSingleProduct } from '../store/products'
-// import {addToDb} from '../store/cart'
+import { addLineItem } from '../store/cart'
 
 // import thunks etc
 
@@ -9,7 +9,7 @@ class SingleProduct extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      amount: 0
+      quantity: 0
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -28,7 +28,13 @@ class SingleProduct extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    // this.props.addToDb(this.props.product)
+    console.log(this.props.product)
+
+    const obj = {
+      productId: this.props.product.id,
+      quantity: this.state.quantity
+    }
+    this.props.addLineItem(obj)
   }
 
   render() {
@@ -44,12 +50,12 @@ class SingleProduct extends Component {
             <form id="add-to-cart-form" onSubmit={this.handleSubmit}>
               <input
                 type="number"
-                value={this.state.amount}
-                name="amount"
+                value={this.state.quantity}
+                name="quantity"
                 required
                 onChange={this.handleChange}
               />
-              <input type="submit" value='this.handleSubmit' />
+              <input type="submit" value='Add to Cart' />
             </form>
           </Fragment>
         </div>
@@ -69,7 +75,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchSingleProduct: productId => dispatch(fetchSingleProduct(productId)),
-    // addToDb: productObj => dispatch(addToDb(productObj))
+    addLineItem: productObj => dispatch(addLineItem(productObj))
 
     //^the above will be a thunk with an axios request to /api/products/<productId>
     // put functionality for admin product editing
