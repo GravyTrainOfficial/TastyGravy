@@ -21,10 +21,10 @@ export const addToCart = (item) => {
   }
 }
 
-export const removeFromCart = (item) => {
+export const removeFromCart = (itemId) => {
   return {
     type: REMOVE_FROM_CART,
-    item
+    itemId
   }
 }
 
@@ -64,8 +64,8 @@ export const addLineItem = (item) => { // itemId and Quantity in form
 export const removeLineItem = (itemId) => { //just need itemId here
   return async dispatch => {
     try {
-      const { data } = await axios.delete(`/api/line-items/${itemId}`);
-      dispatch(removeFromCart(data))
+      await axios.delete(`/api/line-items/${itemId}`);
+      dispatch(removeFromCart(itemId))
     } catch (error) {
       console.error(error)
     }
@@ -83,7 +83,7 @@ export default function cartReducer(state = initialState, action) {
     case ADD_TO_CART:
       return [action.item, ...state]
     case REMOVE_FROM_CART:
-      return state.filter(item => item !== action.itemId)
+      return state.filter(item => item.id !== action.itemId)
     case GET_ALL_ITEMS:
       return action.items
     default:

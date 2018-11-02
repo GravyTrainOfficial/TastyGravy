@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom'
 //Used for cart items and product listing items, maybe?
 
 const ItemPreview = (props) => {
-  console.log(props.item)
   return (
     <div id='item-preview-container'> {/*will be a flexbox!*/}
       <div key={props.item.id}>
