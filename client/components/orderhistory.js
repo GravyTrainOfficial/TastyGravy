@@ -5,16 +5,18 @@ export default class OrderHistory extends Component {
   const
   constructor(props) {
     super(props)
-    this.state = null
+    this.state = {orders: []}
   }
 
   async componentDidMount() {
-    const orders = await axios.get('/api/users/orders/me')
-    this.setState(orders)
+    const orderData = await axios.get('/api/users/orders/me')
+    const orderHistory = orderData.data
+    this.setState({orders: orderHistory})
   }
 
   render() {
-    if (this.state === null) {
+    console.log(this.state.orders)
+    if (!this.state.orders.length) {
       return (
         <div>
           <h1>ORDER HISTORY</h1>
@@ -24,8 +26,19 @@ export default class OrderHistory extends Component {
     } else {
       return (
         <div>
-          <h1>ORDER HISTORY</h1>
-          <p>ORDER HISTORY HERE</p>
+          <h1>ORDER HISTORY:</h1>
+
+          {this.state.orders.map(order => (
+            <h2 key={order.id}>
+              Order Number {order.id}:
+              <br />
+              {order.lineitems.map(lineItem => (
+                <ul key={lineItem.id}>
+                  <li>{lineItem.product.name}</li>
+                </ul>
+              ))}
+            </h2>
+          ))}
         </div>
       )
     }
