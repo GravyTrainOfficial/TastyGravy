@@ -19,12 +19,11 @@ router.get('/cart', async (req, res, next) => {
     let cartItems
     if (req.user) {
       cartItems = await LineItem.findAll({
-        //   where: {
-        //     userId: req.user.id,
-        //     status: 'cart'
-        //   }
-        // }, {
-        include: [{ model: Product, attributes: ['price'], required: false }]
+        where: {
+          userId: req.user.id,
+          status: 'cart'
+        },
+        include: [Product]
       })
     }
     console.log('cartItems', cartItems)
