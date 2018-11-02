@@ -11,7 +11,7 @@ const ItemPreview = (props) => {
   return (
     <div id='item-preview-container'> {/*will be a flexbox!*/}
       <div key={props.item.id}>
-        {/* <Link to={`/products/${props.item.product.id}`} ><h1>{props.item.product.name}</h1></Link> */}
+        <Link to={`/products/${props.item.product.id}`} ><h1>{props.item.product.name}</h1></Link>
         <img src={props.item.product.image_URL} />
       </div>
       <div>
