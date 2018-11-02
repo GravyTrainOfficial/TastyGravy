@@ -79,7 +79,7 @@ router.put('/', async (req, res, next) => {
 router.delete('/:itemId', async (req, res, next) => {
   try {
     await LineItem.destroy({ where: { id: req.params.itemId } })
-    res.status(204).end()
+    res.status(204).send()
   } catch (err) {
     next(err)
   }
