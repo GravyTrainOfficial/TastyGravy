@@ -34,7 +34,15 @@ export default class OrderHistory extends Component {
               <br />
               {order.lineitems.map(lineItem => (
                 <ul key={lineItem.id}>
-                  <li>{lineItem.product.name}</li>
+                  <li>Item: {lineItem.product.name}</li>
+                  <li>
+                    <img src={lineItem.product.image_URL} />
+                  </li>
+                  <li>Status {lineItem.status}</li>
+                  <li>Amount: {lineItem.quantity}</li>
+                  <li>
+                    Cost: {lineItem.product.price} * {lineItem.quantity}
+                  </li>
                 </ul>
               ))}
             </h2>
