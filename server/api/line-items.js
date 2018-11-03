@@ -49,7 +49,7 @@ router.post('/', async (req, res, next) => {
         status: 'cart'
       }})
       if (possibleOldItem) {
-        res.json(await axios.put('api/line-items/', {quantity, productId}))
+        res.json(await axios.put('/api/line-items/', {quantity, productId}))
       }
       const newItem = await LineItem.create({
         ...newItemData,
