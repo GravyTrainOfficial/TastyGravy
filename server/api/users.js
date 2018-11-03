@@ -4,14 +4,17 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    // MAKE SO THAT ONLY ADMINS CAN DO THIS
-    const users = await User.findAll({
-      // explicitly select only the id and email fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
-      attributes: ['id', 'firstName', 'lastName', 'email', 'role']
-    })
-    res.json(users)
+    if (req.user.role === 'admin') {
+      const users = await User.findAll({
+        // explicitly select only the id and email fields - even though
+        // users' passwords are encrypted, it won't help if we just
+        // send everything to anyone who asks!
+        attributes: ['id', 'firstName', 'lastName', 'email', 'role']
+      })
+      res.json(users)
+    } else {
+      res.status(403).send()
+    }
   } catch (err) {
     next(err)
   }
@@ -20,7 +23,8 @@ router.get('/', async (req, res, next) => {
 router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findOne({
-      where: {id: req.params.userId}
+      where: {id: req.params.userId},
+      attributes: ['id', 'firstName', 'lastName', 'email', 'role']
     })
     res.json(user)
   } catch (err) {

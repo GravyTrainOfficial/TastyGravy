@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Order, LineItem } = require('../db/models')
+const { Order, LineItem, Product } = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -16,13 +16,15 @@ router.get('/', async (req, res, next) => {
 // Confused about its implementation, but I can't test it:
 router.post('/', async (req, res, next) => {
   try {
-    const { lineItems } = req.body
-    // TODO: add authentications:
-    // -lineItems exist in database
-    // -all line item user IDs are the current user
-    // -all line items have an orderId of null
+    // const { lineItems } = req.body
+    //OR:
+    const userId = req.user.id || req.body.userId
+    const lineItems = LineItem.findAll({ where: {
+      status: 'cart',
+      userId
+    } })
     const datePurchased = new Date()
-    const newOrder = await Order.create({ datePurchased })
+    const newOrder = await Order.create({ datePurchased, userId })
     newOrder.setLineItems(lineItems) //Needs to be awaited? Do I need to save the models now? 
     // lineItems.forEach(item => {
     //   item.orderId = newOrder.id

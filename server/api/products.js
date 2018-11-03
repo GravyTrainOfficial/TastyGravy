@@ -67,7 +67,6 @@ router.put('/:productId', async (req, res, next) => {
   try {
     if (req.user.role === 'admin') {
       const { name, description, category, price, inventoryQuantity, image_URL } = req.body
-      // TODO: CHECK IF PRODUCT ALREADY EXISTS; ALERT AND ASK TO REDIRECT TO PUT?
       const updatedProduct = await Product.update({
         name, 
         description,
