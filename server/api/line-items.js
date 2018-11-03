@@ -49,6 +49,7 @@ router.post('/', async (req, res, next) => {
         status: 'cart'
       }})
       if (possibleOldItem) {
+        console.log('uh oh! already exists as ', possibleOldItem)
         res.json(await axios.put('/api/line-items/', {quantity, productId}))
       }
       const newItem = await LineItem.create({
@@ -75,8 +76,10 @@ router.post('/', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
   try {
+    console.log('in the put from the post')
     const { quantity, productId } = req.body
     const associatedProduct =  await Product.findOne({ where: { id: productId } })
+    console.log('associatedProduct: ', associatedProduct)
     if (req.user) {
       const oldItem = LineItems.findOne({
         where: {
@@ -85,16 +88,21 @@ router.put('/', async (req, res, next) => {
           status: 'cart'
         }
       })
+      console.log('req.user, oldItem: ', oldItem)
       const oldQuantity = oldItem.dataValues.quantity
-      if (oldQuantity - quantity < 0) { // If the edit would make the quantity negative
+      console.log('oldQuantity: ', oldQuantity)
+      if (oldQuantity + quantity < 0) { // If the edit would make the quantity negative
+        console.log('the new quantity would be nagative!')
         res.status(403).send() //temporary; probably do more
       }
-      if (oldQuantity - quantity === 0) { // If the edit would make the quantity zero
+      if (oldQuantity + quantity === 0) { // If the edit would make the quantity zero
+        console.log('gonna delete!')
         res.json(await axios.delete(`/api/line-items/${oldItem.dataValues.id}`))
       } 
       const updatedItem = await LineItem.update({ quantity: oldQuantity + quantity },
-        { where: { id: oldItem.id } })
+        { where: { id: oldItem.dataValues.id } })
       updatedItem.dataValues.product = associatedProduct
+      console.log('updatedItem!!!!: ', updatedItem)
       res.json(updatedItem)
     } else {
       const itemToUpdate = req.session.cart.find(item => item.productId === productId)
