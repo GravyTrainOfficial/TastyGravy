@@ -40,3 +40,62 @@ router.get('/categories/:category', async (req, res, next) => {
     next(err)
   }
 })
+
+router.post('/', async (req, res, next) => {
+  try {
+    if (req.user.role === 'admin') {
+      const { name, description, category, price, inventoryQuantity, image_URL } = req.body
+      // TODO: CHECK IF PRODUCT ALREADY EXISTS; ALERT AND ASK TO REDIRECT TO PUT?
+      const newProduct = await Product.create({
+        name, 
+        description,
+        category,
+        price,
+        inventoryQuantity,
+        image_URL
+        })
+      res.json(newProduct)
+    } else {
+      res.status(403).send()
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/:productId', async (req, res, next) => {
+  try {
+    if (req.user.role === 'admin') {
+      const { name, description, category, price, inventoryQuantity, image_URL } = req.body
+      // TODO: CHECK IF PRODUCT ALREADY EXISTS; ALERT AND ASK TO REDIRECT TO PUT?
+      const updatedProduct = await Product.update({
+        name, 
+        description,
+        category,
+        price,
+        inventoryQuantity,
+        image_URL
+        }, {
+          where: { id: req.params.productId }
+        })
+      res.json(updatedProduct)
+    } else {
+      res.status(403).send()
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.delete('/:productId', async (req, res, next) => {
+  try {
+    if (req.user.role === 'admin') {
+      await Product.destroy({ where: { id: req.params.productId } })
+      res.status(204).end()
+    } else {
+      res.status(403).send()
+    }
+  } catch (err) {
+    next(err)
+  }
+})

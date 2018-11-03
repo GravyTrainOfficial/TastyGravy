@@ -1,9 +1,5 @@
 const router = require('express').Router()
-<<<<<<< HEAD
 const { User, Order, LineItem, Product } = require('../db/models')
-=======
-const {User, Order, LineItem, Product} = require('../db/models')
->>>>>>> master
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -36,13 +32,6 @@ router.get('/orders/me', async (req, res, next) => {
   if (req.user) {
     try {
       const orders = await Order.findAll({
-<<<<<<< HEAD
-        where: { userId: req.user.id },
-        include: [{
-          model: LineItem,
-          include: [Product]
-        }]
-=======
         where: {userId: req.user.id},
         include: [
           {
@@ -50,7 +39,6 @@ router.get('/orders/me', async (req, res, next) => {
             include: [Product]
           }
         ]
->>>>>>> master
       })
       res.json(orders)
     } catch (err) {
@@ -66,13 +54,6 @@ router.get('/orders/:userId', async (req, res, next) => {
   if (req.user.id === userId || req.user.role === 'admin') {
     try {
       const orders = await Order.findAll({
-<<<<<<< HEAD
-        where: { userId },
-        include: [{
-          model: LineItem,
-          include: Product 
-        }]
-=======
         where: {userId},
         include: [
           {
@@ -80,7 +61,6 @@ router.get('/orders/:userId', async (req, res, next) => {
             include: [Product]
           }
         ]
->>>>>>> master
       })
       res.json(orders)
     } catch (err) {
