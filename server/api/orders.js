@@ -35,6 +35,7 @@ router.post('/', async (req, res, next) => {
 
 router.get('/:orderId', async (req, res, next) => {
   try {
+    // TODO: ONLY ADMINS OR THE RELEVANT USER HAVE PERMISSION
     const order = await Order.findOne({
       where: { id: req.params.orderId },
       include: [{

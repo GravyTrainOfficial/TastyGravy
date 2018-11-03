@@ -52,6 +52,7 @@ router.post('/', async (req, res, next) => {
       if (!req.session.cart) req.session.cart = []
       newItemData.product = associatedProduct
       req.session.cart.push(newItemData)
+      res.json(newItemData)
     }
   } catch (err) {
     next(err)
