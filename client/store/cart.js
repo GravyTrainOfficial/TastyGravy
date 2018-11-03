@@ -9,6 +9,7 @@ const initialState = []
 const ADD_TO_CART = 'ADD_TO_CART';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 const GET_ALL_ITEMS = 'GET_ALL_ITEMS'
+const CHECKOUT = 'CHECKOUT'
 
 /**
 * ACTION CREATORS
@@ -35,6 +36,11 @@ export const gotAllItems = (items) => {
   }
 }
 
+export const checkout = () => {
+  return {
+    type: CHECKOUT
+  }
+}
 /**
 * THUNK CREATORS
 */
@@ -72,6 +78,16 @@ export const removeLineItem = (itemId) => { //just need itemId here
   }
 }
 
+export const checkoutCart = () => {
+  return async dispatch => {
+    try {
+      await axios.put(`/api/line-items/checkout`);
+      dispatch(checkout())
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
 
 /**
 * REDUCER
@@ -86,6 +102,8 @@ export default function cartReducer(state = initialState, action) {
       return state.filter(item => item.id !== action.itemId)
     case GET_ALL_ITEMS:
       return action.items
+    case CHECKOUT:
+      return []
     default:
       return state
   }

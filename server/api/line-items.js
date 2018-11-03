@@ -26,7 +26,6 @@ router.get('/cart', async (req, res, next) => {
         include: [Product]
       })
     }
-    console.log('cartItems', cartItems)
 
     // else get the cart from the session? does that belong here?
     res.json(cartItems)
@@ -34,6 +33,40 @@ router.get('/cart', async (req, res, next) => {
     next(err)
   }
 })
+
+router.put('/checkout', async (req, res, next) => {
+  console.log(`in the checkout API route`)
+  try {
+    let checkedOutItems
+    let orderNumber
+    if (req.user) {
+      checkedOutItems = await LineItem.findAll({ //get all items for user in cart
+        where: {
+          userId: req.user.id,
+          status: 'cart'
+        },
+        include: [Product]
+      })
+
+      orderNumber = await Order.create({ userId: req.user.id, datePurchased: new Date() })
+      console.log(`this is orderNumber.id `, orderNumber.id)
+
+
+      // await checkedOutItems.set()
+
+      await checkedOutItems.forEach(item => item.update({
+        status: 'purchased',
+        orderId: orderNumber.id
+      }))
+    }
+    console.log('here is checked out items', checkedOutItems)
+    res.json(checkedOutItems)
+  } catch (err) {
+    next(err)
+  }
+})
+
+
 
 router.post('/', async (req, res, next) => {
   try {
