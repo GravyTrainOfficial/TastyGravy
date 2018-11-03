@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const axios = require('axios')
 const { Order, LineItem, Product } = require('../db/models')
 module.exports = router
 
@@ -37,10 +38,19 @@ router.get('/cart', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const { quantity, productId } = req.body
+    if (quantity < 1) res.status(403).send()
     let newItemData = { quantity, productId }
     const associatedProduct =  await Product.findOne({ where: { id: productId } })
     if (req.user) {
       newItemData.userId = req.user.id
+      const possibleOldItem = await LineItem.findOne({ where: {
+        productId,
+        userId: req.user.id,
+        status: 'cart'
+      }})
+      if (possibleOldItem) {
+        res.json(await axios.put('api/line-items/', {quantity, productId}))
+      }
       const newItem = await LineItem.create({
         ...newItemData,
         status: 'cart',
@@ -50,6 +60,10 @@ router.post('/', async (req, res, next) => {
       res.json(newItem)
     } else {
       if (!req.session.cart) req.session.cart = []
+      const possibleOldItem = req.session.cart.find(item => item.productId === productId)
+      if (possibleOldItem) {
+        res.json(await axios.put('/api/line-items/', {quantity, productId}))
+      }
       newItemData.product = associatedProduct
       req.session.cart.push(newItemData)
       res.json(newItemData)
@@ -71,12 +85,20 @@ router.put('/', async (req, res, next) => {
           status: 'cart'
         }
       })
-      const updatedItem = await LineItem.update({ quantity: oldItem.quantity + quantity },
+      const oldQuantity = oldItem.dataValues.quantity
+      if (oldQuantity - quantity < 0) { // If the edit would make the quantity negative
+        res.status(403).send() //temporary; probably do more
+      }
+      if (oldQuantity - quantity === 0) { // If the edit would make the quantity zero
+        res.json(await axios.delete(`/api/line-items/${oldItem.dataValues.id}`))
+      } 
+      const updatedItem = await LineItem.update({ quantity: oldQuantity + quantity },
         { where: { id: oldItem.id } })
       updatedItem.dataValues.product = associatedProduct
       res.json(updatedItem)
     } else {
       const itemToUpdate = req.session.cart.find(item => item.productId === productId)
+      if (itemToUpdate.quantity - quantity < 0) res.status(403).send()
       itemToUpdate.quantity += quantity
       itemToUpdate.product = associatedProduct
       res.json(itemToUpdate)
