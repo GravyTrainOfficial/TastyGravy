@@ -51,7 +51,6 @@ router.post('/', async (req, res, next) => {
         status: 'cart'
       }})
       if (possibleOldItem) {
-        console.log('uh oh! already exists as ', possibleOldItem)
         res.json(await axios.put('/api/line-items/', {...newItemData, product}))
       }
       const newItem = await LineItem.create({
@@ -69,6 +68,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+// secondary post route using sessions for if the user is not logged in
 router.post('/', async (req, res, next) => {
   try {
     const { quantity, product, productId } = req.body
@@ -138,7 +138,7 @@ router.put('/', async (req, res, next) => {
           userId: req.user.id,
           status: 'cart'
         },
-        attributes: ['quantity']
+        attributes: ['id', 'quantity']
       })
       const newQuantity = oldQuantity + quantity
       if (newQuantity < 0) { // If the edit would make the quantity negative

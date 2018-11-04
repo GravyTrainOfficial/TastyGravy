@@ -101,7 +101,7 @@ export const modifyLineItem = (item, cart) => { //product, productId, and quanti
   return async dispatch => {
     try {
       console.log('add')
-      const { data } = await axios.post('/api/line-items', item)
+      const { data } = await axios.put('/api/line-items', item)
       dispatch(addToCart(data))
     } catch (error) {
       console.error(error)
