@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { fetchSingleProduct } from '../store/products'
-import { addLineItem } from '../store/cart'
+import React, {Component, Fragment} from 'react'
+import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
+import {fetchSingleProduct} from '../store/products'
+import {modifyLineItem, getAllItems} from '../store/cart'
 
 // import thunks etc
 
@@ -21,22 +21,23 @@ class SingleProduct extends Component {
     // ^^ Will this ever not run? Should it be in componentDidUpdate?
     const productId = this.props.match.params.productId
     // Will need withRouter for this, as below in my suggestion
+    this.props.getAllItems()
     this.props.fetchSingleProduct(productId)
   }
 
   handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value })
+    this.setState({[event.target.name]: event.target.value})
   }
 
   handleSubmit(event) {
     event.preventDefault()
 
     const obj = {
-      productId: this.props.match.params.productId,
-      quantity: this.state.quantity,
+      productId: Number(this.props.match.params.productId),
+      quantity: Number(this.state.quantity),
       price: this.props.product.price
     }
-    this.props.addLineItem(obj)
+    this.props.modifyLineItem(obj, this.props.cart)
   }
 
   render() {
@@ -58,7 +59,7 @@ class SingleProduct extends Component {
                 required
                 onChange={this.handleChange}
               />
-              <input type="submit" value='Add to Cart' />
+              <input type="submit" value="Add to Cart" />
             </form>
           </Fragment>
         </div>
@@ -71,24 +72,22 @@ class SingleProduct extends Component {
 
 const mapStateToProps = state => {
   return {
-    product: state.productReducer.singleProduct
+    product: state.productReducer.singleProduct,
+    cart: state.cartReducer
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchSingleProduct: productId => dispatch(fetchSingleProduct(productId)),
-    addLineItem: productObj => dispatch(addLineItem(productObj))
+//     //^the above will be a thunk with an axios request to /api/products/<productId>
+//     // put functionality for admin product editing
+//     // I'm so sick of writing "product"
+//   }
+// }
 
-    //^the above will be a thunk with an axios request to /api/products/<productId>
-    // put functionality for admin product editing
-    // I'm so sick of writing "product"
-  }
-}
+const mapDispatchToProps = {fetchSingleProduct, modifyLineItem, getAllItems}
 
-const connectedSingleProduct = withRouter(connect(mapStateToProps, mapDispatchToProps)(
-  SingleProduct
-))
+const connectedSingleProduct = withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(SingleProduct)
+)
 
 export default connectedSingleProduct
 
