@@ -10,8 +10,8 @@ import { Link } from 'react-router-dom'
 const ItemPreview = (props) => {
   return (
     <div id='item-preview-container'> {/*will be a flexbox!*/}
-      <div key={props.item.id}>
-        <Link to={`/products/${props.item.product.id}`} ><h1>{props.item.product.name}</h1></Link>
+      <div key={props.item.productId}>
+        <Link to={`/products/${props.item.productId}`} ><h1>{props.item.product.name}</h1></Link>
         <img src={props.item.product.image_URL} />
       </div>
       <div>
@@ -19,7 +19,7 @@ const ItemPreview = (props) => {
         <p>Price: {props.item.product.price}</p> {/*to be in price format; 
         make a folder for utility functions for this kind of thing?*/}
         <p>Ouantity: {props.item.quantity}</p>
-        <button type="button" onClick={() => props.removeLineItem(props.item.id)}>Delete Item</button>
+        <button type="button" onClick={() => props.removeLineItem(props.item.productId)}>Delete Item</button>
       </div>
     </div>
   )
