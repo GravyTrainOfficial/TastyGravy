@@ -16,7 +16,8 @@ class AddProduct extends React.Component {
       category: '',
       price: '',
       inventoryQuantity: '',
-      image_URL: ''
+      image_URL: '',
+      errorMessage: ''
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -35,18 +36,43 @@ class AddProduct extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    console.log('add button pressed')
-    console.log(this.state)
-    // this function needs to add our form to the database. 
-    // does this need to be a thunk? or can we just axios in right here?
-    // I think we should thunk this
-    this.props.addProduct(this.state)
+    this.setState({ errorMessage: '' })
+    if (this.isCategoryReady() && this.isUniqueProduct()) {
+      this.props.addProduct(this.state)
+    } else {
+      console.log('enter else')
+      if (!this.isCategoryReady()) {
+        this.setState({ errorMessage: this.state.errorMessage + 'Enter a category' })
+      }
+      if (!this.isUniqueProduct()) {
+        this.setState({ errorMessage: this.state.errorMessage + 'This product already exists' })
+      }
+      console.log(this.state)
+    }
+
   }
 
+
+
+  isCategoryReady() {
+    return (this.state.category !== '' && this.state.category !== 'All')
+  }
+
+  isUniqueProduct() {
+    // if the name in state is included in products currently, return false
+    let products = this.props.products
+    for (let i = 0; i < products.length; i++) {
+      if (this.state.name.toLowerCase() === products[i].name.toLowerCase()) {
+        return false
+      }
+    }
+    return true
+  }
+
+
   render() {
-    console.log(this.props)
     return (
-      <div>
+      <div className='addForm'>
         <h1>Add Form</h1>
         <form onChange={this.handleChange} onSubmit={this.handleSubmit} >
           <div>
@@ -64,7 +90,7 @@ class AddProduct extends React.Component {
           <div>
             <label htmlFor="category">
               {/* want to pull a selection dropdown and pull from categories available from the DB, but also want to be able to create new category */}
-              <small>Category</small>
+              <small>Category (can't be All)</small>
             </label>
             <select name="category" value={this.state.category}>
               {this.props.categories && this.props.categories.map(category =>
@@ -93,6 +119,7 @@ class AddProduct extends React.Component {
             <button type="submit">Add</button>
           </div>
         </form>
+        <h1>{this.state.errorMessage}</h1>
       </div >
     )
   }
@@ -100,7 +127,8 @@ class AddProduct extends React.Component {
 
 const mapState = state => {
   return {
-    categories: state.productReducer.categories
+    categories: state.productReducer.categories,
+    products: state.productReducer.products
   }
 }
 
