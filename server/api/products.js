@@ -42,18 +42,21 @@ router.get('/categories/:category', async (req, res, next) => {
 })
 
 router.post('/', async (req, res, next) => {
+  console.log('not admin')
   try {
     if (req.user.role === 'admin') {
+      console.log('admin')
       const { name, description, category, price, inventoryQuantity, image_URL } = req.body
       // TODO: CHECK IF PRODUCT ALREADY EXISTS; ALERT AND ASK TO REDIRECT TO PUT?
+
       const newProduct = await Product.create({
-        name, 
+        name,
         description,
         category,
         price,
         inventoryQuantity,
         image_URL
-        })
+      })
       res.json(newProduct)
     } else {
       res.status(403).send()
@@ -68,13 +71,13 @@ router.put('/:productId', async (req, res, next) => {
     if (req.user.role === 'admin') {
       const { name, description, category, price, inventoryQuantity, image_URL } = req.body
       const updatedProduct = await Product.update({
-        name, 
+        name,
         description,
         category,
         price,
         inventoryQuantity,
         image_URL
-        }, {
+      }, {
           where: { id: req.params.productId }
         })
       res.json(updatedProduct)

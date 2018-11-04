@@ -1,11 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { auth } from '../store'
+import { fetchProductData, addProduct } from '../store/products'
+
 
 /**
  * COMPONENT
  */
-class addProduct extends React.Component {
+class AddProduct extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -13,11 +15,17 @@ class addProduct extends React.Component {
       description: '',
       category: '',
       price: '',
-      inventory: ''
+      inventoryQuantity: '',
+      image_URL: '',
+      errorMessage: ''
     }
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  async componentDidMount() {
+    await this.props.fetchProductData()
   }
 
   handleChange(event) {
@@ -28,13 +36,43 @@ class addProduct extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    console.log('add button pressed')
+    this.setState({ errorMessage: '' })
+    if (this.isCategoryReady() && this.isUniqueProduct()) {
+      this.props.addProduct(this.state)
+    } else {
+      console.log('enter else')
+      if (!this.isCategoryReady()) {
+        this.setState({ errorMessage: this.state.errorMessage + 'Enter a category' })
+      }
+      if (!this.isUniqueProduct()) {
+        this.setState({ errorMessage: this.state.errorMessage + 'This product already exists' })
+      }
+      console.log(this.state)
+    }
 
   }
 
+
+
+  isCategoryReady() {
+    return (this.state.category !== '' && this.state.category !== 'All')
+  }
+
+  isUniqueProduct() {
+    // if the name in state is included in products currently, return false
+    let products = this.props.products
+    for (let i = 0; i < products.length; i++) {
+      if (this.state.name.toLowerCase() === products[i].name.toLowerCase()) {
+        return false
+      }
+    }
+    return true
+  }
+
+
   render() {
     return (
-      <div>
+      <div className='addForm'>
         <h1>Add Form</h1>
         <form onChange={this.handleChange} onSubmit={this.handleSubmit} >
           <div>
@@ -52,13 +90,11 @@ class addProduct extends React.Component {
           <div>
             <label htmlFor="category">
               {/* want to pull a selection dropdown and pull from categories available from the DB, but also want to be able to create new category */}
-              <small>Category</small>
+              <small>Category (can't be All)</small>
             </label>
-            <select value={this.state.category} name="category">
-              <option value="lumpy">Lumpy</option>
-              <option value="smooth">Smooth</option>
-              <option value="fatty">Fatty</option>
-              <option value="lite">Lite</option>
+            <select name="category" value={this.state.category}>
+              {this.props.categories && this.props.categories.map(category =>
+                <option key={category} value={category}>{category}</option>)}
             </select>
           </div>
           <div>
@@ -68,47 +104,36 @@ class addProduct extends React.Component {
             <input name="price" type="number" value={this.state.price} />
           </div>
           <div>
-            <label htmlFor="inventory">
+            <label htmlFor="inventoryQuantity">
               <small>Inventory Available</small>
             </label>
-            <input name="inventory" type="number" value={this.state.inventory} />
+            <input name="inventoryQuantity" type="number" value={this.state.inventoryQuantity} />
+          </div>
+          <div>
+            <label htmlFor="image_URL">
+              <small>Image URL</small>
+            </label>
+            <input name="image_URL" type="url" value={this.state.image_URL} />
           </div>
           <div>
             <button type="submit">Add</button>
           </div>
         </form>
+        <h1>{this.state.errorMessage}</h1>
       </div >
     )
   }
 }
 
-export default addProduct
+const mapState = state => {
+  return {
+    categories: state.productReducer.categories,
+    products: state.productReducer.products
+  }
+}
 
-/**
- * CONTAINER
- *   Note that we have two different sets of 'mapStateToProps' functions -
- *   one for Login, and one for Signup. However, they share the same 'mapDispatchToProps'
- *   function, and share the same Component. This is a good example of how we
- *   can stay DRY with interfaces that are very similar to each other!
- */
-// const mapState = state => {
-//   return {
-
-//   }
-// }
+const mapDispatch = { fetchProductData, addProduct }
 
 
-// const mapDispatch = dispatch => {
-//   return {
-//     handleSubmit(evt) {
-//       evt.preventDefault()
-//       const formName = evt.target.name
-//       const email = evt.target.email.value
-//       const password = evt.target.password.value
-//       dispatch(auth(email, password, formName))
-//     }
-//   }
-// }
-
-// export default (mapState, mapDispatch)(addProduct)
+export default connect(mapState, mapDispatch)(AddProduct)
 
