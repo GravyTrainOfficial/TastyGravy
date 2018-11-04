@@ -41,7 +41,7 @@ router.post('/', async (req, res, next) => {
     lineItems.forEach(async item => {
       await LineItem.update({orderId: newOrder.id},
       {where: {id: item.id}})
-      const oldInventoryQuantity = await Product.findOne({
+      const { inventoryQuantity: oldInventoryQuantity } = await Product.findOne({
         where: {id: item.productId},
         attributes: ['inventoryQuantity']
       })
