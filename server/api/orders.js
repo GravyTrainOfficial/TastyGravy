@@ -16,23 +16,41 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-// Route for assigning un-ordered line items to an order, used when purchasing
+// Route for assigning un-ordered line items to an order, used when purchasing, AFTER payment
 // Confused about its implementation, but I can't test it:
 router.post('/', async (req, res, next) => {
   try {
-    // const { lineItems } = req.body
-    //OR:
+    const { lineItemData } = req.body
     const userId = req.user.id || req.body.userId
-    const lineItems = LineItem.findAll({ where: {
-      status: 'cart',
-      userId
-    } })
+    let lineItems
+    // const lineItems = LineItem.findAll({ where: {
+    //   status: 'cart',
+    //   userId
+    // } })
     const datePurchased = new Date()
     const newOrder = await Order.create({ datePurchased, userId })
-    newOrder.setLineItems(lineItems) //Needs to be awaited? Do I need to save the models now? 
-    // lineItems.forEach(item => {
-    //   item.orderId = newOrder.id
-    // }) // Just in case the magic methods don't work
+
+    //if the user is a guest, create the actual line items in the db
+    //else, the relevant line items are just what's passed in already
+    if (!req.user) {
+      lineItems = await LineItem.bulkCreate(lineItemData)
+    } else {
+      lineItems = lineItemData
+    }
+    // newOrder.setLineItems(lineItems) //Needs to be awaited? Do I need to save the models now? 
+    lineItems.forEach(item => {
+      await LineItem.update({orderId: newOrder.id},
+      {where: {id: item.id}})
+      const oldQuantity = await Product.findOne({
+        where: {id: item.productId},
+        attributes: ['quantity']
+      })
+      const newQuantity = oldQuantity - item.quantity
+      await Product.update(
+        {inventoryQuantity: newQuantity},
+        {where: {id: item.productId}}
+      )
+    }) // Just in case the magic methods don't work
     res.json(newOrder)
   } catch (err) {
     next(err)

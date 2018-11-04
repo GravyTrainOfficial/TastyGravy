@@ -60,6 +60,8 @@ class SingleProduct extends Component {
           <form id="add-to-cart-form" onSubmit={this.handleSubmit}>
             <input
               type="number"
+              min='1'
+              max={this.props.product.inventoryQuantity /*change to reflect subtraction of quantity that's already in cart*/}
               value={this.state.quantity}
               name="quantity"
               required
