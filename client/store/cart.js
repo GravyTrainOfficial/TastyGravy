@@ -59,17 +59,21 @@ export const getAllItems = () => { // componenentDidMount?
 }
 
 export const addLineItem = (item, cart) => { // product, productId, and quantity
+  console.log('in addLineItem thunk')
   const possibleCartItem = cart.find((entry) => entry.productId === item.productId)
-  if (possibleCartItem) {
+  if (!possibleCartItem) {
+    console.log('correct thunk, no previous cart item')
     return async dispatch => {
       try {
         const { data } = await axios.post('/api/line-items', item);
+        console.log('in the dispatch for addLineItem; data received from post request: ', data)
         dispatch(addToCart(data))
       } catch (error) {
         console.error(error)
       }
     }
   } else {
+    console.log('uh oh, this already exists in the cart! switching to modifyLineItem thunk...')
     return modifyLineItem
   }
 }
@@ -98,10 +102,11 @@ export const modifyLineItem = (item, cart) => { //product, productId, and quanti
   //     }
   //   }
   // }
+  console.log('in modifyLineItem thunk')
   return async dispatch => {
     try {
-      console.log('add')
       const { data } = await axios.put('/api/line-items', item)
+      console.log('in the dispatch for modifyLineItem; data received from put request: ', data)
       dispatch(addToCart(data))
     } catch (error) {
       console.error(error)

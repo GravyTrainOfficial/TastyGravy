@@ -41,13 +41,13 @@ router.post('/', async (req, res, next) => {
     lineItems.forEach(async item => {
       await LineItem.update({orderId: newOrder.id},
       {where: {id: item.id}})
-      const oldQuantity = await Product.findOne({
+      const oldInventoryQuantity = await Product.findOne({
         where: {id: item.productId},
-        attributes: ['quantity']
+        attributes: ['inventoryQuantity']
       })
-      const newQuantity = oldQuantity - item.quantity
+      const newInventoryQuantity = oldInventoryQuantity - item.quantity
       await Product.update(
-        {inventoryQuantity: newQuantity},
+        {inventoryQuantity: newInventoryQuantity},
         {where: {id: item.productId}}
       )
     }) // Just in case the magic methods don't work

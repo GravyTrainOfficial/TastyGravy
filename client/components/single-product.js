@@ -38,11 +38,15 @@ class SingleProduct extends Component {
       quantity: Number(this.state.quantity)
     }
 
+    console.log('created obj, hopefully with the right properties: ', obj)
+
     this.props.getAllItems()
     const {cart} = this.props
     if (cart.find(item => item.productId === obj.productId)) {
+      console.log('does not exist, adding line item')
       this.props.addLineItem(obj, cart)
     } else {
+      console.log('already exists, adding line item')
       this.props.modifyLineItem(obj, cart)
     }
     this.props.getAllItems()
