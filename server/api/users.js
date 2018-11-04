@@ -54,9 +54,9 @@ router.get('/orders/me', async (req, res, next) => {
 })
 
 router.get('/orders/:userId', async (req, res, next) => {
-  const {userId} = req.params
-  if (req.user.id === userId || req.user.role === 'admin') {
-    try {
+  try {
+    if (req.user.id === userId || req.user.role === 'admin') {
+      const {userId} = req.params
       const orders = await Order.findAll({
         where: {userId},
         include: [
@@ -67,10 +67,10 @@ router.get('/orders/:userId', async (req, res, next) => {
         ]
       })
       res.json(orders)
-    } catch (err) {
-      next(err)
+    } else {
+      res.status(403).send()
     }
-  } else {
-    res.status(403).send()
+  } catch (err) {
+    next(err)
   }
 })

@@ -4,9 +4,13 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const allOrders = await Order.findAll({
-    })
-    res.json(allOrders)
+      if (req.user.role === 'admin') {
+      const allOrders = await Order.findAll({
+      })
+      res.json(allOrders)
+    } else {
+      res.status(403).send()
+    }
   } catch (err) {
     next(err)
   }
@@ -45,7 +49,11 @@ router.get('/:orderId', async (req, res, next) => {
         include: [Product]
       }]
     })
-    res.json(order)
+    if (req.user.id === order.userId || req.user.role === 'admin') {
+      res.json(order)
+    } else {
+      res.status(403).send()
+    }
   } catch (err) {
     next(err)
   }
