@@ -22,7 +22,7 @@ const ItemPreview = props => {
       </div>
       <div>
         <h3>{props.item.name}</h3>
-        {/* <p>Price: {props.item.product.price}</p> {/*to be in price format;  */}
+        <p>Price: {props.item.product.price}</p> {/*to be in price format;
         make a folder for utility functions for this kind of thing?*/}
         <p>Ouantity: {props.item.quantity}</p>
         <button
