@@ -51,6 +51,7 @@ router.post('/', async (req, res, next) => {
         }
       })
       if (possibleOldItem) {
+        console.log('uh oh! already exists as ', possibleOldItem)
         res.json(await axios.put('/api/line-items/', {quantity, productId}))
       }
       const newItem = await LineItem.create({
