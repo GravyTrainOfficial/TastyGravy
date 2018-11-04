@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { fetchSingleProduct } from '../store/products'
-import { addLineItem } from '../store/cart'
+import {modifyLineItem, getAllItems} from '../store/cart'
 
 // import thunks etc
 
@@ -21,6 +21,7 @@ class SingleProduct extends Component {
     // ^^ Will this ever not run? Should it be in componentDidUpdate?
     const productId = this.props.match.params.productId
     // Will need withRouter for this, as below in my suggestion
+    this.props.getAllItems()
     this.props.fetchSingleProduct(productId)
   }
 
@@ -32,11 +33,18 @@ class SingleProduct extends Component {
     event.preventDefault()
 
     const obj = {
-      productId: this.props.match.params.productId,
-      quantity: this.state.quantity,
-      price: this.props.product.price
+      product: this.props.product,
+      productId: this.props.product.id,
+      quantity: Number(this.state.quantity)
     }
-    this.props.addLineItem(obj)
+
+    this.props.getAllItems()
+    const {cart} = this.props
+    if (cart.find(item => item.productId === obj.productId)) {
+      this.props.addLineItem(obj, cart)
+    } else {
+      this.props.modifyLineItem(obj, cart)
+    }
   }
 
   render() {
@@ -71,18 +79,16 @@ class SingleProduct extends Component {
 
 const mapStateToProps = state => {
   return {
-    product: state.productReducer.singleProduct
+    product: state.productReducer.singleProduct,
+    cart: state.cartReducer
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
+    getAllItems: () => dispatch(getAllItems()),
     fetchSingleProduct: productId => dispatch(fetchSingleProduct(productId)),
-    addLineItem: productObj => dispatch(addLineItem(productObj))
-
-    //^the above will be a thunk with an axios request to /api/products/<productId>
-    // put functionality for admin product editing
-    // I'm so sick of writing "product"
+    modifyLineItem: productObj => dispatch(modifyLineItem(productObj))
   }
 }
 

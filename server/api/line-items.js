@@ -41,12 +41,12 @@ router.get('/cart', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const { quantity, product } = req.body
+    const { quantity, product, productId } = req.body
     if (quantity < 1) res.status(403).send()
     if (req.user) {
-      const newItemData = { quantity, productId: product.id, userId: req.user.id }
+      const newItemData = { quantity, productId, userId: req.user.id }
       const possibleOldItem = await LineItem.findOne({ where: {
-        productId: product.id,
+        productId,
         userId: req.user.id,
         status: 'cart'
       }})
@@ -71,10 +71,10 @@ router.post('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const { quantity, product } = req.body
-    const newItemData = { quantity, productId: product.id, product }
+    const { quantity, product, productId } = req.body
+    const newItemData = { quantity, product, productId }
     if (!req.session.cart) req.session.cart = []
-    const possibleOldItem = req.session.cart.find(item => item.productId === product.id)
+    const possibleOldItem = req.session.cart.find(item => item.productId === productId)
     if (possibleOldItem) {
       res.json(await axios.put('/api/line-items/', newItemData))
     }
@@ -130,11 +130,11 @@ router.post('/', async (req, res, next) => {
 router.put('/', async (req, res, next) => {
   try {
     console.log('in the put from the post')
-    const { quantity, product } = req.body
+    const { quantity, product, productId } = req.body
     if (req.user) {
       const { dataValues: {id, quantity: oldQuantity}} = await LineItem.findOne({
         where: {
-          productId: product.id,
+          productId,
           userId: req.user.id,
           status: 'cart'
         },
@@ -145,7 +145,7 @@ router.put('/', async (req, res, next) => {
         res.status(403).send() //temporary; probably do more
       }
       if (newQuantity === 0) { // If the edit would make the quantity zero
-        res.json(await axios.delete(`/api/line-items/${product.id}`))
+        res.json(await axios.delete(`/api/line-items/${productId}`))
       } 
       // Not a typo! (array destructuring)
       const [, updatedItem] = await LineItem.update({ quantity: newQuantity },
@@ -164,8 +164,8 @@ router.put('/', async (req, res, next) => {
 router.put('/', async (req, res, next) => {
   try {
     console.log('user not logged in, next put / route')
-    const { quantity, product } = req.body
-    const itemToUpdate = req.session.cart.find(item => item.productId === product.id)
+    const { quantity, productId } = req.body
+    const itemToUpdate = req.session.cart.find(item => item.productId === productId)
     const newQuantity = itemToUpdate.quantity + quantity
     if (newQuantity < 0) { // If the edit would make the quantity negative
       console.log('the new quantity would be negative!')
@@ -173,7 +173,7 @@ router.put('/', async (req, res, next) => {
     }
     if (newQuantity === 0) { // If the edit would make the quantity zero
     console.log('gonna delete!')
-    res.json(await axios.delete(`/api/line-items/${product.id}`))
+    res.json(await axios.delete(`/api/line-items/${productId}`))
     } 
     itemToUpdate.quantity = newQuantity
     res.json(itemToUpdate)
