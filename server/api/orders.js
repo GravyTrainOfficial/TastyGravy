@@ -38,7 +38,7 @@ router.post('/', async (req, res, next) => {
       lineItems = lineItemData
     }
     // newOrder.setLineItems(lineItems) //Needs to be awaited? Do I need to save the models now? 
-    lineItems.forEach(item => {
+    lineItems.forEach(async item => {
       await LineItem.update({orderId: newOrder.id},
       {where: {id: item.id}})
       const oldQuantity = await Product.findOne({
