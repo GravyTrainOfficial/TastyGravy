@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { fetchSingleProduct } from '../store/products'
 import {addLineItem, modifyLineItem, getAllItems} from '../store/cart'
+import {ItemPreview} from './index'
 
 // import thunks etc
 
@@ -10,7 +11,7 @@ class SingleProduct extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      quantity: 0
+      quantity: 1
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -26,7 +27,11 @@ class SingleProduct extends Component {
   }
 
   handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value })
+    this.setState((prevState) => {
+      return { 
+        [event.target.name]: prevState[event.target.name] + event.target.value 
+      }
+    })
   }
 
   handleSubmit(event) {
@@ -47,7 +52,7 @@ class SingleProduct extends Component {
       this.props.addLineItem(obj, cart)
     } else {
       console.log('already exists, adding line item')
-      this.props.modifyLineItem(obj, cart)
+      this.props.modifyLineItem(obj)
     }
     this.props.getAllItems()
   }
@@ -56,24 +61,25 @@ class SingleProduct extends Component {
     const product = this.props.product
     if (product) {
       return (
-        <div>
-          <img src={product.image_URL} />
-          <h1>{product.name}</h1>
-          <p>{product.description}</p>
-          <p>{product.price}</p>
-          <form id="add-to-cart-form" onSubmit={this.handleSubmit}>
-            <input
-              type="number"
-              min='1'
-              max={this.props.product.inventoryQuantity /*change to reflect subtraction of quantity that's already in cart*/}
-              value={this.state.quantity}
-              name="quantity"
-              required
-              onChange={this.handleChange}
-            />
-            <input type="submit" value='Add to Cart' />
-          </form>
-        </div>
+        // <div>
+        //   <img src={product.image_URL} />
+        //   <h1>{product.name}</h1>
+        //   <p>{product.description}</p>
+        //   <p>{product.price}</p>
+        //   <form id="add-to-cart-form" onSubmit={this.handleSubmit}>
+        //     <input
+        //       type="number"
+        //       min='1'
+        //       max={this.props.product.inventoryQuantity /*change to reflect subtraction of quantity that's already in cart*/}
+        //       value={this.state.quantity}
+        //       name="quantity"
+        //       required
+        //       onChange={this.handleChange}
+        //     />
+        //     <input type="submit" value='Add to Cart' />
+        //   </form>
+        // </div>
+        <ItemPreview item={product} quantity={this.state.quantity} buttonText='Add to Cart' handleClick={this.handleSubmit} changeQuantity={this.handleChange} />
       )
     } else {
       return ' '
@@ -93,7 +99,7 @@ const mapDispatchToProps = dispatch => {
     getAllItems: () => dispatch(getAllItems()),
     fetchSingleProduct: productId => dispatch(fetchSingleProduct(productId)),
     addLineItem: (productObj, cart) => dispatch(addLineItem(productObj, cart)),
-    modifyLineItem: (productObj, cart) => dispatch(modifyLineItem(productObj, cart))
+    modifyLineItem: (productObj) => dispatch(modifyLineItem(productObj))
   }
 }
 

@@ -89,7 +89,7 @@ export const removeLineItem = (productId) => { //just need productId here
   }
 }
 
-export const modifyLineItem = (item, cart) => { //product, productId, and quantity from form
+export const modifyLineItem = (item) => { //product, productId, and quantity from form
   // const possibleCartItem = cart.find((entry) => entry.productId === item.productId)
   // if (possibleCartItem) {
   //   return async dispatch => {
@@ -107,7 +107,7 @@ export const modifyLineItem = (item, cart) => { //product, productId, and quanti
     try {
       const { data } = await axios.put('/api/line-items', item)
       console.log('in the dispatch for modifyLineItem; data received from put request: ', data)
-      dispatch(addToCart(data))
+      dispatch(updateLineItem(data))
     } catch (error) {
       console.error(error)
     }
