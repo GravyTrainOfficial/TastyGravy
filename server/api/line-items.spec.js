@@ -39,7 +39,13 @@ describe('LineItem routes', () => {
 
     // })
 
-    before(function(done) {
+    // before(function(done) {
+      
+    // });
+
+    beforeEach(function(done) {
+      // const user = User.create(userCredentials)
+      // const userId = user.id
       authenticatedUser
         .post('/auth/login')
         .send(userCredentials)
@@ -48,20 +54,15 @@ describe('LineItem routes', () => {
           // expect('Location', '/home')
           done()
         })
-    });
-
-    beforeEach(() => {
-      // const user = User.create(userCredentials)
-      // const userId = user.id
       const user = User.findOne({where: {email: userCredentials.email}})
       LineItem.create({...itemInCart, userId: user.id})
       return LineItem.create(itemNotInCart)
     })
 
-    // it('GET /api/line-items should return a 200 response if an admin user is logged in', function(done){
-    //   authenticatedUser.get('/api/line-items')
-    //   .expect(200, done);
-    // });
+    it('GET /api/line-items should return a 200 response if an admin user is logged in', function(done){
+      authenticatedUser.get('/api/line-items')
+      .expect(200, done);
+    });
 
     it('GET /api/line-items responds successfully', async () => {
       const res = await authenticatedUser
