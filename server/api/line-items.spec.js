@@ -1,9 +1,9 @@
 /* global describe beforeEach it */
 
 const { expect } = require('chai')
-const request = require('supertest')
-const db = require('../db')
 const app = require('../index')
+const request = require('supertest')(app)
+const db = require('../db')
 const LineItem = db.model('lineitem')
 const User = db.model('user')
 
@@ -40,7 +40,7 @@ describe('LineItem routes', () => {
     // })
 
     before(function(done){
-      authenticatedUser
+      request
         .post('/login')
         .send(userCredentials)
         .end(function(err, res){
@@ -60,7 +60,8 @@ describe('LineItem routes', () => {
     })
 
     it('GET /api/line-items responds successfully', async () => {
-      const res = await request(app)
+      console.log(token)
+      const res = await request
         .get('/api/line-items')
         .query(token)
         .expect(200)
@@ -73,8 +74,9 @@ describe('LineItem routes', () => {
     it('GET /api.line-items/cart responds with user cart', async () => {
       const user = User.findOne({where: {email: userCredentials.email}})
       const userId = user.id
-      const res = await request(app)
+      const res = await request
         .get('/api/line-items/cart')
+        .query(token)
         .expect(200)
 
         expect (res.body).to.be.an('array')
