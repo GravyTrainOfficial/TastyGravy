@@ -77,7 +77,7 @@ export const addLineItem = (item, cart) => { // product, productId, and quantity
   const possibleCartItem = cart.find((entry) => entry.productId === item.productId)
   if (!possibleCartItem) {
     console.log('correct thunk, no previous cart item')
-    return async dispatch => {
+    return async dispatch => { //this also accepts arg is 'get state' maybe use it?
       try {
         const { data } = await axios.post('/api/line-items', item);
         console.log('in the dispatch for addLineItem; data received from post request: ', data)
@@ -88,7 +88,7 @@ export const addLineItem = (item, cart) => { // product, productId, and quantity
     }
   } else {
     console.log('uh oh, this already exists in the cart! switching to modifyLineItem thunk...')
-    return modifyLineItem(item)
+    return modifyLineItem(item) // don't call another thunk here! ****************
   }
 }
 
