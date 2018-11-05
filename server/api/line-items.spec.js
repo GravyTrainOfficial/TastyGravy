@@ -31,7 +31,7 @@ describe('LineItem routes', () => {
       const user = User.create(userCredentials)
       // const userId = user.id
       authenticatedUser
-      .post('/orangejuice')
+      .post('/login')
       .send({email: 'admin@admin.com', password: 'test'})
       .end(function(err, response){
         expect(response.statusCode).to.equal(200);
@@ -43,7 +43,7 @@ describe('LineItem routes', () => {
     })
 
     it('GET /api/line-items responds successfully', async () => {
-      const res = await request(app)
+      const res = await authenticatedUser
         .get('/api/line-items')
         .expect(200)
         
@@ -55,7 +55,7 @@ describe('LineItem routes', () => {
     it('GET /api.line-items/cart responds with user cart', async () => {
       const user = User.findOne({where: {email: userCredentials.email}})
       const userId = user.id
-      const res = await request(app)
+      const res = await authenticatedUser
         .get('/api/line-items/cart')
         .expect(200)
 
