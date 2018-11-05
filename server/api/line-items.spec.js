@@ -49,7 +49,7 @@ describe('LineItem routes', () => {
         });
     });
 
-    beforeEach((done) => {
+    beforeEach(() => {
       // const user = User.create(userCredentials)
       // const userId = user.id
       const user = User.findOne({where: {email: userCredentials.email}})
