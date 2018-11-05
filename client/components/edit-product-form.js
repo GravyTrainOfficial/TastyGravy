@@ -6,7 +6,7 @@ import {fetchProductData, addProduct} from '../store/products'
 /**
  * COMPONENT
  */
-class AddProduct extends React.Component {
+class EditProduct extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -37,11 +37,7 @@ class AddProduct extends React.Component {
     event.preventDefault()
     this.setState({errorMessage: ''})
     if (this.isCategoryReady() && this.isUniqueProduct()) {
-      let newProduct = {...this.state}
-      if (newProduct.image_URL === '') {
-        delete newProduct.image_URL
-      }
-      this.props.addProduct(newProduct)
+      this.props.addProduct(this.state)
     } else {
       if (!this.isCategoryReady()) {
         this.setState({errorMessage: 'Enter a category'})
@@ -140,4 +136,4 @@ const mapState = state => {
 
 const mapDispatch = {fetchProductData, addProduct}
 
-export default connect(mapState, mapDispatch)(AddProduct)
+export default connect(mapState, mapDispatch)(EditProduct)

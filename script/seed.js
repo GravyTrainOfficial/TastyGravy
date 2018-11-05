@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const { User, Product, LineItem, Order } = require('../server/db/models')
+const {User, Product, LineItem, Order} = require('../server/db/models')
 const devPassword = 'test'
 
 const users = [
@@ -34,7 +34,7 @@ const users = [
     role: 'member'
   },
   {
-    firstName: 'Russel',
+    firstName: 'Russell',
     lastName: 'Moore',
     email: 'heiscool@cool.com',
     password: devPassword,
@@ -85,7 +85,7 @@ const products = [
       'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.\n\nSed ante. Vivamus tortor. Duis mattis egestas metus.\n\nAenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.',
     category: 'Kids',
     price: 1.5,
-    inventoryQuantity: 12,
+    inventoryQuantity: 12
   },
   {
     name: 'Magnesium Chloride',
@@ -93,7 +93,7 @@ const products = [
       'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.\n\nAliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.',
     category: 'Movies',
     price: 1.5,
-    inventoryQuantity: 12,
+    inventoryQuantity: 12
   },
   {
     name: 'Metabolism',
@@ -110,7 +110,7 @@ const products = [
       'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.\n\nIn quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.\n\nMaecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.',
     category: 'Computers',
     price: 1.5,
-    inventoryQuantity: 12,
+    inventoryQuantity: 12
   },
   {
     name: 'HEADACHE',
@@ -118,7 +118,7 @@ const products = [
       'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.\n\nSuspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.\n\nMaecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.',
     category: 'Industrial',
     price: 1.5,
-    inventoryQuantity: 12,
+    inventoryQuantity: 12
   },
   {
     name: 'IOPE RETIGEN MOISTURE TWIN CAKE NO.23',
@@ -350,7 +350,7 @@ const lineItems = [
 ]
 
 async function seed() {
-  await db.sync({ force: true })
+  await db.sync({force: true})
   console.log('db synced!')
 
   await Promise.all(users.map(user => User.create(user)))
