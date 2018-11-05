@@ -39,7 +39,7 @@ describe('LineItem routes', () => {
 
     // })
 
-    before((done) => {
+    before(function(done) {
       authenticatedUser
         .post('/auth/login')
         .send(userCredentials)
