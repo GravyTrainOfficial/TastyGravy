@@ -1,9 +1,9 @@
 /* global describe beforeEach it */
 
 const { expect } = require('chai')
-const app = require('../index')
-const request = require('supertest')(app)
+const request = require('supertest')
 const db = require('../db')
+const app = require('../index')
 const LineItem = db.model('lineitem')
 const User = db.model('user')
 
@@ -24,8 +24,7 @@ describe('LineItem routes', () => {
       email: 'heiscool@cool.com',
       password: 'test'
     }
-    // const authenticatedUser = request.agent(app)
-    let token
+    const authenticatedUser = request.agent(app)
 
     // before((done) => {
     //   authenticatedUser
@@ -40,12 +39,11 @@ describe('LineItem routes', () => {
     // })
 
     before(function(done){
-      request
+      authenticatedUser
         .post('/login')
         .send(userCredentials)
-        .end(function(err, res){
-          token = { access_token: res.body.token }
-          expect(res.statusCode).to.equal(200);
+        .end(function(err, response){
+          expect(response.statusCode).to.equal(200);
           expect('Location', '/home');
           done();
         });
@@ -60,10 +58,8 @@ describe('LineItem routes', () => {
     })
 
     it('GET /api/line-items responds successfully', async () => {
-      console.log(token)
-      const res = await request
+      const res = await authenticatedUser
         .get('/api/line-items')
-        .query(token)
         .expect(200)
         
       expect(res.body).to.be.an('array')
@@ -74,9 +70,8 @@ describe('LineItem routes', () => {
     it('GET /api.line-items/cart responds with user cart', async () => {
       const user = User.findOne({where: {email: userCredentials.email}})
       const userId = user.id
-      const res = await request
+      const res = await authenticatedUser
         .get('/api/line-items/cart')
-        .query(token)
         .expect(200)
 
         expect (res.body).to.be.an('array')
