@@ -32,7 +32,7 @@ describe('LineItem routes', () => {
       const user = User.findOne({where: {email: userCredentials.email}})
       // const userId = user.id
       authenticatedUser
-      .post('/login')
+      .post('/auth/login')
       .send(userCredentials)
       .end(function(err, response){
         expect(response.statusCode).to.equal(200);
