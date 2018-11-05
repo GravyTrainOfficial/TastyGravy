@@ -20,7 +20,8 @@ router.get('/', async (req, res, next) => {
 // Confused about its implementation, but I can't test it:
 router.post('/', async (req, res, next) => {
   try {
-    const { lineItemData } = req.body
+    //TODO: protect from postman requests
+    const { lineItemData } = req.body // an array; must be passed in inside an object!
     const userId = req.user.id || req.body.userId
     let lineItems
     // const lineItems = LineItem.findAll({ where: {

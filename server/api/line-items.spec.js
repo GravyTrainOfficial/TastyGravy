@@ -13,12 +13,28 @@ xdescribe('LineItem routes', () => {
 
   describe('/api/line-items/', () => {
     const quantity = 10
-    const status = 'purchased'
+    const productId = 1
+    const userCredentials = {
+      email: 'heiscool@cool.com',
+      password: 'test'
+    }
+    const authenticatedUser = request.agent(app)
+
+    before(function(done){
+      authenticatedUser
+        .post('/login')
+        .send(userCredentials)
+        .end(function(err, response){
+          expect(response.statusCode).to.equal(200);
+          expect('Location', '/home');
+          done();
+        });
+    });
 
     beforeEach(() => {
       return LineItem.create({
         quantity,
-        status
+        productId
       })
     })
 
@@ -31,6 +47,8 @@ xdescribe('LineItem routes', () => {
       expect(res.body[0].quantity).to.be.equal(quantity)
       expect(res.body[0].status).to.be.equal(status)
     })
+
+    it('POST /api/line-items creates and responds successfully')
 
     // TODO: test assignment to a test-user and test-product
   }) // end describe('/api/line-items')
