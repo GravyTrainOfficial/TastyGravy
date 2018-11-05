@@ -38,7 +38,7 @@ describe('LineItem routes', () => {
       const user = User.findOne({where: {email: userCredentials.email}})
       userId = user.id
       LineItem.create({...itemInCart, userId})
-      LineItem.create(itemNotInCart)
+      // LineItem.create(itemNotInCart)
       authenticatedUser
         .post('/login')
         .send(userCredentials)
