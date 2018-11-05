@@ -32,7 +32,7 @@ describe('LineItem routes', () => {
       // const userId = user.id
       authenticatedUser
       .post('/auth/login')
-      .send(userCredentials)
+      .send({email: 'admin@admin.com', password: 'test'})
       .end(function(err, response){
         expect(response.statusCode).to.equal(200);
         // expect('Location', '/home');
