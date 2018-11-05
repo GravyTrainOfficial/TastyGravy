@@ -2,6 +2,8 @@ import React from 'react'
 
 import { Navbar } from './components'
 import Routes from './routes'
+import { Elements, StripeProvider } from 'react-stripe-elements';
+
 
 const App = () => {
   return (
