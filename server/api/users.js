@@ -20,6 +20,14 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/guest-email', async (req, res, next) => {
+  try {
+    res.send(req.session.email)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findOne({
