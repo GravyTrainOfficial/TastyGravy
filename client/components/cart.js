@@ -3,7 +3,7 @@ import { getAllItems, removeLineItem, modifyLineItem } from '../store/cart'
 import { ItemPreview } from './index'
 
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 const checkout = () => console.log('Hey checked out!')
 

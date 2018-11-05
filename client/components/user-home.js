@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
 /**
  * COMPONENT
@@ -15,23 +15,25 @@ class UserHome extends Component {
   }
 
   handleClick() {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       return {editing: !prevState.editing}
     })
   }
 
   render() {
-  const {firstName, lastName, email} = this.props
-  return (
-    <div>
-      <h3>Welcome, {firstName || email}</h3>
-      {!this.state.editing ? 
-        <button onClick={this.handleClick}></button> : (
-        <p>EDITING FORM GOES HERE</p>
-        )
-      }
-    </div>
-  )}
+    const {firstName, lastName, email} = this.props
+    return (
+      <div>
+        <h3>Welcome, {firstName || email}</h3>
+        <p>details about editing user below</p>
+        {!this.state.editing ? (
+          <button onClick={this.handleClick} />
+        ) : (
+          <p>EDITING FORM GOES HERE</p>
+        )}
+      </div>
+    )
+  }
 }
 
 /**

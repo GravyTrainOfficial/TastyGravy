@@ -1,17 +1,18 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import axios from 'axios'
+import { connect } from 'react-redux'
 
 export default class OrderHistory extends Component {
   const
   constructor(props) {
     super(props)
-    this.state = {orders: []}
+    this.state = { orders: [] }
   }
 
   async componentDidMount() {
     const orderData = await axios.get('/api/users/orders/me')
     const orderHistory = orderData.data
-    this.setState({orders: orderHistory})
+    this.setState({ orders: orderHistory })
   }
 
   render() {

@@ -48,8 +48,10 @@ class SingleProduct extends Component {
     console.log('created obj, hopefully with the right properties: ', obj)
 
     this.props.getAllItems()
-    const {cart} = this.props
-    if (cart.find(item => item.productId === obj.productId)) {
+    const { cart } = this.props
+    console.log(cart)
+    console.log(obj.productId)
+    if (!cart.find(item => item.productId === obj.productId)) {
       console.log('does not exist, adding line item')
       this.props.addLineItem(obj, cart)
     } else {
@@ -106,9 +108,9 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const connectedSingleProduct = withRouter(connect(mapStateToProps, mapDispatchToProps)(
-  SingleProduct
-))
+const connectedSingleProduct = withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(SingleProduct)
+)
 
 export default connectedSingleProduct
 

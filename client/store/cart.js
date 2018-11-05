@@ -6,16 +6,16 @@ const initialState = []
  * ACTION TYPES
  */
 
-const ADD_TO_CART = 'ADD_TO_CART';
+const ADD_TO_CART = 'ADD_TO_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 const GET_ALL_ITEMS = 'GET_ALL_ITEMS'
 const UPDATE_CART_ITEM = 'UPDATE_CART_ITEM'
 
 /**
-* ACTION CREATORS
-*/
+ * ACTION CREATORS
+ */
 
-export const addToCart = (item) => {
+export const addToCart = item => {
   return {
     type: ADD_TO_CART,
     item
@@ -29,7 +29,7 @@ export const removeFromCart = (productId) => {
   }
 }
 
-export const gotAllItems = (items) => {
+export const gotAllItems = items => {
   return {
     type: GET_ALL_ITEMS,
     items
@@ -44,14 +44,28 @@ export const updateItemQuantity = updatedItem => {
 }
 
 /**
-* THUNK CREATORS
-*/
+ * THUNK CREATORS
+ */
 
-export const getAllItems = () => { // componenentDidMount?
+export const getAllItems = () => {
+  // componenentDidMount?
   return async dispatch => {
     try {
       const { data } = await axios.get('/api/line-items/cart')
       dispatch(gotAllItems(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export const modifyLineItem = (item) => { //product, productId, and quantity from form
+  console.log('in modifyLineItem thunk')
+  return async dispatch => {
+    try {
+      const { data } = await axios.put('/api/line-items', item)
+      console.log('in the dispatch for modifyLineItem; data received from put request: ', data)
+      dispatch(addToCart(data))
     } catch (error) {
       console.error(error)
     }
@@ -74,7 +88,7 @@ export const addLineItem = (item, cart) => { // product, productId, and quantity
     }
   } else {
     console.log('uh oh, this already exists in the cart! switching to modifyLineItem thunk...')
-    return modifyLineItem
+    return modifyLineItem(item)
   }
 }
 
@@ -116,9 +130,8 @@ export const modifyLineItem = (item) => { //product, productId, and quantity fro
 
 
 /**
-* REDUCER
-*/
-
+ * REDUCER
+ */
 
 export default function cartReducer(state = initialState, action) {
   switch (action.type) {
