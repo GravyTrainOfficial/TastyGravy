@@ -25,6 +25,7 @@ describe('LineItem routes', () => {
       password: 'test'
     }
     const authenticatedUser = request.agent(app)
+    let token
 
     // before((done) => {
     //   authenticatedUser
@@ -42,8 +43,9 @@ describe('LineItem routes', () => {
       authenticatedUser
         .post('/login')
         .send(userCredentials)
-        .end(function(err, response){
-          expect(response.statusCode).to.equal(200);
+        .end(function(err, res){
+          token = { access_token: res.body.token }
+          expect(res.statusCode).to.equal(200);
           expect('Location', '/home');
           done();
         });
@@ -57,18 +59,10 @@ describe('LineItem routes', () => {
       return LineItem.create(itemNotInCart)
     })
 
-    it('GET /api/line-items responds successfully', async (done) => {
-      authenticatedUser
-        .post('/auth/login')
-        .send(userCredentials)
-        .end(function(err, response){
-          expect(response.statusCode).to.equal(200);
-          expect('Location', '/home');
-          done();
-        });
-        console.log(authenticatedUser)
-      const res = await authenticatedUser
+    it('GET /api/line-items responds successfully', async () => {
+      const res = await request(app)
         .get('/api/line-items')
+        .query(token)
         .expect(200)
         
       expect(res.body).to.be.an('array')
