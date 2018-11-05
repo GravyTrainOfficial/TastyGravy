@@ -48,17 +48,17 @@ describe('LineItem routes', () => {
       
     // });
 
-    beforeEach(async (done) => {
+    beforeEach((done) => {
       const user = User.create(newUserCredentials)
       // const userId = user.id
-      await authenticatedUser
-        .post('/auth/login')
-        .send(newUserCredentials)
-        .end(function(err, response){
-          expect(response.statusCode).to.equal(200)
-          // expect('Location', '/home')
-          done()
-        })
+      // await authenticatedUser
+      //   .post('/auth/login')
+      //   .send(newUserCredentials)
+      //   .end(function(err, response){
+      //     expect(response.statusCode).to.equal(200)
+      //     // expect('Location', '/home')
+      //     done()
+      //   })
       // const user = User.findOne({where: {email: userCredentials.email}})
       LineItem.create({...itemInCart, userId: user.id})
       return LineItem.create(itemNotInCart)
