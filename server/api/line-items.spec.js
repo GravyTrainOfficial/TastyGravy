@@ -40,14 +40,14 @@ describe('LineItem routes', () => {
     // })
 
     before(async (done) => {
-      await authenticatedUser
-        .post('/login')
+      return await authenticatedUser
+        .post('/auth/login')
         .send(userCredentials)
         .end(function(err, response){
-          expect(response.statusCode).to.equal(200);
-          expect('Location', '/home');
-          done();
-        });
+          expect(response.statusCode).to.equal(200)
+          // expect('Location', '/home')
+          done()
+        })
     });
 
     beforeEach(() => {
