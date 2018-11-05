@@ -25,6 +25,11 @@ describe('LineItem routes', () => {
       email: 'heiscool@cool.com',
       password: 'test'
     }
+    const newUserCredentials = {
+      email: 'admin@admin.com',
+      password: 'test',
+      role: 'admin'
+    }
     const authenticatedUser = request.agent(app)
 
     // before((done) => {
@@ -44,11 +49,11 @@ describe('LineItem routes', () => {
     // });
 
     beforeEach(function(done) {
-      // const user = User.create(userCredentials)
+      const user = User.create(newUserCredentials)
       // const userId = user.id
       authenticatedUser
         .post('/auth/login')
-        .send(userCredentials)
+        .send(newUserCredentials)
         .end(function(err, response){
           expect(response.statusCode).to.equal(200)
           // expect('Location', '/home')
