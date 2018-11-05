@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { getAllItems, removeLineItem } from '../store/cart'
-import { fetchGuestEmail, setGuestEmail } from '../store/checkout'
-import { ItemPreview } from './index'
-
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+
+import { getAllItems, removeLineItem } from '../store/cart'
+import { fetchGuestEmail, setGuestEmail } from '../store/checkout'
+import { ItemPreview, GetGuestEmail } from './index'
+
 import CheckoutForm from './checkout-form'
 import { Elements, StripeProvider } from 'react-stripe-elements';
 
@@ -43,7 +44,7 @@ class Checkout extends Component {
 const mapState = (state) => {
   return {
     cart: state.cartReducer,
-    guestEmail: state.checkoutReducer
+    guestEmail: state.checkoutReducer.guestEmail
   }
 }
 
