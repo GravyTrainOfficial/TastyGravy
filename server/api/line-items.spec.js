@@ -26,17 +26,28 @@ describe('LineItem routes', () => {
     }
     const authenticatedUser = request.agent(app)
 
-    before((done) => {
-      authenticatedUser
-      .post('/auth/login')
-      .send(userCredentials)
-      .end(function(err, response){
-        expect(response.statusCode).to.equal(200);
-        // expect('Location', '/home');
-        done();
-      });
+    // before((done) => {
+    //   authenticatedUser
+    //   .post('/auth/login')
+    //   .send(userCredentials)
+    //   .end(function(err, response){
+    //     expect(response.statusCode).to.equal(200);
+    //     // expect('Location', '/home');
+    //     done();
+    //   });
 
-    })
+    // })
+
+    before(function(done){
+      authenticatedUser
+        .post('/login')
+        .send(userCredentials)
+        .end(function(err, response){
+          expect(response.statusCode).to.equal(200);
+          expect('Location', '/home');
+          done();
+        });
+    });
 
     beforeEach((done) => {
       // const user = User.create(userCredentials)
