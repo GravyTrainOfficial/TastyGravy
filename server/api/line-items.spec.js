@@ -39,8 +39,8 @@ describe('LineItem routes', () => {
 
     // })
 
-    before(async (done) => {
-      return await authenticatedUser
+    before((done) => {
+      authenticatedUser
         .post('/auth/login')
         .send(userCredentials)
         .end(function(err, response){
