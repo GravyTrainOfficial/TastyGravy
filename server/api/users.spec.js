@@ -23,6 +23,7 @@ describe('User routes', () => {
         email: codysEmail,
         password: 'codemon'
       })
+      // const authenticatedUser = request.agent(app);
       // login cody
     })
 

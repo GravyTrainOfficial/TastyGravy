@@ -22,10 +22,10 @@ export const addToCart = item => {
   }
 }
 
-export const removeFromCart = itemId => {
+export const removeFromCart = (productId) => {
   return {
     type: REMOVE_FROM_CART,
-    itemId
+    productId
   }
 }
 
@@ -51,7 +51,7 @@ export const getAllItems = () => {
   // componenentDidMount?
   return async dispatch => {
     try {
-      const {data} = await axios.get('/api/line-items/cart')
+      const { data } = await axios.get('/api/line-items/cart')
       dispatch(gotAllItems(data))
     } catch (error) {
       console.error(error)
@@ -59,11 +59,12 @@ export const getAllItems = () => {
   }
 }
 
-export const addLineItem = item => {
-  // itemId and Quantity in form
+export const modifyLineItem = (item) => { //product, productId, and quantity from form
+  console.log('in modifyLineItem thunk')
   return async dispatch => {
     try {
-      const {data} = await axios.post('/api/line-items', item)
+      const { data } = await axios.put('/api/line-items', item)
+      console.log('in the dispatch for modifyLineItem; data received from put request: ', data)
       dispatch(addToCart(data))
     } catch (error) {
       console.error(error)
@@ -71,47 +72,37 @@ export const addLineItem = item => {
   }
 }
 
-export const removeLineItem = itemId => {
-  //just need itemId here
-  return async dispatch => {
-    try {
-      await axios.delete(`/api/line-items/${itemId}`)
-      dispatch(removeFromCart(itemId))
-    } catch (error) {
-      console.error(error)
-    }
-  }
-}
-
-export const modifyLineItem = (item, cart) => {
-  // itemId and Quantity in form
-  // console.log('item', item)
-  // console.log('cart', cart)
-
-  for (let i = 0; i < cart.length; i++) {
-    if (cart[i].productId === item.productId) {
-      return async dispatch => {
-        try {
-          console.log('update')
-          let response = await axios.put(`/api/line-items/${cart[i].id}`, item)
-          dispatch(updateItemQuantity(response.data))
-        } catch (error) {
-          console.error(error)
-        }
+export const addLineItem = (item, cart) => { // product, productId, and quantity
+  console.log('in addLineItem thunk')
+  const possibleCartItem = cart.find((entry) => entry.productId === item.productId)
+  if (!possibleCartItem) {
+    console.log('correct thunk, no previous cart item')
+    return async dispatch => {
+      try {
+        const { data } = await axios.post('/api/line-items', item);
+        console.log('in the dispatch for addLineItem; data received from post request: ', data)
+        dispatch(addToCart(data))
+      } catch (error) {
+        console.error(error)
       }
     }
+  } else {
+    console.log('uh oh, this already exists in the cart! switching to modifyLineItem thunk...')
+    return modifyLineItem(item)
   }
+}
 
+export const removeLineItem = (productId) => { //just need productId here
   return async dispatch => {
     try {
-      console.log('add')
-      const {data} = await axios.post('/api/line-items', item)
-      dispatch(addToCart(data))
+      await axios.delete(`/api/line-items/${productId}`);
+      dispatch(removeFromCart(productId))
     } catch (error) {
       console.error(error)
     }
   }
 }
+
 
 /**
  * REDUCER
@@ -122,12 +113,12 @@ export default function cartReducer(state = initialState, action) {
     case ADD_TO_CART:
       return [action.item, ...state]
     case REMOVE_FROM_CART:
-      return state.filter(item => item.id !== action.itemId)
+      return state.filter(item => item.productId !== action.productId)
     case GET_ALL_ITEMS:
       return action.items
     case UPDATE_CART_ITEM:
       return [
-        ...state.filter(cartItem => cartItem.id !== action.updatedItem.id),
+        ...state.filter(cartItem => cartItem.productId !== action.updatedItem.productId),
         action.updatedItem
       ]
     default:
