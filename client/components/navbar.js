@@ -6,14 +6,12 @@ import { logout } from '../store'
 
 const Navbar = props => {
   const { handleClick, isLoggedIn, role } = props
-  console.log(props)
   return (
     <div>
       <h1>TASTY GRAVY TEST</h1>
       <nav>
         {isLoggedIn ? (
           <div>
-            {console.log(props)}
             {/* The navbar will show these links after you log in */}
             <Link to="/home">Home</Link>
             <Link to="/products">Products</Link>

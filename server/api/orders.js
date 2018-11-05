@@ -4,7 +4,7 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-      if (req.user.role === 'admin') {
+    if (req.user.role === 'admin') {
       const allOrders = await Order.findAll({
       })
       res.json(allOrders)
@@ -22,14 +22,14 @@ router.post('/', async (req, res, next) => {
   try {
     //TODO: protect from postman requests
     const { lineItemData } = req.body // an array; must be passed in inside an object!
-    const userId = req.user.id || req.body.userId
+    const userId = req.user.id || req.body.userId // ************************* postman req with user.id not secure
     let lineItems
     // const lineItems = LineItem.findAll({ where: {
     //   status: 'cart',
     //   userId
     // } })
-    const datePurchased = new Date()
-    const newOrder = await Order.create({ datePurchased, userId })
+    const datePurchased = new Date() // ************ empty model possible here. line not needed 
+    const newOrder = await Order.create({ datePurchased, userId })  //
 
     //if the user is a guest, create the actual line items in the db
     //else, the relevant line items are just what's passed in already
@@ -40,16 +40,16 @@ router.post('/', async (req, res, next) => {
     }
     // newOrder.setLineItems(lineItems) //Needs to be awaited? Do I need to save the models now? 
     lineItems.forEach(async item => {
-      await LineItem.update({orderId: newOrder.id},
-      {where: {id: item.id}})
+      await LineItem.update({ orderId: newOrder.id },
+        { where: { id: item.id } })
       const { inventoryQuantity: oldInventoryQuantity } = await Product.findOne({
-        where: {id: item.productId},
+        where: { id: item.productId },
         attributes: ['inventoryQuantity']
       })
       const newInventoryQuantity = oldInventoryQuantity - item.quantity
       await Product.update(
-        {inventoryQuantity: newInventoryQuantity},
-        {where: {id: item.productId}}
+        { inventoryQuantity: newInventoryQuantity },
+        { where: { id: item.productId } }
       )
     }) // Just in case the magic methods don't work
     res.json(newOrder)
