@@ -28,16 +28,21 @@ describe('LineItem routes', () => {
     const authenticatedUser = request.agent(app)
 
     before((done) => {
-      const user = User.create(userCredentials)
+      // const user = User.create(userCredentials)
       // const userId = user.id
       authenticatedUser
-      .post('/auth/login')
+      .post('/auth/signup')
       .send(userCredentials)
       .end(function(err, response){
         expect(response.statusCode).to.equal(200);
         // expect('Location', '/home');
         done();
       });
+      
+    })
+
+    beforeEach(() => {
+      const user = User.findOne({where: {email: userCredentials.email}})
       LineItem.create({...itemInCart, userId: user.id})
       LineItem.create(itemNotInCart)
     })
