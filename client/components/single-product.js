@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { fetchSingleProduct } from '../store/products'
-import {addLineItem, modifyLineItem, getAllItems} from '../store/cart'
+import { addLineItem, modifyLineItem, getAllItems } from '../store/cart'
 
 // import thunks etc
 
@@ -41,8 +41,10 @@ class SingleProduct extends Component {
     console.log('created obj, hopefully with the right properties: ', obj)
 
     this.props.getAllItems()
-    const {cart} = this.props
-    if (cart.find(item => item.productId === obj.productId)) {
+    const { cart } = this.props
+    console.log(cart)
+    console.log(obj.productId)
+    if (!cart.find(item => item.productId === obj.productId)) {
       console.log('does not exist, adding line item')
       this.props.addLineItem(obj, cart)
     } else {

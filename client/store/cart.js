@@ -58,37 +58,6 @@ export const getAllItems = () => { // componenentDidMount?
   }
 }
 
-export const addLineItem = (item, cart) => { // product, productId, and quantity
-  console.log('in addLineItem thunk')
-  const possibleCartItem = cart.find((entry) => entry.productId === item.productId)
-  if (!possibleCartItem) {
-    console.log('correct thunk, no previous cart item')
-    return async dispatch => {
-      try {
-        const { data } = await axios.post('/api/line-items', item);
-        console.log('in the dispatch for addLineItem; data received from post request: ', data)
-        dispatch(addToCart(data))
-      } catch (error) {
-        console.error(error)
-      }
-    }
-  } else {
-    console.log('uh oh, this already exists in the cart! switching to modifyLineItem thunk...')
-    return modifyLineItem
-  }
-}
-
-export const removeLineItem = (productId) => { //just need productId here
-  return async dispatch => {
-    try {
-      await axios.delete(`/api/line-items/${productId}`);
-      dispatch(removeFromCart(productId))
-    } catch (error) {
-      console.error(error)
-    }
-  }
-}
-
 export const modifyLineItem = (item, cart) => { //product, productId, and quantity from form
   // const possibleCartItem = cart.find((entry) => entry.productId === item.productId)
   // if (possibleCartItem) {
@@ -113,6 +82,38 @@ export const modifyLineItem = (item, cart) => { //product, productId, and quanti
     }
   }
 }
+
+export const addLineItem = (item, cart) => { // product, productId, and quantity
+  console.log('in addLineItem thunk')
+  const possibleCartItem = cart.find((entry) => entry.productId === item.productId)
+  if (!possibleCartItem) {
+    console.log('correct thunk, no previous cart item')
+    return async dispatch => {
+      try {
+        const { data } = await axios.post('/api/line-items', item);
+        console.log('in the dispatch for addLineItem; data received from post request: ', data)
+        dispatch(addToCart(data))
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  } else {
+    console.log('uh oh, this already exists in the cart! switching to modifyLineItem thunk...')
+    return modifyLineItem(item)
+  }
+}
+
+export const removeLineItem = (productId) => { //just need productId here
+  return async dispatch => {
+    try {
+      await axios.delete(`/api/line-items/${productId}`);
+      dispatch(removeFromCart(productId))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 
 
 /**

@@ -49,14 +49,16 @@ router.post('/', async (req, res, next) => {
     if (req.user) {
       console.log('user is logged in, posting to database')
       const newItemData = { quantity, productId, userId: req.user.id }
-      const possibleOldItem = await LineItem.findOne({ where: {
-        productId,
-        userId: req.user.id,
-        status: 'cart'
-      }})
+      const possibleOldItem = await LineItem.findOne({
+        where: {
+          productId,
+          userId: req.user.id,
+          status: 'cart'
+        }
+      })
       if (possibleOldItem) {
         console.log('oh no! this already exists! switching to put route...')
-        res.json(await axios.put('/api/line-items/', {...newItemData, product}))
+        res.json(await axios.put('/api/line-items/', { ...newItemData, product }))
       }
       const newItem = await LineItem.create({
         ...newItemData,
@@ -141,9 +143,10 @@ router.put('/', async (req, res, next) => {
   try {
     const { quantity, product, productId } = req.body
     console.log('in the put route; adding quantity of: ', quantity)
+    console.log('product id and productId: ', product.id, productId)
     if (req.user) {
       console.log('user is logged in')
-      const { dataValues: {id, quantity: oldQuantity}} = await LineItem.findOne({
+      const { dataValues: { id, quantity: oldQuantity } } = await LineItem.findOne({
         where: {
           productId,
           userId: req.user.id,
@@ -152,7 +155,7 @@ router.put('/', async (req, res, next) => {
         attributes: ['id', 'quantity']
       })
       console.log('did the destructuring/finding right and got id and old quantity: ', id, oldQuantity)
-      const newQuantity = oldQuantity + quantity
+      const newQuantity = Number(oldQuantity) + quantity
       if (newQuantity < 0) { // If the edit would make the quantity negative
         console.log('the new quantity would be negative! sending 403...')
         res.status(403).send() //temporary; probably do more
@@ -160,12 +163,16 @@ router.put('/', async (req, res, next) => {
       if (newQuantity === 0) { // If the edit would make the quantity zero
         console.log('the new quantity would be zero! gonna delete...')
         res.json(await axios.delete(`/api/line-items/${productId}`))
-      } 
+      }
       // Not a typo! (array destructuring)
-      const [, updatedItem] = await LineItem.update({ quantity: newQuantity },
-        { where: { id } })
-        updatedItem.dataValues.product = product
-        console.log('successfully updated, array destructured, and assigned product object to the item, res.json-ing: ', updatedItem.dataValues)
+      const updatedItem = await LineItem.update({ quantity: newQuantity },
+        {
+          where: { id },
+          returning: true
+        })
+      console.log(updatedItem)
+      updatedItem[1][0].dataValues.product = product
+      console.log('successfully updated, array destructured, and assigned product object to the item, res.json-ing: ', updatedItem.dataValues)
       res.json(updatedItem)
     } else {
       console.log('user is not logged in, going to next route')
@@ -188,9 +195,9 @@ router.put('/', async (req, res, next) => {
       res.status(403).send() //temporary; probably do more
     }
     if (newQuantity === 0) { // If the edit would make the quantity zero
-    console.log('the new quantity would be zero! gonna delete...')
-    res.json(await axios.delete(`/api/line-items/${productId}`))
-    } 
+      console.log('the new quantity would be zero! gonna delete...')
+      res.json(await axios.delete(`/api/line-items/${productId}`))
+    }
     itemToUpdate.quantity = newQuantity
     console.log('successfully changed the quantity of itemToUpdate; res.json-ing: ', itemToUpdate)
     res.json(itemToUpdate)
@@ -201,17 +208,19 @@ router.put('/', async (req, res, next) => {
 
 router.delete('/:productId', async (req, res, next) => {
   try {
-    console.log('in delete route, deleting by productId: ', productId)
+    console.log('in delete route, deleting by productId: ', req.params.productId)
     if (req.user) {
       console.log('user is logged in, destroying entry based on productId, userId, and status cart')
-      await LineItem.destroy({ where: { 
-        productId: req.params.productId,
-        userId: req.user.id,
-        status: 'cart'
-       } })
+      await LineItem.destroy({
+        where: {
+          productId: req.params.productId,
+          userId: req.user.id,
+          status: 'cart'
+        }
+      })
     } else {
       console.log('user is not logged in, filtering cart. current cart: ', req.session.cart)
-      req.session.cart.filter(item => item.productId !== req.params.productId )
+      req.session.cart.filter(item => item.productId !== req.params.productId)
       console.log('filtered session cart: ', req.session.cart)
     }
     res.status(204).end()
