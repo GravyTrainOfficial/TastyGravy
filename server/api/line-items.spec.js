@@ -60,10 +60,8 @@ describe('LineItem routes', () => {
     })
 
     it('GET /api.line-items/cart responds with user cart', async () => {
-      const {id: {userId}} = User.findOne({ 
-        where: {email: userCredentials.email},
-        attributes: ['id']
-      })
+      const user = User.findOne({where: {email: userCredentials.email}})
+      userId = user.id
       const res = await request(app)
         .get('/api/line-items/cart')
         .expect(200)
