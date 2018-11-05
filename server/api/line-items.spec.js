@@ -15,12 +15,10 @@ describe('LineItem routes', () => {
   describe('/api/line-items/', () => {
     const itemInCart = {
       quantity: 10,
-      productId: 1,
       status: 'cart'
     }
     const itemNotInCart = {
-      quantity: 3,
-      productId: 1
+      quantity: 3 
     }
     const userCredentials = {
       email: 'admin@admin.com',
@@ -29,7 +27,7 @@ describe('LineItem routes', () => {
     }
     const authenticatedUser = request.agent(app)
 
-    before((done) => {
+    beforeEach((done) => {
       User.create(userCredentials)
       const user = User.findOne({where: {email: userCredentials.email}})
       // const userId = user.id
