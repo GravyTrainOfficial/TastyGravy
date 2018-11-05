@@ -48,20 +48,20 @@ describe('LineItem routes', () => {
       
     // });
 
-    beforeEach(() => {
+    beforeEach((done) => {
       const user = User.create(newUserCredentials)
       const userId = user.id
-      await authenticatedUser
+      LineItem.create({...itemInCart, userId: user.id})
+      LineItem.create(itemNotInCart)
+      authenticatedUser
         .post('/auth/login')
         .send(newUserCredentials)
         .end(function(err, response){
           expect(response.statusCode).to.equal(200)
           // expect('Location', '/home')
-          // done()
+          done()
         })
       // const user = User.findOne({where: {email: userCredentials.email}})
-      LineItem.create({...itemInCart, userId: user.id})
-      return LineItem.create(itemNotInCart)
     })
 
     it('GET /api/line-items should return a 200 response if an admin user is logged in', function(done){
