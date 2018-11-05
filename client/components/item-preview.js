@@ -7,7 +7,10 @@ import { Link } from 'react-router-dom'
 
 //Used for cart items and product listing items, maybe?
 
-const ItemPreview = (props) => {
+const ItemPreview = props => {
+  console.log('props.item', props.item)
+  console.log('props.item.product', props.item.product)
+
   return (
     <div id='item-preview-container'> {/*will be a flexbox!*/}
       <div key={props.item.productId}>
@@ -16,7 +19,7 @@ const ItemPreview = (props) => {
       </div>
       <div>
         <h3>{props.item.name}</h3>
-        <p>Price: {props.item.product.price}</p> {/*to be in price format; 
+        <p>Price: {props.item.product.price}</p> {/*to be in price format;
         make a folder for utility functions for this kind of thing?*/}
         <p>Ouantity: {props.item.quantity}</p>
         <button type="button" onClick={() => props.removeLineItem(props.item.productId)}>Delete Item</button>

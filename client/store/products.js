@@ -1,15 +1,19 @@
 import axios from 'axios'
 
+// Products Actions
 const GET_ALL_PRODUCTS_FROM_SERVER = 'GET_ALL_PRODUCTS_FROM_SERVER'
 const GET_SINGLE_PRODUCT_FROM_SERVER = 'GET_SINGLE_PRODUCT_FROM_SERVER'
 const GET_FILTERED_PRODUCTS_FROM_SERVER = 'GET_FILTERED_PRODUCTS_FROM_SERVER'
+const ADD_PRODUCT_TO_SERVER = 'ADD_PRODUCT_TO_SERVER'
 
+// Products initial State
 const initialState = {
   products: [],
   singleProduct: {},
   categories: []
 }
 
+// Products action creators
 export const getAllProductsFromServer = (products, categories) => {
   return {
     type: GET_ALL_PRODUCTS_FROM_SERVER,
@@ -32,6 +36,15 @@ export const getFilteredProductsFromServer = filteredProducts => {
   }
 }
 
+export const addedProductToServer = product => {
+  return {
+    type: ADD_PRODUCT_TO_SERVER,
+    product
+  }
+}
+
+
+// Products Thunks
 export const fetchProductData = function () {
   return async dispatch => {
     const response = await axios.get('/api/products')
@@ -65,6 +78,17 @@ export const fetchFilteredProducts = function (category) {
   }
 }
 
+export const addProduct = function (product) {
+  console.log(`in addproduct thunk`)
+  return async dispatch => {
+    await axios.post('/api/products', product)
+    const action = addedProductToServer(product)
+    dispatch(action)
+  }
+}
+
+
+// Products Reducers
 export default function productReducer(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_PRODUCTS_FROM_SERVER:

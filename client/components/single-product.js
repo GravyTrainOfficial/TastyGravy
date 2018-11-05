@@ -95,13 +95,13 @@ const mapDispatchToProps = dispatch => {
     getAllItems: () => dispatch(getAllItems()),
     fetchSingleProduct: productId => dispatch(fetchSingleProduct(productId)),
     addLineItem: (productObj, cart) => dispatch(addLineItem(productObj, cart)),
-    modifyLineItem: (productObj, cart) => dispatch(modifyLineItem(productObj, cart))
+    modifyLineItem: (productObj) => dispatch(modifyLineItem(productObj))
   }
 }
 
-const connectedSingleProduct = withRouter(connect(mapStateToProps, mapDispatchToProps)(
-  SingleProduct
-))
+const connectedSingleProduct = withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(SingleProduct)
+)
 
 export default connectedSingleProduct
 

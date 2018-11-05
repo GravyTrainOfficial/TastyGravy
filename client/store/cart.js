@@ -6,16 +6,16 @@ const initialState = []
  * ACTION TYPES
  */
 
-const ADD_TO_CART = 'ADD_TO_CART';
+const ADD_TO_CART = 'ADD_TO_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 const GET_ALL_ITEMS = 'GET_ALL_ITEMS'
 const UPDATE_CART_ITEM = 'UPDATE_CART_ITEM'
 
 /**
-* ACTION CREATORS
-*/
+ * ACTION CREATORS
+ */
 
-export const addToCart = (item) => {
+export const addToCart = item => {
   return {
     type: ADD_TO_CART,
     item
@@ -29,7 +29,7 @@ export const removeFromCart = (productId) => {
   }
 }
 
-export const gotAllItems = (items) => {
+export const gotAllItems = items => {
   return {
     type: GET_ALL_ITEMS,
     items
@@ -44,10 +44,11 @@ export const updateItemQuantity = updatedItem => {
 }
 
 /**
-* THUNK CREATORS
-*/
+ * THUNK CREATORS
+ */
 
-export const getAllItems = () => { // componenentDidMount?
+export const getAllItems = () => {
+  // componenentDidMount?
   return async dispatch => {
     try {
       const { data } = await axios.get('/api/line-items/cart')
@@ -58,19 +59,7 @@ export const getAllItems = () => { // componenentDidMount?
   }
 }
 
-export const modifyLineItem = (item, cart) => { //product, productId, and quantity from form
-  // const possibleCartItem = cart.find((entry) => entry.productId === item.productId)
-  // if (possibleCartItem) {
-  //   return async dispatch => {
-  //     try {
-  //       console.log('update')
-  //       const { data } = await axios.put('/api/line-items', item)
-  //       dispatch(updateItemQuantity(data))
-  //     } catch (error) {
-  //       console.error(error)
-  //     }
-  //   }
-  // }
+export const modifyLineItem = (item) => { //product, productId, and quantity from form
   console.log('in modifyLineItem thunk')
   return async dispatch => {
     try {
@@ -115,11 +104,9 @@ export const removeLineItem = (productId) => { //just need productId here
 }
 
 
-
 /**
-* REDUCER
-*/
-
+ * REDUCER
+ */
 
 export default function cartReducer(state = initialState, action) {
   switch (action.type) {

@@ -97,48 +97,6 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-// router.put('/', async (req, res, next) => {
-//   try {
-//     console.log('in the put from the post')
-//     const { quantity, productId } = req.body
-//     const associatedProduct =  await Product.findOne({ where: { id: productId } })
-//     console.log('associatedProduct: ', associatedProduct)
-//     if (req.user) {
-//       const oldItem = LineItems.findOne({
-//         where: {
-//           productId,
-//           userId: req.user.id,
-//           status: 'cart'
-//         }
-//       })
-//       console.log('req.user, oldItem: ', oldItem)
-//       const oldQuantity = oldItem.dataValues.quantity
-//       console.log('oldQuantity: ', oldQuantity)
-//       if (oldQuantity + quantity < 0) { // If the edit would make the quantity negative
-//         console.log('the new quantity would be nagative!')
-//         res.status(403).send() //temporary; probably do more
-//       }
-//       if (oldQuantity + quantity === 0) { // If the edit would make the quantity zero
-//         console.log('gonna delete!')
-//         res.json(await axios.delete(`/api/line-items/${oldItem.dataValues.id}`))
-//       } 
-//       const updatedItem = await LineItem.update({ quantity: oldQuantity + quantity },
-//         { where: { id: oldItem.dataValues.id } })
-//       updatedItem.dataValues.product = associatedProduct
-//       console.log('updatedItem!!!!: ', updatedItem)
-//       res.json(updatedItem)
-//     } else {
-//       const itemToUpdate = req.session.cart.find(item => item.productId === productId)
-//       if (itemToUpdate.quantity - quantity < 0) res.status(403).send()
-//       itemToUpdate.quantity += quantity
-//       itemToUpdate.product = associatedProduct
-//       res.json(itemToUpdate)
-//     }
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-
 router.put('/', async (req, res, next) => {
   try {
     const { quantity, product, productId } = req.body
