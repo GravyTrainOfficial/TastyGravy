@@ -20,7 +20,7 @@ describe('LineItem routes', () => {
     }
     const itemNotInCart = {
       quantity: 3,
-      productId: 2
+      productId: 1
     }
     let userId
     // const userCredentials = {
@@ -35,10 +35,10 @@ describe('LineItem routes', () => {
 
     beforeEach((done) => {
       User.create(userCredentials)
-      userId = User.findOne({ 
-        where: {email: userCredentials.email},
-        attributes: ['id']
-      }).id
+      const user = User.findOne({where: {email: userCredentials.email}})
+      userId = user.id
+      LineItem.create({...itemInCart, userId})
+      LineItem.create(itemNotInCart)
       authenticatedUser
         .post('/login')
         .send(userCredentials)
@@ -47,8 +47,6 @@ describe('LineItem routes', () => {
           expect('Location', '/home');
           done();
         });
-      LineItem.create({...itemInCart, userId})
-      return LineItem.create(itemNotInCart)
     })
 
     it('GET /api/line-items responds succcessfully', async () => {
