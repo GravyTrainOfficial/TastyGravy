@@ -31,7 +31,7 @@ describe('LineItem routes', () => {
       const user = User.create(userCredentials)
       // const userId = user.id
       authenticatedUser
-      .post('/login')
+      .post('/auth/signup')
       .send({email: 'admin@admin.com', password: 'test'})
       .end(function(err, response){
         expect(response.statusCode).to.equal(200);
