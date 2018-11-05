@@ -7,7 +7,7 @@ const app = require('../index')
 const LineItem = db.model('lineitem')
 const User = db.model('user')
 
-describe('LineItem routes', () => {
+xdescribe('LineItem routes', () => {
   beforeEach(() => {
     return db.sync({ force: true })
   })
