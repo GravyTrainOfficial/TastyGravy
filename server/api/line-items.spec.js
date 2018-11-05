@@ -5,8 +5,9 @@ const request = require('supertest')
 const db = require('../db')
 const app = require('../index')
 const LineItem = db.model('lineitem')
+const User = db.model('user')
 
-xdescribe('LineItem routes', () => {
+describe('LineItem routes', () => {
   beforeEach(() => {
     return db.sync({ force: true })
   })
@@ -14,13 +15,22 @@ xdescribe('LineItem routes', () => {
   describe('/api/line-items/', () => {
     const quantity = 10
     const productId = 1
+    // const userCredentials = {
+    //   email: 'heiscool@cool.com',
+    //   password: 'test'
+    // }
     const userCredentials = {
-      email: 'heiscool@cool.com',
+      email: 'admin@admin.com',
       password: 'test'
     }
     const authenticatedUser = request.agent(app)
 
     before(function(done){
+      
+    });
+
+    beforeEach(() => {
+      User.create(userCredentials)
       authenticatedUser
         .post('/login')
         .send(userCredentials)
@@ -29,9 +39,6 @@ xdescribe('LineItem routes', () => {
           expect('Location', '/home');
           done();
         });
-    });
-
-    beforeEach(() => {
       return LineItem.create({
         quantity,
         productId
