@@ -16,13 +16,13 @@ describe('LineItem routes', () => {
     const itemInCart = {
       quantity: 10,
       productId: 1,
-      status: 'cart',
-      userId
+      status: 'cart'
     }
     const itemNotInCart = {
       quantity: 3,
       productId: 2
     }
+    const userId
     // const userCredentials = {
     //   email: 'heiscool@cool.com',
     //   password: 'test'
@@ -35,10 +35,10 @@ describe('LineItem routes', () => {
 
     beforeEach((done) => {
       User.create(userCredentials)
-      const {id: {userId}} = User.findOne({ 
+      userId = User.findOne({ 
         where: {email: userCredentials.email},
         attributes: ['id']
-      })
+      }).id
       authenticatedUser
         .post('/login')
         .send(userCredentials)
@@ -47,7 +47,7 @@ describe('LineItem routes', () => {
           expect('Location', '/home');
           done();
         });
-      LineItem.create(itemInCart)
+      LineItem.create({...itemInCart, userId})
       return LineItem.create(itemNotInCart)
     })
 
