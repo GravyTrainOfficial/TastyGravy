@@ -22,31 +22,27 @@ describe('LineItem routes', () => {
       quantity: 3,
       productId: 1
     }
-    let userId
-    // const userCredentials = {
-    //   email: 'heiscool@cool.com',
-    //   password: 'test'
-    // }
     const userCredentials = {
       email: 'admin@admin.com',
-      password: 'test'
+      password: 'test',
+      role: 'admin'
     }
     const authenticatedUser = request.agent(app)
 
-    beforeEach((done) => {
+    before((done) => {
       User.create(userCredentials)
       const user = User.findOne({where: {email: userCredentials.email}})
-      userId = user.id
-      LineItem.create({...itemInCart, userId})
-      // LineItem.create(itemNotInCart)
+      // const userId = user.id
       authenticatedUser
-        .post('/login')
-        .send(userCredentials)
-        .end(function(err, response){
-          expect(response.statusCode).to.equal(200);
-          expect('Location', '/home');
-          done();
-        });
+      .post('/login')
+      .send(userCredentials)
+      .end(function(err, response){
+        expect(response.statusCode).to.equal(200);
+        expect('Location', '/home');
+        done();
+      });
+      LineItem.create({...itemInCart, userId: user.id})
+      // LineItem.create(itemNotInCart)
     })
 
     it('GET /api/line-items responds succcessfully', async () => {
@@ -61,7 +57,7 @@ describe('LineItem routes', () => {
 
     it('GET /api.line-items/cart responds with user cart', async () => {
       const user = User.findOne({where: {email: userCredentials.email}})
-      userId = user.id
+      const userId = user.id
       const res = await request(app)
         .get('/api/line-items/cart')
         .expect(200)

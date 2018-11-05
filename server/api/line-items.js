@@ -5,7 +5,7 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    if (req.user.role === 'admin') {
+    if (req.user && req.user.role === 'admin') {
       const allLineItems = await LineItem.findAll({
         include: [{ all: true }]
       })
