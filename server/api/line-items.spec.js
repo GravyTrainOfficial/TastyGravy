@@ -58,7 +58,16 @@ describe('LineItem routes', () => {
     })
 
     it('GET /api/line-items responds successfully', async () => {
-      const res = await request(app)
+      authenticatedUser
+        .post('/auth/login')
+        .send(userCredentials)
+        .end(function(err, response){
+          expect(response.statusCode).to.equal(200);
+          expect('Location', '/home');
+          done();
+        });
+        console.log(authenticatedUser)
+      const res = await authenticatedUser
         .get('/api/line-items')
         .expect(200)
         
