@@ -29,7 +29,7 @@ describe('LineItem routes', () => {
       
     });
 
-    beforeEach(() => {
+    beforeEach((done) => {
       User.create(userCredentials)
       authenticatedUser
         .post('/login')
