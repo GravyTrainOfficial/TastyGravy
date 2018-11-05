@@ -54,7 +54,7 @@ describe('LineItem routes', () => {
       // const userId = user.id
       const user = User.findOne({where: {email: userCredentials.email}})
       LineItem.create({...itemInCart, userId: user.id})
-      LineItem.create(itemNotInCart)
+      return LineItem.create(itemNotInCart)
     })
 
     it('GET /api/line-items responds successfully', async () => {
