@@ -22,7 +22,7 @@ describe('LineItem routes', () => {
       quantity: 3,
       productId: 2
     }
-    const userId
+    let userId
     // const userCredentials = {
     //   email: 'heiscool@cool.com',
     //   password: 'test'
