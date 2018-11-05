@@ -31,14 +31,13 @@ describe('LineItem routes', () => {
       const user = User.create(userCredentials)
       // const userId = user.id
       authenticatedUser
-      .post('/auth/login')
+      .post('/orangejuice')
       .send({email: 'admin@admin.com', password: 'test'})
       .end(function(err, response){
         expect(response.statusCode).to.equal(200);
         // expect('Location', '/home');
         done();
       });
-      // const user = User.findOne({where: {email: userCredentials.email}})
       LineItem.create({...itemInCart, userId: user.id})
       LineItem.create(itemNotInCart)
     })
