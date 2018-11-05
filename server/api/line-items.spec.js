@@ -28,22 +28,22 @@ describe('LineItem routes', () => {
     const authenticatedUser = request.agent(app)
 
     beforeEach((done) => {
-      User.create(userCredentials)
-      const user = User.findOne({where: {email: userCredentials.email}})
+      const user = User.create(userCredentials)
       // const userId = user.id
       authenticatedUser
       .post('/auth/login')
       .send(userCredentials)
       .end(function(err, response){
         expect(response.statusCode).to.equal(200);
-        expect('Location', '/home');
+        // expect('Location', '/home');
         done();
       });
+      // const user = User.findOne({where: {email: userCredentials.email}})
       LineItem.create({...itemInCart, userId: user.id})
-      // LineItem.create(itemNotInCart)
+      LineItem.create(itemNotInCart)
     })
 
-    it('GET /api/line-items responds succcessfully', async () => {
+    it('GET /api/line-items responds successfully', async () => {
       const res = await request(app)
         .get('/api/line-items')
         .expect(200)
