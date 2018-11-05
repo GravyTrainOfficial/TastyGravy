@@ -18,12 +18,12 @@ describe('LineItem routes', () => {
       status: 'cart'
     }
     const itemNotInCart = {
-      quantity: 3 
+      quantity: 3,
+      status: 'cart'
     }
     const userCredentials = {
       email: 'heiscool@cool.com',
-      password: 'test',
-      status: 'cart'
+      password: 'test'
     }
     const authenticatedUser = request.agent(app)
 
@@ -57,6 +57,11 @@ describe('LineItem routes', () => {
       LineItem.create({...itemInCart, userId: user.id})
       return LineItem.create(itemNotInCart)
     })
+
+    it('GET /api/line-items should return a 200 response if an admin user is logged in', function(done){
+      authenticatedUser.get('/api/line-items')
+      .expect(200, done);
+    });
 
     it('GET /api/line-items responds successfully', async () => {
       const res = await authenticatedUser
