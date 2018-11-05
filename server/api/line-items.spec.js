@@ -24,7 +24,7 @@ describe('LineItem routes', () => {
       email: 'heiscool@cool.com',
       password: 'test'
     }
-    const authenticatedUser = request.agent(app)
+    // const authenticatedUser = request.agent(app)
     let token
 
     // before((done) => {
