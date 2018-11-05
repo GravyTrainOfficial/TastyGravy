@@ -53,7 +53,7 @@ class SingleProduct extends Component {
       console.log('does not exist, adding line item')
       this.props.addLineItem(obj, cart)
     } else {
-      console.log('already exists, adding line item')
+      console.log('already exists, changing line item')
       this.props.modifyLineItem(obj)
     }
     this.props.getAllItems()
@@ -61,7 +61,7 @@ class SingleProduct extends Component {
 
   render() {
     const { product } = this.props
-    
+
     if (product) {
       return (
         // <div>

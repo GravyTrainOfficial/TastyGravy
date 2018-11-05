@@ -21,7 +21,9 @@ class Cart extends Component {
     return (
       <div>
         <h1>My Cart</h1>
-        {this.props.cart && this.props.cart.map(item => <ItemPreview key={item.productId} item={item} quantity={item.quantity} buttonText='Remove From Cart' handleClick={this.props.removeLineItem} changeQuantity={this.updateItem}/>)}
+        {this.props.cart && this.props.cart.map(
+          item => <ItemPreview key={item.productId} item={item} quantity={item.quantity} buttonText='Remove From Cart' handleClick={this.props.removeLineItem} changeQuantity={this.updateItem}/>
+          )}
         <button type="button" onClick={() => checkout()}>CHECKOUT</button>
       </div>
     )
