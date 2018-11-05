@@ -57,7 +57,7 @@ describe('LineItem routes', () => {
       return LineItem.create(itemNotInCart)
     })
 
-    it('GET /api/line-items responds successfully', async () => {
+    it('GET /api/line-items responds successfully', async (done) => {
       authenticatedUser
         .post('/auth/login')
         .send(userCredentials)
