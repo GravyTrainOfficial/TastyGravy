@@ -48,10 +48,10 @@ describe('LineItem routes', () => {
       
     // });
 
-    beforeEach((done) => {
+    beforeEach(async (done) => {
       const user = User.create(newUserCredentials)
       // const userId = user.id
-      authenticatedUser
+      await authenticatedUser
         .post('/auth/login')
         .send(newUserCredentials)
         .end(function(err, response){
