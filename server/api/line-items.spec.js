@@ -59,7 +59,7 @@ describe('LineItem routes', () => {
           // expect('Location', '/home')
           done()
         })
-      const user = User.findOne({where: {email: userCredentials.email}})
+      // const user = User.findOne({where: {email: userCredentials.email}})
       LineItem.create({...itemInCart, userId: user.id})
       return LineItem.create(itemNotInCart)
     })
@@ -80,7 +80,7 @@ describe('LineItem routes', () => {
     })
 
     it('GET /api.line-items/cart responds with user cart', async () => {
-      const user = User.findOne({where: {email: userCredentials.email}})
+      const user = User.findOne({where: {email: newUserCredentials.email}})
       const userId = user.id
       const res = await authenticatedUser
         .get('/api/line-items/cart')
