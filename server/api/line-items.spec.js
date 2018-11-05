@@ -22,7 +22,8 @@ describe('LineItem routes', () => {
     }
     const userCredentials = {
       email: 'heiscool@cool.com',
-      password: 'test'
+      password: 'test',
+      status: 'cart'
     }
     const authenticatedUser = request.agent(app)
 
@@ -38,8 +39,8 @@ describe('LineItem routes', () => {
 
     // })
 
-    before(function(done){
-      authenticatedUser
+    before(async (done) => {
+      await authenticatedUser
         .post('/login')
         .send(userCredentials)
         .end(function(err, response){
