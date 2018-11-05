@@ -26,10 +26,12 @@ class SingleProduct extends Component {
     this.props.fetchSingleProduct(productId)
   }
 
-  handleChange(event) {
+  handleChange(difference) {
     this.setState((prevState) => {
+      const newQuantity = prevState.quantity + difference
+      if (newQuantity < 1) newQuantity = 1
       return { 
-        [event.target.name]: prevState[event.target.name] + event.target.value 
+        quantity: newQuantity
       }
     })
   }
@@ -58,7 +60,8 @@ class SingleProduct extends Component {
   }
 
   render() {
-    const product = this.props.product
+    const { product } = this.props
+    
     if (product) {
       return (
         // <div>
