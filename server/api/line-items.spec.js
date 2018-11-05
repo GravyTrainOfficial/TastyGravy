@@ -7,7 +7,7 @@ const app = require('../index')
 const LineItem = db.model('lineitem')
 const User = db.model('user')
 
-xdescribe('LineItem routes', () => {
+describe('LineItem routes', () => {
   beforeEach(() => {
     return db.sync({ force: true })
   })
@@ -27,7 +27,7 @@ xdescribe('LineItem routes', () => {
     }
     const authenticatedUser = request.agent(app)
 
-    beforeEach((done) => {
+    before((done) => {
       const user = User.create(userCredentials)
       // const userId = user.id
       authenticatedUser
