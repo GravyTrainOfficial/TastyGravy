@@ -1,32 +1,25 @@
 import React, { Component } from 'react'
-import { getAllItems, removeLineItem, modifyLineItem } from '../store/cart'
-import { ItemPreview } from './index'
-
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-
-import { getAllItems, removeLineItem } from '../store/cart'
-import { fetchGuestEmail, setGuestEmail } from '../store/checkout'
-import { ItemPreview, GetGuestEmail } from './index'
-
-import CheckoutForm from './checkout-form'
+import { connect } from 'react-redux';
 import { Elements, StripeProvider } from 'react-stripe-elements';
+import { ItemPreview, CheckoutForm, GetGuestEmail } from './index'
+import { getAllItems } from '../store/cart'
+import { fetchGuestEmail, setGuestEmail } from '../store/checkout'
 
 class Checkout extends Component {
   constructor(props) {
     super(props)
-    this.updateItem = this.updateItem.bind(this)
+    // this.updateItem = this.updateItem.bind(this)
   }
 
   componentDidMount() {
     this.props.getAllItems()
-    this.props.getAllItems()
     this.props.fetchGuestEmail()
   }
 
-  updateItem(difference, item) {
-    this.props.modifyLineItem({ ...item, quantity: difference })
-  }
+  // updateItem(difference, item) {
+  //   this.props.modifyLineItem({ ...item, quantity: difference })
+  // }
 
   render() {
     return (
@@ -37,9 +30,6 @@ class Checkout extends Component {
             <ItemPreview 
             key={item.productId} 
             item={item} 
-            onClick={this.props.removeLineItem}
-            quantity={item.quantity}
-            changeQuantity={this.updateItem}
              />)}
         <button type="button" onClick={() => checkout()}>CHECKOUT</button>
         {this.props.guestEmail ?
@@ -63,6 +53,6 @@ const mapState = (state) => {
   }
 }
 
-const mapDispatch = { getAllItems, removeLineItem, modifyLineItem, fetchGuestEmail, setGuestEmail }
+const mapDispatch = { getAllItems, fetchGuestEmail, setGuestEmail }
 
 export default withRouter(connect(mapState, mapDispatch)(Checkout))

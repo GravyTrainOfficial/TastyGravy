@@ -44,7 +44,6 @@ class SingleProduct extends Component {
       productId: this.props.product.id,
       quantity: Number(this.state.quantity)
     }
-
     console.log('created obj, hopefully with the right properties: ', obj)
 
     this.props.getAllItems()
@@ -66,25 +65,25 @@ class SingleProduct extends Component {
 
     if (product) {
       return (
-        // <div>
-        //   <img src={product.image_URL} />
-        //   <h1>{product.name}</h1>
-        //   <p>{product.description}</p>
-        //   <p>{product.price}</p>
-        //   <form id="add-to-cart-form" onSubmit={this.handleSubmit}>
-        //     <input
-        //       type="number"
-        //       min='1'
-        //       max={this.props.product.inventoryQuantity /*change to reflect subtraction of quantity that's already in cart*/}
-        //       value={this.state.quantity}
-        //       name="quantity"
-        //       required
-        //       onChange={this.handleChange}
-        //     />
-        //     <input type="submit" value='Add to Cart' />
-        //   </form>
-        // </div>
-        <ItemPreview item={product} quantity={this.state.quantity} buttonText='Add to Cart' handleClick={this.handleSubmit} changeQuantity={this.handleChange} />
+        <div>
+          <img src={product.image_URL} />
+          <h1>{product.name}</h1>
+          <p>{product.description}</p>
+          <p>{product.price}</p>
+          <form id="add-to-cart-form" onSubmit={this.handleSubmit}>
+            <input
+              type="number"
+              min='1'
+              max={this.props.product.inventoryQuantity /*change to reflect subtraction of quantity that's already in cart*/}
+              value={this.state.quantity}
+              name="quantity"
+              required
+              onChange={this.handleChange}
+            />
+            <input type="submit" value='Add to Cart' />
+          </form>
+        </div>
+        // <ItemPreview item={product} quantity={this.state.quantity} buttonText='Add to Cart' handleClick={this.handleSubmit} changeQuantity={this.handleChange} />
       )
     } else {
       return ' '

@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { formatPrice } from '../util'
-// import { connect } from 'react-redux';
+import { modifyLineItem } from '../store/cart';
+import { connect } from 'react-redux';
 // withRouter
 
-// import { removeLineItem } from '../store/cart'
+import { modifyLineItem, removeLineItem } from '../store/cart'
 
 //Used for cart items and product listing items, maybe?
 
@@ -18,27 +19,33 @@ class ItemPreview extends Component {
 
   componentDidMount() {
     this.setState({
-      quantity: this.props.quantity
+      quantity: this.props.item.quantity
     })
+    this.handleChange = this.handleChange.bind(this)
+    // this.handleIncrement = this.handleIncrement.bind(this)
   }
 
-  handleChange(event) {
-    const difference = this.state.quantity - this.props.quantity
-    this.setState({
-      quantity: event.target.value
-    })
-    this.props.changeQuantity(difference, this.props.item)
-  }
-
-  handleIncrement(amount) {
-    const newQuantity = this.props.item.quantity + amount
-    if (newQuantity >= 0 && newQuantity <= this.props.item.product.inventoryQuantity) {
-      this.props.changeQuantity(amount, this.props.item)
+  handleChange(difference) {
+    const newQuantity = this.props.item.quantity + difference
+    if (newQuantity < 0) {
+      alert('Quantity cannot be less than 0')
+    } else if (newQuantity === 0) {
+      const confirmDelete = confirm("Remove item from cart?")
+      if (confirmDelete) {
+        this.props.removeLineItem(this.props.item.productId)
+      }
+    } else if (newQuantity > this.props.item.product.inventoryQuantity) {
+      alert('Not enough in stock')
+    } else {
+      this.setState({
+        quantity: newQuantity
+      })
+      this.props.changeQuantity(difference)
     }
   }
 
   render() {
-    const { item, changeQuantity } = this.props
+    const { item } = this.props
 
     return (
       <div id='item-preview-container'> {/*will be a flexbox!*/}
@@ -47,32 +54,28 @@ class ItemPreview extends Component {
           <img src={item.product.image_URL} />
         </div>
         <div>
-          {/*<h3>{item.product.name}</h3>*/}
-          <p>Price: {formatPrice(props.item.product.price)}</p>
-          <p>Inventory: {item.product.inventoryQuantity}</p>
+          <p>Price: {formatPrice(item.product.price)}</p>
+          <p>In Stock: {item.product.inventoryQuantity}</p>
           <div id='increment-decrement-container'>
-            <input type='number' value={this.state.quantity} min='0' max={item.product.inventoryQuantity} name='quantity' onChange={this.handleChange} />
+            <input type='number' value={this.state.quantity} min='0' name='quantity' onChange={(event) => this.handleChange(event.target.value - item.quantity)} />
             <div>
-              <div onClick={() => changeQuantity(1, item)}>+</div> <br />
-              <div onClick={() => changeQuantity(-1, item)}>-</div>
+              <h2 onClick={() => this.handleChange(1)}>+</h2>
+              <h2 onClick={() => this.handleChange(-1)}>-</h2>
             </div>
-          <h3 onClick={this.props.handleClick}>Remove From Cart</h3>
-        </div>
-          {/*<button type="button" onClick={() => props.removeLineItem(props.item.productId)}>Delete Item</button>*/}
+            <button onClick={this.props.removeLineItem}>Remove From Cart</button>
+          </div>
         </div>
       </div>
     )
   }
 }
 
-// THINGS NEEDED TO BE PUT IN AS PROPS:
-// item: duh
-// quantity: either a held state amount (initialized at 1) if it's a product listing or cart quantity if it's in the cart
-// buttonText: what kind of button it is (delete vs add to cart, etc)
-// handleClick: whatever is supposed to happen with the button
-// changeQuantity: either going up and changing the held state amount or dispatching a modifyLineItem
+const mapDispatch = (dispatch) => {
+  return {
+    changeQuantity: (difference) => dispatch(modifyLineItem({ ...this.props.item, quantity: difference })),
+    removeLineItem: () => dispatch(removeLineItem(this.props.item.productId))
+  }
+}
 
-// const mapDispatch = { removeLineItem }
-
-// export default withRouter(connect(null, mapDispatch)(ItemPreview))
+export default connect(null, mapDispatch)(ItemPreview)
 
