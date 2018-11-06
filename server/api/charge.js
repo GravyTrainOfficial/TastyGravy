@@ -51,10 +51,10 @@ router.post("/", async (req, res, next) => {
 
   try {
     let { status } = await stripe.charges.create({
-      amount: 2000,  //req.body.amount
+      amount: req.body.amount,  //req.body.amount
       currency: "usd",
-      description: "An example charge", //req.body.somedescription
-      source: req.body // req.body.token.id
+      description: "Tasty Gravy", //req.body.somedescription
+      source: req.body.token.id // req.body.token.id
     })
 
     let possibleNewOrder = null

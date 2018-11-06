@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { fetchSingleProduct } from '../store/products'
 import {addLineItem, modifyLineItem, getAllItems} from '../store/cart'
-import {ItemPreview} from './index'
+import { formatPrice } from './util'
 
 // import thunks etc
 
@@ -26,14 +26,8 @@ class SingleProduct extends Component {
     this.props.fetchSingleProduct(productId)
   }
 
-  handleChange(difference) {
-    this.setState((prevState) => {
-      const newQuantity = prevState.quantity + difference
-      if (newQuantity < 1) newQuantity = 1
-      return { 
-        quantity: newQuantity
-      }
-    })
+  handleChange(event) {
+    this.setState(event.target.value)
   }
 
   handleSubmit(event) {
@@ -69,7 +63,7 @@ class SingleProduct extends Component {
           <img src={product.image_URL} />
           <h1>{product.name}</h1>
           <p>{product.description}</p>
-          <p>{product.price}</p>
+          <p>{formatPrice(product.price)}</p>
           <form id="add-to-cart-form" onSubmit={this.handleSubmit}>
             <input
               type="number"

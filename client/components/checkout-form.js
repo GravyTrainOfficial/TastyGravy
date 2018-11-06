@@ -14,7 +14,13 @@ class CheckoutForm extends Component {
     let response = await fetch("api/charge", {
       method: "POST",
       headers: { "Content-Type": "text/plain" },
-      body: token.id
+      body: {
+        token: {
+          id: token.id
+        },
+        amount: this.props.total,
+
+      }
     });
     console.log('', response)
     if (response.ok) this.setState({ complete: true });

@@ -178,7 +178,7 @@ router.delete('/:productId', async (req, res, next) => {
       })
     } else {
       console.log('user is not logged in, filtering cart. current cart: ', req.session.cart)
-      req.session.cart.filter(item => item.productId !== req.params.productId)
+      req.session.cart = req.session.cart.filter(item => item.productId !== Number(req.params.productId))
       console.log('filtered session cart: ', req.session.cart)
     }
     res.status(204).end()
