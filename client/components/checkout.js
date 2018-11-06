@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Elements, StripeProvider } from 'react-stripe-elements';
 import { ItemPreview, CheckoutForm, GetGuestEmail } from './index'
 import { getAllItems } from '../store/cart'
-import { fetchGuestEmail, setGuestEmail } from '../store/checkout'
+import { fetchGuestEmail, setGuestEmail, enterStripe } from '../store/checkout'
 import { formatPrice, calculateCartTotal } from '../util'
 
 class Checkout extends Component {
@@ -41,11 +41,12 @@ class Checkout extends Component {
         {this.props.guestEmail ?
           <StripeProvider apiKey="pk_test_qDNHLYG3F1rF307ZNsEV1Bw6">
             <Elements>
-              <CheckoutForm displayError={this.displayError} total={calculateCartTotal(this.props.cart)} />
+              <CheckoutForm displayError={this.displayError} total={calculateCartTotal(this.props.cart)} enterStripe={this.props.enterStripe} />
             </Elements>
           </StripeProvider> :
           <GetGuestEmail setGuestEmail={this.props.setGuestEmail} />}
-        {this.state.error && 'error running the card'}
+        {this.props.status === 'failure' && 'error running the card'}
+        {this.props.status === 'success' && 'Order Complete'}
       </div>
 
 
@@ -56,10 +57,13 @@ class Checkout extends Component {
 const mapState = (state) => {
   return {
     cart: state.cartReducer,
-    guestEmail: state.checkoutReducer.guestEmail
+    guestEmail: state.checkoutReducer.guestEmail,
+    status: state.checkoutReducer.status,
+    order: state.checkoutReducer.order
+
   }
 }
 
-const mapDispatch = { getAllItems, fetchGuestEmail, setGuestEmail }
+const mapDispatch = { getAllItems, fetchGuestEmail, setGuestEmail, enterStripe }
 
 export default withRouter(connect(mapState, mapDispatch)(Checkout))

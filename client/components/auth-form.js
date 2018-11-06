@@ -34,6 +34,31 @@ const AuthForm = props => {
   )
 }
 
+//semanticUIREACT form component:
+{
+  /* <div class= "formFlex">
+<Form onSubmit={handleSubmit} name={name}>
+  <Form.Field>
+    <label htmlFor="email">Email</label>
+    <input name="email" type="text" placeholder="Enter Email Here" />
+  </Form.Field>
+  <Form.Field>
+    <label htmlFor="password">Password</label>
+    <input
+      name="password"
+      type="text"
+      placeholder="Enter Password here"
+    />
+  </Form.Field>
+  <Button type="submit">{displayName}</Button>
+  {error && error.response && <div> {error.response.data} </div>}
+</Form>
+
+<a className="googleLink" href="/auth/google">
+  {displayName} with Google
+</a> */
+}
+
 /**
  * CONTAINER
  *   Note that we have two different sets of 'mapStateToProps' functions -
