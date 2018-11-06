@@ -8,7 +8,7 @@ const Navbar = props => {
   const { handleClick, isLoggedIn, role } = props
   return (
     <div>
-      <h1>TASTY GRAVY TEST</h1>
+      <h1 className='title'>TASTY GRAVY</h1>
       <nav>
         {isLoggedIn ? (
           <div>
