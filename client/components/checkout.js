@@ -5,7 +5,12 @@ import { ItemPreview } from './index'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-const checkout = () => console.log('Hey checked out!')
+import { getAllItems, removeLineItem } from '../store/cart'
+import { fetchGuestEmail, setGuestEmail } from '../store/checkout'
+import { ItemPreview, GetGuestEmail } from './index'
+
+import CheckoutForm from './checkout-form'
+import { Elements, StripeProvider } from 'react-stripe-elements';
 
 class Checkout extends Component {
   constructor(props) {
@@ -15,6 +20,8 @@ class Checkout extends Component {
 
   componentDidMount() {
     this.props.getAllItems()
+    this.props.getAllItems()
+    this.props.fetchGuestEmail()
   }
 
   updateItem(difference, item) {
@@ -24,7 +31,7 @@ class Checkout extends Component {
   render() {
     return (
       <div>
-        <h1>CHECK OUT</h1>
+        <h1>Checkout Confirm - BETTER TITLE SOON</h1>
         {this.props.cart && 
           this.props.cart.map(item => 
             <ItemPreview 
@@ -42,20 +49,20 @@ class Checkout extends Component {
             </Elements>
           </StripeProvider> :
           <GetGuestEmail setGuestEmail={this.props.setGuestEmail} />}
-          
       </div>
 
-      
+
     )
   }
 }
 
 const mapState = (state) => {
   return {
-    cart: state.cartReducer
+    cart: state.cartReducer,
+    guestEmail: state.checkoutReducer.guestEmail
   }
 }
 
-const mapDispatch = { getAllItems, removeLineItem, modifyLineItem }
+const mapDispatch = { getAllItems, removeLineItem, modifyLineItem, fetchGuestEmail, setGuestEmail }
 
 export default withRouter(connect(mapState, mapDispatch)(Checkout))

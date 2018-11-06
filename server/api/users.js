@@ -28,10 +28,22 @@ router.get('/guest-email', async (req, res, next) => {
   }
 })
 
+<<<<<<< HEAD
+=======
+router.post('/guest-email', async (req, res, next) => {
+  try {
+    req.session.email = req.body.email
+    res.send(req.session.email)
+  } catch (err) {
+    next(err)
+  }
+})
+
+>>>>>>> master
 router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findOne({
-      where: {id: req.params.userId},
+      where: { id: req.params.userId },
       attributes: ['id', 'firstName', 'lastName', 'email', 'role']
     })
     res.json(user)
@@ -44,7 +56,7 @@ router.get('/orders/me', async (req, res, next) => {
   if (req.user) {
     try {
       const orders = await Order.findAll({
-        where: {userId: req.user.id},
+        where: { userId: req.user.id },
         include: [
           {
             model: LineItem,
@@ -63,10 +75,10 @@ router.get('/orders/me', async (req, res, next) => {
 
 router.get('/orders/:userId', async (req, res, next) => {
   try {
+    const { userId } = req.params
     if (req.user.id === userId || req.user.role === 'admin') {
-      const {userId} = req.params
       const orders = await Order.findAll({
-        where: {userId},
+        where: { userId },
         include: [
           {
             model: LineItem,

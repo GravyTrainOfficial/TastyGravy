@@ -14,3 +14,7 @@ export { default as Cart } from './cart'
 export { default as ItemPreview } from './item-preview'
 export { default as OrderHistory } from './orderhistory'
 export { default as Checkout } from './checkout'
+export { default as CheckoutForm } from './checkout-form'
+export { default as GetGuestEmail } from './get-guest-email'
+
+

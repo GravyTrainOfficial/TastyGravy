@@ -17,7 +17,7 @@ export default class OrderHistory extends Component {
 
   render() {
     console.log(this.state.orders)
-    if (!this.state.orders.length) {
+    if (!this.state.orders.length) { // refactory to ternary or short circuit
       return (
         <div>
           <h1>ORDER HISTORY</h1>
