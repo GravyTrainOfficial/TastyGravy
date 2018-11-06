@@ -36,6 +36,12 @@ class Checkout extends Component {
              />)}
         <button type="button" onClick={() => checkout()}>CHECKOUT</button>
         <h1>STRIPE STUFF HERE?</h1>
+        
+        <StripeProvider apiKey="pk_test_qDNHLYG3F1rF307ZNsEV1Bw6">
+          <Elements>
+            <CheckoutForm />
+          </Elements>
+        </StripeProvider>
       </div>
 
       
