@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { formatPrice } from '../util'
 // import { connect } from 'react-redux';
 // withRouter
 
@@ -13,13 +14,13 @@ const ItemPreview = props => {
 
   return (
     <div id='item-preview-container'> {/*will be a flexbox!*/}
-      <div key={props.item.productId}>
+      <div>
         <Link to={`/products/${props.item.productId}`} ><h1>{props.item.product.name}</h1></Link>
         <img src={props.item.product.image_URL} />
       </div>
       <div>
         <h3>{props.item.product.name}</h3>
-        <p>Price: {props.item.product.price}</p> {/*to be in price format;
+        <p>Price: {formatPrice(props.item.product.price)}</p> {/*to be in price format;
         make a folder for utility functions for this kind of thing?*/}
         <p>Ouantity: {props.item.quantity}</p>
         <button type="button" onClick={() => props.removeLineItem(props.item.productId)}>Delete Item</button>

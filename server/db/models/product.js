@@ -29,4 +29,8 @@ const Product = db.define('product', {
   }
 })
 
+Product.prototype.changeInventory = (amount) => {
+  this.inventoryQuantity -= amount  // Will this work?????
+}
+
 module.exports = Product
