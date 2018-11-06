@@ -5,17 +5,15 @@ import { formatPrice } from '../util'
 export default function ProductDetails({ product }) {
   return (
     <div className="productDetails">
+      <img className='productImage' src={product.image_URL} />
       <div className="productName">
         <Link to={`/products/${product.id}`}>
-          <h1>{product.name}</h1>
+          <h3>{product.name}</h3>
         </Link>
       </div>
-      <img src={product.image_URL} />
-      <ul>
-        <li>Price: {formatPrice(product.price)}</li>
-        <li>Description: {product.description}</li>
-        <li>Category: {product.category}</li>
-      </ul>
+      <p>Price: {formatPrice(product.price)}</p>
+      <p>Description: {product.description}</p>
+      <p>Category: {product.category}</p>
     </div>
   )
 }
