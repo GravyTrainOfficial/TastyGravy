@@ -13,4 +13,14 @@ const LineItem = db.define('lineitem', {
   }
 })
 
+LineItem.findCartByUserId = function(id) {
+  return this.findAll({
+    where: {
+      userId: id,
+      status: 'cart'
+    },
+    include: [Product]
+  })
+}
+
 module.exports = LineItem
