@@ -39,11 +39,16 @@ router.post('/guest-email', async (req, res, next) => {
 
 router.get('/:userId', async (req, res, next) => {
   try {
-    const user = await User.findOne({
-      where: { id: req.params.userId },
-      attributes: ['id', 'firstName', 'lastName', 'email', 'role']
-    })
-    res.json(user)
+    const {userId} = req.params
+    if (req.user.role === 'admin' || req.user.id === userId) {
+      const user = await User.findOne({
+        where: { id: userId },
+        attributes: ['id', 'firstName', 'lastName', 'email', 'role']
+      })
+      res.json(user)
+  } else {
+    res.status(403).send()
+  }
   } catch (err) {
     next(err)
   }

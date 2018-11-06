@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { fetchSingleProduct } from '../store/products'
-import { addLineItem, modifyLineItem, getAllItems } from '../store/cart'
+import {addLineItem, modifyLineItem, getAllItems} from '../store/cart'
+import {ItemPreview} from './index'
 
 // import thunks etc
 
@@ -10,7 +11,7 @@ class SingleProduct extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      quantity: 0
+      quantity: 1
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -25,8 +26,14 @@ class SingleProduct extends Component {
     this.props.fetchSingleProduct(productId)
   }
 
-  handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value })
+  handleChange(difference) {
+    this.setState((prevState) => {
+      const newQuantity = prevState.quantity + difference
+      if (newQuantity < 1) newQuantity = 1
+      return { 
+        quantity: newQuantity
+      }
+    })
   }
 
   handleSubmit(event) {
@@ -37,7 +44,6 @@ class SingleProduct extends Component {
       productId: this.props.product.id,
       quantity: Number(this.state.quantity)
     }
-
     console.log('created obj, hopefully with the right properties: ', obj)
 
     this.props.getAllItems()
@@ -48,14 +54,15 @@ class SingleProduct extends Component {
       console.log('does not exist, adding line item')
       this.props.addLineItem(obj, cart)
     } else {
-      console.log('already exists, adding line item')
-      this.props.modifyLineItem(obj, cart)
+      console.log('already exists, changing line item')
+      this.props.modifyLineItem(obj)
     }
     this.props.getAllItems()
   }
 
   render() {
-    const product = this.props.product
+    const { product } = this.props
+
     if (product) {
       return (
         <div>
@@ -76,6 +83,7 @@ class SingleProduct extends Component {
             <input type="submit" value='Add to Cart' />
           </form>
         </div>
+        // <ItemPreview item={product} quantity={this.state.quantity} buttonText='Add to Cart' handleClick={this.handleSubmit} changeQuantity={this.handleChange} />
       )
     } else {
       return ' '

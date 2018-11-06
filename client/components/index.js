@@ -16,5 +16,5 @@ export { default as OrderHistory } from './orderhistory'
 export { default as Checkout } from './checkout'
 export { default as CheckoutForm } from './checkout-form'
 export { default as GetGuestEmail } from './get-guest-email'
-
+export { default as EditProductForm } from './edit-product-form'
 

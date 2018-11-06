@@ -50,6 +50,7 @@ xdescribe('LineItem routes', () => {
 
     beforeEach((done) => {
       const user = User.create(newUserCredentials)
+      console.log('CREATED USER WITH ID: ', user.id)
       const userId = user.id
       LineItem.create({...itemInCart, userId: user.id})
       LineItem.create(itemNotInCart)
