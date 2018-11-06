@@ -26,26 +26,26 @@ class ItemPreview extends Component {
   }
 
   handleChange(difference) {
-    const newQuantity = this.props.item.quantity + difference
+    const { item, changeQuantity, removeLineItem } = this.props
+    const newQuantity = item.quantity + difference
     if (newQuantity < 0) {
       alert('Quantity cannot be less than 0')
     } else if (newQuantity === 0) {
-      const confirmDelete = confirm("Remove item from cart?")
-      if (confirmDelete) {
-        this.props.removeLineItem(this.props.item.productId)
+      if (confirm("Remove item from cart?")) {
+        removeLineItem(item.productId)
       }
-    } else if (newQuantity > this.props.item.product.inventoryQuantity) {
+    } else if (newQuantity > item.product.inventoryQuantity) {
       alert('Not enough in stock')
     } else {
       this.setState({
         quantity: newQuantity
       })
-      this.props.changeQuantity(difference)
+      changeQuantity(difference)
     }
   }
 
   render() {
-    const { item } = this.props
+    const { item, removeLineItem } = this.props
 
     return (
       <div id='item-preview-container'> {/*will be a flexbox!*/}
@@ -62,7 +62,7 @@ class ItemPreview extends Component {
               <h2 onClick={() => this.handleChange(1)}>+</h2>
               <h2 onClick={() => this.handleChange(-1)}>-</h2>
             </div>
-            <button onClick={this.props.removeLineItem}>Remove From Cart</button>
+            <button onClick={removeLineItem}>Remove From Cart</button>
           </div>
         </div>
       </div>

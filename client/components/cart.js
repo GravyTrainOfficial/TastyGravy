@@ -1,19 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getAllItems, removeLineItem, modifyLineItem } from '../store/cart'
+import { getAllItems } from '../store/cart'
 import { ItemPreview } from './index'
 
 
 const checkout = () => console.log('Hey checked out!')
 
 class Cart extends Component {
-  constructor(props) {
-    super(props)
-    // this.updateItem = this.updateItem.bind(this)
-  }
-
-  componentDidMount() {
+componentDidMount() {
     this.props.getAllItems()
   }
 
@@ -40,6 +35,6 @@ const mapState = (state) => {
   }
 }
 
-const mapDispatch = { getAllItems, removeLineItem, modifyLineItem }
+const mapDispatch = { getAllItems }
 
 export default withRouter(connect(mapState, mapDispatch)(Cart))

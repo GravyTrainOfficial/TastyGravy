@@ -26,11 +26,7 @@ class Checkout extends Component {
       <div>
         <h1>Checkout Confirm - BETTER TITLE SOON</h1>
         {this.props.cart && 
-          this.props.cart.map(item => 
-            <ItemPreview 
-            key={item.productId} 
-            item={item} 
-             />)}
+          this.props.cart.map(item => <ItemPreview key={item.productId} item={item} />)}
         <button type="button" onClick={() => checkout()}>CHECKOUT</button>
         {this.props.guestEmail ?
           <StripeProvider apiKey="pk_test_qDNHLYG3F1rF307ZNsEV1Bw6">
