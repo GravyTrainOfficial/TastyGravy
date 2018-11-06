@@ -28,8 +28,6 @@ router.get('/guest-email', async (req, res, next) => {
   }
 })
 
-<<<<<<< HEAD
-=======
 router.post('/guest-email', async (req, res, next) => {
   try {
     req.session.email = req.body.email
@@ -39,7 +37,6 @@ router.post('/guest-email', async (req, res, next) => {
   }
 })
 
->>>>>>> master
 router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findOne({
