@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { formatPrice } from '../util'
 
-export default function ProductDetails({ product }) {
+export function ProductDetails({ product }) {
   return (
     <div className="productDetails">
       <img className='productImage' src={product.image_URL} />
@@ -17,3 +17,5 @@ export default function ProductDetails({ product }) {
     </div>
   )
 }
+
+export default ProductDetails

@@ -7,7 +7,7 @@ import { formatPrice } from '../util'
 
 // import thunks etc
 
-class SingleProduct extends Component {
+export class SingleProduct extends Component {
   constructor(props) {
     super(props)
     this.state = {
