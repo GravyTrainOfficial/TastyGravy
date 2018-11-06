@@ -1,21 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { getAllItems } from '../store/cart'
 import { ItemPreview } from './index'
 import { formatPrice, calculateCartTotal } from '../util'
 
-
-const checkout = () => console.log('Hey checked out!')
-
 class Cart extends Component {
-componentDidMount() {
+  componentDidMount() {
     this.props.getAllItems()
   }
-
-  // updateItem(difference, item) {
-  //   this.props.modifyLineItem({ ...item, quantity: difference })
-  // }
 
   render() {
     return (
@@ -25,7 +18,9 @@ componentDidMount() {
           item => <ItemPreview key={item.productId} item={item} />
           )}
         <h3>CART TOTAL: {formatPrice(calculateCartTotal(this.props.cart))}</h3>
-        <button type="button" onClick={() => checkout()}>CHECKOUT</button>
+        <Link to='/checkout'>
+          <button type="button">CHECKOUT</button>
+        </Link>
       </div>
     )
   }
