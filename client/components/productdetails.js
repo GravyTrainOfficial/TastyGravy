@@ -1,19 +1,20 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {formatPrice} from '../util'
 
-export default function ProductDetails(props) {
+export default function ProductDetails({ product }) {
   return (
-    <div className="productDetails" key={props.product.id}>
-      <div className="productName">
-        <Link to={`/products/${props.product.id}`}>
-          <h1>{props.product.name}</h1>
+    <div className="product-details">
+      <div className="product-name">
+        <Link to={`/products/${product.id}`}>
+          <h1>{product.name}</h1>
         </Link>
       </div>
-      <img src={props.product.image_URL} />
+      <img src={product.image_URL} />
       <ul>
-        <li>Price: {props.product.price}</li>
-        <li>Description: {props.product.description}</li>
-        <li>Category: {props.product.category}</li>
+        <li>Price: {formatPrice(product.price)}</li>
+        <li>Description: {product.description}</li>
+        <li>Category: {product.category}</li>
       </ul>
     </div>
   )

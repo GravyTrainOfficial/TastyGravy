@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { formatPrice } from '../util'
 // import { connect } from 'react-redux';
 // withRouter
 
@@ -41,14 +42,13 @@ class ItemPreview extends Component {
 
     return (
       <div id='item-preview-container'> {/*will be a flexbox!*/}
-        <div key={item.productId}>
+        <div>
           <Link to={`/products/${item.productId}`} ><h1>{item.product.name}</h1></Link>
           <img src={item.product.image_URL} />
         </div>
         <div>
           {/*<h3>{item.product.name}</h3>*/}
-          <p>Price: {item.product.price}</p> {/*to be in price format; 
-          make a folder for utility functions for this kind of thing?*/}
+          <p>Price: {formatPrice(props.item.product.price)}</p>
           <p>Inventory: {item.product.inventoryQuantity}</p>
           <div id='increment-decrement-container'>
             <input type='number' value={this.state.quantity} min='0' max={item.product.inventoryQuantity} name='quantity' onChange={this.handleChange} />
