@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { formatPrice } from '../util'
-import { modifyLineItem } from '../store/cart';
 import { connect } from 'react-redux';
 // withRouter
 
