@@ -25,13 +25,14 @@ router.get('/cart', async (req, res, next) => {
   try {
     let cartItems
     if (req.user) {
-      cartItems = await LineItem.findAll({
-        where: {
-          userId: req.user.id,
-          status: 'cart'
-        },
-        include: [Product]
-      })
+      // cartItems = await LineItem.findAll({
+      //   where: {
+      //     userId: req.user.id,
+      //     status: 'cart'
+      //   },
+      //   include: [Product]
+      // })
+      cartItems = await LineItem.findCartByUserId(req.user.id)
     } else {
       cartItems = req.session.cart || []
     }
@@ -49,22 +50,25 @@ router.post('/', async (req, res, next) => {
     if (req.user) {
       console.log('user is logged in, posting to database')
       const newItemData = { quantity, productId, userId: req.user.id }
-      const possibleOldItem = await LineItem.findOne({
-        where: {
-          productId,
-          userId: req.user.id,
-          status: 'cart'
-        }
-      })
+      // const possibleOldItem = await LineItem.findOne({
+      //   where: {
+      //     productId,
+      //     userId: req.user.id,
+      //     status: 'cart'
+      //   }
+      // })
+      const possibleOldItem = (await LineItem.findCartByUserId(req.user.id))
+                                .find(item => item.dataValues.productId === productId)
       if (possibleOldItem) {
         console.log('oh no! this already exists! switching to put route...')
         res.json(await axios.put('/api/line-items/', { ...newItemData, product }))
       }
-      const newItem = await LineItem.create({
-        ...newItemData,
-        status: 'cart',
-        userId: req.user.id
-      })
+      // const newItem = await LineItem.create({
+      //   ...newItemData,
+      //   status: 'cart',
+      //   userId: req.user.id
+      // })
+      const newItem = await LineItem.addToCart(newItemData, req.user.id)
       newItem.dataValues.product = product
       console.log('successfully created new item, res.json-ing: ', newItem.dataValues)
       res.json(newItem)

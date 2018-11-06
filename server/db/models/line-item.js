@@ -23,4 +23,12 @@ LineItem.findCartByUserId = function(id) {
   })
 }
 
+LineItem.addToCart = function(item, userId) {
+  return this.create({
+    ...item,
+    status: 'cart',
+    userId
+  })
+}
+
 module.exports = LineItem
