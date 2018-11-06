@@ -34,3 +34,12 @@ form div {
 .productName {
   min-height: 150px;
 }
+
+#item-preview-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#increment-decrement-container, #increment-decrement-container>* {
+  text-align: center;
+}
