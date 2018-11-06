@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
-import { getAllItems, removeLineItem } from '../store/cart'
-import { ItemPreview } from './index'
-
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+
+import { getAllItems, removeLineItem } from '../store/cart'
+import { fetchGuestEmail, setGuestEmail } from '../store/checkout'
+import { ItemPreview, GetGuestEmail } from './index'
+
 import CheckoutForm from './checkout-form'
 import { Elements, StripeProvider } from 'react-stripe-elements';
 
-
-const checkout = () => console.log('Hey checked out!')
-
 class Checkout extends Component {
 
-  async componentDidMount() {
-    await this.props.getAllItems()
+  componentDidMount() {
+    this.props.getAllItems()
+    this.props.fetchGuestEmail()
   }
 
   render() {
@@ -26,13 +26,13 @@ class Checkout extends Component {
               key={item.id}
               item={item}
               removeLineItem={this.props.removeLineItem} />)}
-
-        <h1>STRIPE STUFF HERE?</h1>
-        <StripeProvider apiKey="pk_test_qDNHLYG3F1rF307ZNsEV1Bw6">
-          <Elements>
-            <CheckoutForm />
-          </Elements>
-        </StripeProvider>
+        {this.props.guestEmail ?
+          <StripeProvider apiKey="pk_test_qDNHLYG3F1rF307ZNsEV1Bw6">
+            <Elements>
+              <CheckoutForm />
+            </Elements>
+          </StripeProvider> :
+          <GetGuestEmail setGuestEmail={this.props.setGuestEmail} />}
 
       </div>
 
@@ -43,10 +43,11 @@ class Checkout extends Component {
 
 const mapState = (state) => {
   return {
-    cart: state.cartReducer
+    cart: state.cartReducer,
+    guestEmail: state.checkoutReducer.guestEmail
   }
 }
 
-const mapDispatch = { getAllItems, removeLineItem }
+const mapDispatch = { getAllItems, removeLineItem, fetchGuestEmail, setGuestEmail }
 
 export default withRouter(connect(mapState, mapDispatch)(Checkout))

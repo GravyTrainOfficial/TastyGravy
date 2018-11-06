@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 
 export default class GetGuestEmail extends Component {
   constructor(props) {
@@ -6,6 +6,8 @@ export default class GetGuestEmail extends Component {
     this.state = {
       email: ''
     }
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleChange(event) {
