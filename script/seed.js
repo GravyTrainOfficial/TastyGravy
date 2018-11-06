@@ -93,7 +93,7 @@ const products = [
     description:
       "Not sure how this got into the warehouse, but we have a lot of it and it'd be great if you could take it off our hands.\n\nPlease do not pair this with anything.",
     category: 'Miscellaneous',
-    price: 1000,
+    price: 7920,
     inventoryQuantity: 500,
     image_URL: 'http://dummyimage.com/200x200.jpg/ff4444/ffffff'
   },
@@ -111,7 +111,7 @@ const products = [
     description:
       'Terrific gravy blend from our neighbors down south (Florida). As exquisite and fullbodied as it is cutting.',
     category: 'Truffle',
-    price: 3500,
+    price: 3499,
     inventoryQuantity: 12,
     image_URL: 'http://dummyimage.com/200x200.jpg/ff4444/ffffff'
   },
@@ -125,11 +125,11 @@ const products = [
     image_URL: 'http://dummyimage.com/200x200.jpg/ff4444/ffffff'
   },
   {
-    name: 'IOPE RETIGEN MOISTURE TWIN CAKE NO.23',
+    name: 'Nickelodeon Slime',
     description:
-      'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.\n\nSed ante. Vivamus tortor. Duis mattis egestas metus.',
-    category: 'Electronics',
-    price: 150,
+      'Take the Double Dare Challenge and get the Nickelodeon Slime! Totally edible, with a parmesan base.\n\nBest paired with Mark Summers.',
+    category: 'Special',
+    price: 2199,
     inventoryQuantity: 12,
     image_URL: 'http://dummyimage.com/200x200.png/cc0000/ffffff'
   },
@@ -137,17 +137,17 @@ const products = [
     name: 'Primidone',
     description:
       'Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.\n\nFusce consequat. Nulla nisl. Nunc nisl.',
-    category: 'Electronics',
+    category: 'Onion',
     price: 150,
     inventoryQuantity: 12,
     image_URL: 'http://dummyimage.com/200x200.jpg/ff4444/ffffff'
   },
   {
-    name: 'A big asssss',
+    name: 'A big stinky butt :)',
     description:
-      'Just a,\n\n  a real nasty butttt ',
+      'Just a,\n\n  a real nasty butttt hehe\n\n :) ',
     category: 'Sweet',
-    price: 999900,
+    price: 13,
     inventoryQuantity: 9999,
     image_URL: 'http://dummyimage.com/200x200.bmp/dddddd/000000'
   },
@@ -161,10 +161,10 @@ const products = [
     image_URL: 'http://dummyimage.com/200x200.bmp/ff4444/ffffff'
   },
   {
-    name: 'ANTIMICROBIAL FOAMING',
+    name: 'Vanilla Poutine',
     description:
-      'Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.\n\nDuis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.',
-    category: 'Health',
+      'Just sort of let my imagination go on this one. What do you think this would taste like? I have something in my head though and it tastes really good.\n\nGood with everything.',
+    category: 'Special',
     price: 150,
     inventoryQuantity: 12,
     image_URL: 'http://dummyimage.com/200x200.bmp/ff4444/ffffff'
@@ -183,7 +183,7 @@ const products = [
     description:
       'A fascinating take on the citrus micro-brew craze sweeping the Gravy Nation. Our tasters were floored.\n\nBest paired with beef, but pairs well with pork.',
     category: 'Vegetarian',
-    price: 2000,
+    price: 1999,
     inventoryQuantity: 99,
     image_URL: 'http://dummyimage.com/200x200.png/cc0000/ffffff'
   },
@@ -192,7 +192,7 @@ const products = [
     description:
       "Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!",
     category: 'Eldritch Horror',
-    price: 10000,
+    price: 100000,
     inventoryQuantity: 12,
     image_URL: 'http://dummyimage.com/200x200.jpg/dddddd/000000'
   },
@@ -201,7 +201,7 @@ const products = [
     description:
       'For suppliers and restaurants, 10 barrels of our finest chicken gravy stock.',
     category: 'Supplier',
-    price: 2000,
+    price: 200000,
     inventoryQuantity: 100,
     image_URL: 'http://dummyimage.com/200x200.jpg/dddddd/000000'
   },
@@ -210,7 +210,7 @@ const products = [
     description:
       'For suppliers and restaurants, 10 barrels of our finest cow gravy stock.',
     category: 'Supplier',
-    price: 2500,
+    price: 249999,
     inventoryQuantity: 75,
     image_URL: 'http://dummyimage.com/200x200.jpg/5fa2dd/ffffff'
   },
@@ -218,8 +218,8 @@ const products = [
     name: "Dr. Robert's Magic Gravy",
     description:
       "Dr. Robert has been making gravy for over 400 years. His latest brew will knock your socks off -- and more!",
-    category: 'Magic Gravy',
-    price: 100000,
+    category: 'Special',
+    price: 1111111111,
     inventoryQuantity: 1,
     image_URL: 'http://dummyimage.com/200x200.bmp/ff4444/ffffff'
   },
@@ -228,7 +228,7 @@ const products = [
     description:
       "This Graceland treat will have you dancing in your blue suede shoes and saying 'Thank you, thank you very much...for the gravy!'\n\nBest paired with southern fried foods.",
     category: 'Brown',
-    price: 2200,
+    price: 2211,
     inventoryQuantity: 80,
     image_URL: 'http://dummyimage.com/200x200.jpg/dddddd/000000'
   },
@@ -237,7 +237,7 @@ const products = [
     description:
       'Bloody delicious, you can taste the iron!\n\nBest paired with a juicy steak.',
     category: 'Redeye',
-    price: 3300,
+    price: 3345,
     inventoryQuantity: 12,
     image_URL: 'http://dummyimage.com/200x200.png/ff4444/ffffff'
   },
@@ -246,25 +246,25 @@ const products = [
     description:
       'Molto bene! A sausage-based gravy from Sicilio. Mamma mia! Etc.!\n\nBest paired with a pizza pasta gabagool!',
     category: 'Sausage',
-    price: 5900,
+    price: 5999,
     inventoryQuantity: 4000,
     image_URL: 'http://dummyimage.com/200x200.bmp/cc0000/ffffff'
   },
   {
-    name: 'COUMADIN',
+    name: "Mom's Famous Turkey Gravy",
     description:
-      'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.\n\nMorbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.\n\nFusce consequat. Nulla nisl. Nunc nisl.',
-    category: 'Automotive',
-    price: 150,
+      "Mom knows best with her cold-brew gravy special. Made with our secret ingredient: a mother's love. Also way too much butter, like, a medically inadvisable amount of the stuff.\n\nBest paired with a good ol' turkey dinner.",
+    category: 'Brown',
+    price: 1200,
     inventoryQuantity: 12,
     image_URL: 'http://dummyimage.com/200x200.png/dddddd/000000'
   },
   {
-    name: 'Levetiracetam',
+    name: "Newman's Gravy",
     description:
-      'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.\n\nAliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.',
-    category: 'Sports',
-    price: 150,
+      'You know Cool Hand Luke makes a mean gravy. Good for any occasion, with hearty, meaty, chunky base that keeps on giving.\n\nBest paired with most fowl.',
+    category: 'Brown',
+    price: 1500,
     inventoryQuantity: 12,
     image_URL: 'http://dummyimage.com/200x200.bmp/5fa2dd/ffffff'
   },
@@ -272,7 +272,7 @@ const products = [
     name: 'Leader Lice Treatment',
     description:
       'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.\n\nNullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.\n\nMorbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.',
-    category: 'Baby',
+    category: 'Roux',
     price: 150,
     inventoryQuantity: 12,
     image_URL: 'http://dummyimage.com/200x200.png/5fa2dd/ffffff'
@@ -281,8 +281,8 @@ const products = [
     name: 'HYDROCODONE BITARTRATE AND ACETAMINOPHEN',
     description:
       'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.\n\nMorbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.\n\nFusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.',
-    category: 'Industrial',
-    price: 150,
+    category: 'Vegetarian',
+    price: 111,
     inventoryQuantity: 12,
     image_URL: 'http://dummyimage.com/200x200.jpg/cc0000/ffffff'
   },
@@ -290,7 +290,7 @@ const products = [
     name: 'headache formula',
     description:
       'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.',
-    category: 'Industrial',
+    category: 'Sausage',
     price: 150,
     inventoryQuantity: 12,
     image_URL: 'http://dummyimage.com/200x200.bmp/ff4444/ffffff'
@@ -299,7 +299,7 @@ const products = [
     name: 'Citalopram',
     description:
       'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.\n\nMorbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.',
-    category: 'Industrial',
+    category: 'Onion',
     price: 150,
     inventoryQuantity: 12,
     image_URL: 'http://dummyimage.com/200x200.png/dddddd/000000'
@@ -308,7 +308,7 @@ const products = [
     name: 'LISINOPRIL AND HYDROCHLOROTHIAZIDE',
     description:
       'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.',
-    category: 'Computers',
+    category: 'Vegatarian',
     price: 150,
     inventoryQuantity: 12,
     image_URL: 'http://dummyimage.com/200x200.png/cc0000/ffffff'
