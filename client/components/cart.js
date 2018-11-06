@@ -1,24 +1,29 @@
 import React, { Component } from 'react'
-import { getAllItems, removeLineItem } from '../store/cart'
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { getAllItems } from '../store/cart'
 import { ItemPreview } from './index'
 
-import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
 
 const checkout = () => console.log('Hey checked out!')
 
 class Cart extends Component {
-
-  async componentDidMount() {
-    await this.props.getAllItems()
+componentDidMount() {
+    this.props.getAllItems()
   }
+
+  // updateItem(difference, item) {
+  //   this.props.modifyLineItem({ ...item, quantity: difference })
+  // }
 
   render() {
     return (
       <div>
         <h1>My Cart</h1>
-        {this.props.cart && this.props.cart.map(item => <ItemPreview key={item.productId} item={item} removeLineItem={this.props.removeLineItem} />)}
-        <Link to='/checkout'><button type="button" onClick={() => checkout()}>CHECKOUT</button></Link>
+        {this.props.cart && this.props.cart.map(
+          item => <ItemPreview key={item.productId} item={item} />
+          )}
+        <button type="button" onClick={() => checkout()}>CHECKOUT</button>
       </div>
     )
   }
@@ -30,6 +35,6 @@ const mapState = (state) => {
   }
 }
 
-const mapDispatch = { getAllItems, removeLineItem }
+const mapDispatch = { getAllItems }
 
 export default withRouter(connect(mapState, mapDispatch)(Cart))

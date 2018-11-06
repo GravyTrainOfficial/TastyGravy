@@ -1,35 +1,80 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-// import { connect } from 'react-redux';
+import { formatPrice } from '../util'
+import { connect } from 'react-redux';
 // withRouter
 
-// import { removeLineItem } from '../store/cart'
+import { modifyLineItem, removeLineItem } from '../store/cart'
 
 //Used for cart items and product listing items, maybe?
 
-const ItemPreview = props => {
-  console.log('props.item', props.item)
-  console.log('props.item.product', props.item.product)
+class ItemPreview extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      quantity: 0
+    }
+  }
 
-  return (
-    <div id='item-preview-container'> {/*will be a flexbox!*/}
-      <div key={props.item.productId}>
-        <Link to={`/products/${props.item.productId}`} ><h1>{props.item.product.name}</h1></Link>
-        <img src={props.item.product.image_URL} />
+  componentDidMount() {
+    this.setState({
+      quantity: this.props.item.quantity
+    })
+    this.handleChange = this.handleChange.bind(this)
+    // this.handleIncrement = this.handleIncrement.bind(this)
+  }
+
+  handleChange(difference) {
+    const { item, changeQuantity, removeLineItem } = this.props
+    const newQuantity = item.quantity + difference
+    if (newQuantity < 0) {
+      alert('Quantity cannot be less than 0')
+    } else if (newQuantity === 0) {
+      if (confirm("Remove item from cart?")) {
+        removeLineItem(item.productId)
+      }
+    } else if (newQuantity > item.product.inventoryQuantity) {
+      alert('Not enough in stock')
+    } else {
+      this.setState({
+        quantity: newQuantity
+      })
+      changeQuantity(item, difference)
+    }
+  }
+
+  render() {
+    const { item, removeLineItem } = this.props
+
+    return (
+      <div id='item-preview-container'> {/*will be a flexbox!*/}
+        <div>
+          <Link to={`/products/${item.productId}`} ><h1>{item.product.name}</h1></Link>
+          <img src={item.product.image_URL} />
+        </div>
+        <div>
+          <p>Price: {formatPrice(item.product.price)}</p>
+          <p>In Stock: {item.product.inventoryQuantity}</p>
+          <div id='increment-decrement-container'>
+            <input type='number' value={this.state.quantity} min='0' name='quantity' onChange={(event) => this.handleChange(event.target.value - item.quantity)} />
+            <div>
+              <h2 onClick={() => this.handleChange(1)}>+</h2>
+              <h2 onClick={() => this.handleChange(-1)}>-</h2>
+            </div>
+            <button onClick={() => removeLineItem(item.productId)}>Remove From Cart</button>
+          </div>
+        </div>
       </div>
-      <div>
-        <h3>{props.item.product.name}</h3>
-        <p>Price: {props.item.product.price}</p> {/*to be in price format;
-        make a folder for utility functions for this kind of thing?*/}
-        <p>Ouantity: {props.item.quantity}</p>
-        <button type="button" onClick={() => props.removeLineItem(props.item.productId)}>Delete Item</button>
-      </div>
-    </div>
-  )
+    )
+  }
 }
 
-export default ItemPreview
+const mapDispatch = (dispatch) => {
+  return {
+    changeQuantity: (item, difference) => dispatch(modifyLineItem({ ...item, quantity: difference })),
+    removeLineItem: (productId) => dispatch(removeLineItem(productId))
+  }
+}
 
-// const mapDispatch = { removeLineItem }
+export default connect(null, mapDispatch)(ItemPreview)
 
-// export default withRouter(connect(null, mapDispatch)(ItemPreview))

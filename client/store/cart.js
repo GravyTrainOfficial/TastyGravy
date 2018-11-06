@@ -65,7 +65,7 @@ export const modifyLineItem = (item) => { //product, productId, and quantity fro
     try {
       const { data } = await axios.put('/api/line-items', item)
       console.log('in the dispatch for modifyLineItem; data received from put request: ', data)
-      dispatch(addToCart(data))
+      dispatch(updateItemQuantity(data))
     } catch (error) {
       console.error(error)
     }
@@ -102,7 +102,6 @@ export const removeLineItem = (productId) => { //just need productId here
     }
   }
 }
-
 
 /**
  * REDUCER
