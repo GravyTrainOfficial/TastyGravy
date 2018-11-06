@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 /**
  * COMPONENT
  */
-class UserHome extends Component {
+export class UserHome extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -16,12 +16,12 @@ class UserHome extends Component {
 
   handleClick() {
     this.setState(prevState => {
-      return {editing: !prevState.editing}
+      return { editing: !prevState.editing }
     })
   }
 
   render() {
-    const {firstName, lastName, email} = this.props
+    const { firstName, lastName, email } = this.props
     return (
       <div>
         <h3>Welcome, {firstName || email}</h3>
@@ -29,8 +29,8 @@ class UserHome extends Component {
         {!this.state.editing ? (
           <button onClick={this.handleClick} />
         ) : (
-          <p>EDITING FORM GOES HERE</p>
-        )}
+            <p>EDITING FORM GOES HERE</p>
+          )}
       </div>
     )
   }

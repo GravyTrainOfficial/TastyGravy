@@ -20,6 +20,11 @@ form div {
   display: inline;
 }
 
+.title {
+  font-family: cursive;
+  font-weight: bolder;
+}
+
 .productsList {
   display: flex;
   flex-wrap: wrap;
