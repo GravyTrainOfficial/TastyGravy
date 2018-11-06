@@ -6,11 +6,11 @@ const session = require('express-session')
 const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
-const sessionStore = new SequelizeStore({ db })
+const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
-const stripe = require("stripe")("sk_test_vdFxdXGq22vnZybYmHEUZVJC");
+const stripe = require('stripe')('sk_test_vdFxdXGq22vnZybYmHEUZVJC')
 
 module.exports = app
 
@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'test') {
  * Node process on process.env
  */
 if (process.env.NODE_ENV !== 'production') require('../secrets')
-
+console.log(process.env)
 // passport registration
 passport.serializeUser((user, done) => done(null, user.id))
 
@@ -48,7 +48,7 @@ const createApp = () => {
 
   // body parsing middleware
   app.use(express.json())
-  app.use(express.urlencoded({ extended: true }))
+  app.use(express.urlencoded({extended: true}))
 
   // compression middleware
   app.use(compression())
@@ -64,12 +64,11 @@ const createApp = () => {
   )
   app.use(passport.initialize())
   app.use(passport.session())
-  app.use(require("body-parser").text());
+  app.use(require('body-parser').text())
 
   // auth and api routes
   app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
-
 
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'public')))
