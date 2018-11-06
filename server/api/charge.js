@@ -7,8 +7,10 @@ const createOrder = async (req, next) => {
   try {
     let guestUser, lineItems
     if (!req.user) {
-      guestUser = await User.create({ email: req.session.email })
-      lineItems = await Order.bulkCreate(req.session.cart)
+      guestUser = await User.find({ where: { email: req.session.email } })
+      console.log('GUES USER AAAAAAAAAAAAAAA', guestUser)
+      if (!guestUser) guestUser = await User.create({ email: req.session.email })
+      lineItems = await LineItem.bulkCreate(req.session.cart)
       req.session.cart = []
     } else {
       lineItems = await LineItem.findAll(
@@ -21,8 +23,12 @@ const createOrder = async (req, next) => {
     }
     //if the user is a guest, create the actual line items in the db
     //else, the relevant line items are already in the db as the user's line items of status cart
-    const userId = req.user.id || guestUser.dataValues.id
+    // const userId = req.user.id || guestUser.dataValues.id
+    let userId
+    if (req.user) userId = req.user.id
+    else userId = guestUser.dataValues.id
     const datePurchased = new Date() // ************ empty model possible here. line not needed 
+    console.log('STUFF STUFF STUFF', datePurchased, userId)
     const newOrder = await Order.create({ datePurchased, userId })
     console.log(newOrder)  //
 
