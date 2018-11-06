@@ -9,6 +9,7 @@ const createOrder = async (req, next) => {
     if (!req.user) {
       guestUser = await User.create({email: req.session.email})
       lineItems = await Order.bulkCreate(req.session.cart)
+      req.session.cart = []
     } else {
       lineItems = await LineItem.findAll(
         { where: {
@@ -27,20 +28,20 @@ const createOrder = async (req, next) => {
       await LineItem.update({
         orderId: newOrder.id,
         status: 'purchased'
-      },
+        },
         { where: { id: item.id } })
-      const { inventoryQuantity: oldInventoryQuantity } = await Product.findOne({
-        where: { id: item.productId },
-        attributes: ['inventoryQuantity']
-      })
-      const newInventoryQuantity = oldInventoryQuantity - item.quantity
-      await Product.update(
-        { inventoryQuantity: newInventoryQuantity },
-        { where: { id: item.productId } }
-      )
+      // const { inventoryQuantity: oldInventoryQuantity } = await Product.findOne({
+      //   where: { id: item.productId },
+      //   attributes: ['inventoryQuantity']
+      // })
+      // const newInventoryQuantity = oldInventoryQuantity - item.quantity
+      // await Product.update(
+      //   { inventoryQuantity: newInventoryQuantity },
+      //   { where: { id: item.productId } }
+      // )
       //*********OR instead of the above 9 lines:*********
-      // const associatedProduct = await Product.findOne({ where: { id: item.productId } })
-      // associatedProduct.changeInventory(-item.quantity)
+      const associatedProduct = await Product.findOne({ where: { id: item.productId } })
+      associatedProduct.changeInventory(-item.quantity)
     }
   )
     return newOrder
