@@ -10,17 +10,7 @@ class CheckoutForm extends Component {
 
   async submit(ev) {
     let { token } = await this.props.stripe.createToken({ name: "Name" });
-    // let response = await fetch("api/charge", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "text/plain" },
-    //   body: {
-    //     token: {
-    //       id: token.id
-    //     },
-    //     amount: this.props.total,
 
-    //   }
-    // });
     console.log('this is token ', token)
     const body = {
       token: {
@@ -40,11 +30,6 @@ class CheckoutForm extends Component {
     } else {
       this.props.displayError()
     }
-
-
-    // const data = await axios.post("/api/charge", token.id)
-    // console.log('', data)
-    // if (data.ok) console.log("Purchase Complete!")
 
   }
 
