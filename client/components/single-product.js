@@ -27,7 +27,7 @@ class SingleProduct extends Component {
   }
 
   handleChange(event) {
-    this.setState(event.target.value)
+    this.setState({ quantity: event.target.value })
   }
 
   handleSubmit(event) {
