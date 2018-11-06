@@ -43,3 +43,7 @@ form div {
 #increment-decrement-container, #increment-decrement-container>* {
   text-align: center;
 }
+
+img {
+  width: 200px
+}
