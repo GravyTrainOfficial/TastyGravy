@@ -5,11 +5,20 @@ import { Elements, StripeProvider } from 'react-stripe-elements';
 import { ItemPreview, CheckoutForm, GetGuestEmail } from './index'
 import { getAllItems } from '../store/cart'
 import { fetchGuestEmail, setGuestEmail } from '../store/checkout'
+import { formatPrice, calculateCartTotal } from '../util'
 
 class Checkout extends Component {
   constructor(props) {
     super(props)
     // this.updateItem = this.updateItem.bind(this)
+    this.displayError = this.displayError.bind(this)
+    this.state = {
+      error: false
+    }
+  }
+
+  displayError() {
+    this.setState({ error: true })
   }
 
   componentDidMount() {
@@ -25,16 +34,18 @@ class Checkout extends Component {
     return (
       <div>
         <h1>Checkout Confirm - BETTER TITLE SOON</h1>
-        {this.props.cart && 
+        {this.props.cart &&
           this.props.cart.map(item => <ItemPreview key={item.productId} item={item} />)}
+        <h3>CART TOTAL: {formatPrice(calculateCartTotal(this.props.cart))}</h3>
         <button type="button" onClick={() => checkout()}>CHECKOUT</button>
         {this.props.guestEmail ?
           <StripeProvider apiKey="pk_test_qDNHLYG3F1rF307ZNsEV1Bw6">
             <Elements>
-              <CheckoutForm />
+              <CheckoutForm displayError={this.displayError} total={calculateCartTotal(this.props.cart)} />
             </Elements>
           </StripeProvider> :
           <GetGuestEmail setGuestEmail={this.props.setGuestEmail} />}
+        {this.state.error && 'error running the card'}
       </div>
 
 
