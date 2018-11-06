@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { fetchSingleProduct } from '../store/products'
-import {addLineItem, modifyLineItem, getAllItems} from '../store/cart'
-import { formatPrice } from './util'
+import { addLineItem, modifyLineItem, getAllItems } from '../store/cart'
+import { formatPrice } from '../util'
 
 // import thunks etc
 
