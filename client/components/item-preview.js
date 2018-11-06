@@ -29,12 +29,12 @@ class ItemPreview extends Component {
     this.props.changeQuantity(difference, this.props.item)
   }
 
-  // handleKeyPress(event) {
-  //   if(false /*replace with if the key is enter*/) {
-  //     const difference = this.state.quantity - this.props.quantity
-  //     this.props.changeQuantity(difference)
-  //   }
-  // }
+  handleIncrement(amount) {
+    const newQuantity = this.props.item.quantity + amount
+    if (newQuantity >= 0 && newQuantity <= this.props.item.product.inventoryQuantity) {
+      this.props.changeQuantity(amount, this.props.item)
+    }
+  }
 
   render() {
     const { item, changeQuantity } = this.props
@@ -49,14 +49,14 @@ class ItemPreview extends Component {
           {/*<h3>{item.product.name}</h3>*/}
           <p>Price: {item.product.price}</p> {/*to be in price format; 
           make a folder for utility functions for this kind of thing?*/}
-          <p>Inventory: {item.inventoryQuantity}</p>
+          <p>Inventory: {item.product.inventoryQuantity}</p>
           <div id='increment-decrement-container'>
-            <input type='number' value={this.state.quantity} name='quantity' onChange={this.handleChange} />
+            <input type='number' value={this.state.quantity} min='0' max={item.product.inventoryQuantity} name='quantity' onChange={this.handleChange} />
             <div>
               <div onClick={() => changeQuantity(1, item)}>+</div> <br />
               <div onClick={() => changeQuantity(-1, item)}>-</div>
             </div>
-          <h3 onClick={this.props.handleClick}>{this.props.buttonText}</h3>
+          <h3 onClick={this.props.handleClick}>Remove From Cart</h3>
         </div>
           {/*<button type="button" onClick={() => props.removeLineItem(props.item.productId)}>Delete Item</button>*/}
         </div>
