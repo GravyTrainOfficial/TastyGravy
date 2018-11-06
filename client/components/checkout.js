@@ -5,7 +5,7 @@ import { Elements, StripeProvider } from 'react-stripe-elements';
 import { ItemPreview, CheckoutForm, GetGuestEmail } from './index'
 import { getAllItems } from '../store/cart'
 import { fetchGuestEmail, setGuestEmail } from '../store/checkout'
-import { calculateCartTotal } from '../util'
+import { formatPrice, calculateCartTotal } from '../util'
 
 class Checkout extends Component {
   constructor(props) {
@@ -36,6 +36,7 @@ class Checkout extends Component {
         <h1>Checkout Confirm - BETTER TITLE SOON</h1>
         {this.props.cart &&
           this.props.cart.map(item => <ItemPreview key={item.productId} item={item} />)}
+        <h3>CART TOTAL: {formatPrice(calculateCartTotal(this.props.cart))}</h3>
         <button type="button" onClick={() => checkout()}>CHECKOUT</button>
         {this.props.guestEmail ?
           <StripeProvider apiKey="pk_test_qDNHLYG3F1rF307ZNsEV1Bw6">
