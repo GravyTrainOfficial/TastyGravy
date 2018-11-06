@@ -128,10 +128,10 @@ router.put('/', async (req, res, next) => {
           where: { id },
           returning: true
         })
-      console.log(updatedItem)
       updatedItem[1][0].dataValues.product = product
-      console.log('successfully updated, array destructured, and assigned product object to the item, res.json-ing: ', updatedItem.dataValues)
-      res.json(updatedItem)
+      console.log(updatedItem)
+      console.log('successfully updated, array destructured, and assigned product object to the item, res.json-ing: ', updatedItem[1][0].dataValues)
+      res.json(updatedItem[1][0])
     } else {
       console.log('user is not logged in, going to next route')
       next()

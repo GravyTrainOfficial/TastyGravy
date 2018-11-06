@@ -1,11 +1,11 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
-import {formatPrice} from '../util'
+import { Link } from 'react-router-dom'
+import { formatPrice } from '../util'
 
 export default function ProductDetails({ product }) {
   return (
-    <div className="product-details">
-      <div className="product-name">
+    <div className="productDetails">
+      <div className="productName">
         <Link to={`/products/${product.id}`}>
           <h1>{product.name}</h1>
         </Link>

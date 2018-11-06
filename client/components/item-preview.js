@@ -39,7 +39,7 @@ class ItemPreview extends Component {
       this.setState({
         quantity: newQuantity
       })
-      changeQuantity(difference)
+      changeQuantity(item, difference)
     }
   }
 
@@ -61,7 +61,7 @@ class ItemPreview extends Component {
               <h2 onClick={() => this.handleChange(1)}>+</h2>
               <h2 onClick={() => this.handleChange(-1)}>-</h2>
             </div>
-            <button onClick={removeLineItem}>Remove From Cart</button>
+            <button onClick={() => removeLineItem(item.productId)}>Remove From Cart</button>
           </div>
         </div>
       </div>
@@ -71,8 +71,8 @@ class ItemPreview extends Component {
 
 const mapDispatch = (dispatch) => {
   return {
-    changeQuantity: (difference) => dispatch(modifyLineItem({ ...this.props.item, quantity: difference })),
-    removeLineItem: () => dispatch(removeLineItem(this.props.item.productId))
+    changeQuantity: (item, difference) => dispatch(modifyLineItem({ ...item, quantity: difference })),
+    removeLineItem: (productId) => dispatch(removeLineItem(productId))
   }
 }
 
