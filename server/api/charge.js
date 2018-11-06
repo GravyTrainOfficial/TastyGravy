@@ -24,7 +24,10 @@ const createOrder = async (req, next) => {
 
 
     lineItems.forEach(async item => {
-      await LineItem.update({ orderId: newOrder.id },
+      await LineItem.update({
+        orderId: newOrder.id,
+        status: 'purchased'
+      },
         { where: { id: item.id } })
       const { inventoryQuantity: oldInventoryQuantity } = await Product.findOne({
         where: { id: item.productId },

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { formatPrice } from '../util'
+import { formatPrice, calculateProductTotal } from '../util'
 import { connect } from 'react-redux';
 // withRouter
 
@@ -53,8 +53,11 @@ class ItemPreview extends Component {
           <img src={item.product.image_URL} />
         </div>
         <div>
-          <p>Price: {formatPrice(item.product.price)}</p>
-          <p>In Stock: {item.product.inventoryQuantity}</p>
+          <div id='stock-price-container'>
+            <p>In Stock: {item.product.inventoryQuantity}</p>
+            <p>Unit Price: {formatPrice(item.product.price)}</p>
+            <p>Total: {formatPrice(calculateProductTotal(item))}</p>
+          </div>
           <div id='increment-decrement-container'>
             <input type='number' value={this.state.quantity} min='0' name='quantity' onChange={(event) => this.handleChange(event.target.value - item.quantity)} />
             <div>
