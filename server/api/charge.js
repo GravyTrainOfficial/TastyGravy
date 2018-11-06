@@ -7,28 +7,31 @@ const createOrder = async (req, next) => {
   try {
     let guestUser, lineItems
     if (!req.user) {
-      guestUser = await User.create({email: req.session.email})
+      guestUser = await User.create({ email: req.session.email })
       lineItems = await Order.bulkCreate(req.session.cart)
       req.session.cart = []
     } else {
       lineItems = await LineItem.findAll(
-        { where: {
-          userId: req.user.id,
-          status: 'cart'
-      }})
+        {
+          where: {
+            userId: req.user.id,
+            status: 'cart'
+          }
+        })
     }
     //if the user is a guest, create the actual line items in the db
     //else, the relevant line items are already in the db as the user's line items of status cart
     const userId = req.user.id || guestUser.dataValues.id
     const datePurchased = new Date() // ************ empty model possible here. line not needed 
-    const newOrder = await Order.create({ datePurchased, userId })  //
+    const newOrder = await Order.create({ datePurchased, userId })
+    console.log(newOrder)  //
 
 
     lineItems.forEach(async item => {
       await LineItem.update({
         orderId: newOrder.id,
         status: 'purchased'
-        },
+      },
         { where: { id: item.id } })
       // const { inventoryQuantity: oldInventoryQuantity } = await Product.findOne({
       //   where: { id: item.productId },
@@ -41,10 +44,12 @@ const createOrder = async (req, next) => {
       // )
       //*********OR instead of the above 9 lines:*********
       const associatedProduct = await Product.findOne({ where: { id: item.productId } })
+      console.log(associatedProduct.dataValues.inventoryQuantity)
       associatedProduct.changeInventory(-item.quantity)
+      console.log(associatedProduct.dataValues.inventoryQuantity)
     }
-  )
-    return newOrder
+    )
+    return newOrder.dataValues
   } catch (err) {
     next(err)
   }
@@ -63,7 +68,8 @@ router.post("/", async (req, res, next) => {
 
     let possibleNewOrder = null
     if (status === 'succeeded') {
-      possibleNewOrder = createOrder(req, next)
+      possibleNewOrder = await createOrder(req, next)
+      console.log('Possible new order: ', possibleNewOrder)
     }
 
     res.json({ status, possibleNewOrder })

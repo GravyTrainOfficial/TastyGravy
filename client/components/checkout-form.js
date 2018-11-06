@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { CardElement, injectStripe } from 'react-stripe-elements';
-import axios from 'axios'
+
+
 class CheckoutForm extends Component {
   constructor(props) {
     super(props);
@@ -20,16 +21,17 @@ class CheckoutForm extends Component {
 
     }
     console.log('this.props.total: ', this.props.total)
-    let response = await axios.post('api/charge', body)
+    // let response = await axios.post('api/charge', body)
+    let response = this.props.enterStripe(body)
 
 
-    console.log('this is response', response)
-    if (response.status === 200) {
-      this.setState({ complete: true });
-      console.log("Purchase Complete!")
-    } else {
-      this.props.displayError()
-    }
+    // console.log('this is response', response)
+    // if (response.status === 200) {
+    //   this.setState({ complete: true });
+    //   console.log("Purchase Complete!")
+    // } else {
+    //   this.props.displayError()
+    // }
 
   }
 
@@ -45,5 +47,8 @@ class CheckoutForm extends Component {
     );
   }
 }
+
+
+
 
 export default injectStripe(CheckoutForm);

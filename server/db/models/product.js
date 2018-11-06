@@ -29,8 +29,8 @@ const Product = db.define('product', {
   }
 })
 
-Product.prototype.changeInventory = (amount) => {
-  this.inventoryQuantity -= amount  // Will this work?????
+Product.prototype.changeInventory = function (amount) {
+  this.inventoryQuantity += amount  // Will this work?????
   this.save()
 }
 
