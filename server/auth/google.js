@@ -1,7 +1,7 @@
 const passport = require('passport')
 const router = require('express').Router()
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-const {User} = require('../db/models')
+const { User } = require('../db/models')
 module.exports = router
 
 /**
@@ -14,11 +14,7 @@ module.exports = router
  * set these environment variables like so:
  */
 
-//TEMPORARY, MOVE LATER
-process.env.GOOGLE_CLIENT_ID =
-  '756493388144-pgppod2upt0pm3mncnoh0qd18e7ot787.apps.googleusercontent.com'
-process.env.GOOGLE_CLIENT_SECRET = '67CgTEWcvW5GI7xfvGLdIlz0'
-process.env.GOOGLE_CALLBACK = '/auth/google/callback'
+
 
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   console.log('Google client ID / secret not found. Skipping Google OAuth.')
@@ -37,8 +33,8 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
       const email = profile.emails[0].value
 
       User.findOrCreate({
-        where: {googleId},
-        defaults: {name, email}
+        where: { googleId },
+        defaults: { name, email }
       })
         .then(([user]) => done(null, user))
         .catch(done)
@@ -47,7 +43,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
 
   passport.use(strategy)
 
-  router.get('/', passport.authenticate('google', {scope: 'email'}))
+  router.get('/', passport.authenticate('google', { scope: 'email' }))
 
   router.get(
     '/callback',
