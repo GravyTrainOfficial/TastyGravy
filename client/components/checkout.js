@@ -11,6 +11,14 @@ class Checkout extends Component {
   constructor(props) {
     super(props)
     // this.updateItem = this.updateItem.bind(this)
+    this.displayError = this.displayError.bind(this)
+    this.state = {
+      error: false
+    }
+  }
+
+  displayError() {
+    this.setState({ error: true })
   }
 
   componentDidMount() {
@@ -33,10 +41,11 @@ class Checkout extends Component {
         {this.props.guestEmail ?
           <StripeProvider apiKey="pk_test_qDNHLYG3F1rF307ZNsEV1Bw6">
             <Elements>
-              <CheckoutForm total={calculateCartTotal(this.props.cart)} />
+              <CheckoutForm displayError={this.displayError} total={calculateCartTotal(this.props.cart)} />
             </Elements>
           </StripeProvider> :
           <GetGuestEmail setGuestEmail={this.props.setGuestEmail} />}
+        {this.state.error && 'error running the card'}
       </div>
 
 
