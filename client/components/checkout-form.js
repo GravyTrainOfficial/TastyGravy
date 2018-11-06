@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { CardElement, injectStripe } from 'react-stripe-elements';
-
+import axios from 'axios'
 class CheckoutForm extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +21,7 @@ class CheckoutForm extends Component {
 
     //   }
     // });
+    console.log('this is token ', token)
     const body = {
       token: {
         id: token.id
