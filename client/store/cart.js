@@ -103,32 +103,6 @@ export const removeLineItem = (productId) => { //just need productId here
   }
 }
 
-export const modifyLineItem = (item) => { //product, productId, and quantity from form
-  // const possibleCartItem = cart.find((entry) => entry.productId === item.productId)
-  // if (possibleCartItem) {
-  //   return async dispatch => {
-  //     try {
-  //       console.log('update')
-  //       const { data } = await axios.put('/api/line-items', item)
-  //       dispatch(updateItemQuantity(data))
-  //     } catch (error) {
-  //       console.error(error)
-  //     }
-  //   }
-  // }
-  console.log('in modifyLineItem thunk')
-  return async dispatch => {
-    try {
-      const { data } = await axios.put('/api/line-items', item)
-      console.log('in the dispatch for modifyLineItem; data received from put request: ', data)
-      dispatch(updateLineItem(data))
-    } catch (error) {
-      console.error(error)
-    }
-  }
-}
-
-
 /**
  * REDUCER
  */
