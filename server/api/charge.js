@@ -1,7 +1,8 @@
 const router = require('express').Router()
 module.exports = router
-const stripe = require("stripe")("sk_test_vdFxdXGq22vnZybYmHEUZVJC")
+const stripe = require("stripe")(process.env.STRIPE_SECRET)
 const { Order, LineItem, Product, User } = require('../db/models')
+
 
 const createOrder = async (req, next) => {
   try {
