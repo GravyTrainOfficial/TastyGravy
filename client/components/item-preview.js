@@ -57,18 +57,14 @@ class ItemPreview extends Component {
           <p>Unit Price: {formatPrice(item.product.price)}</p>
           <p>Total: {formatPrice(calculateProductTotal(item))}</p>
         </div>
-        <div id='increment-decrement-container'>
-          <div>
             <input type='number' value={this.state.quantity} min='0' name='quantity' onChange={(event) => this.handleChange(event.target.value - item.quantity)} />
-          </div>
+        <div id='increment-decrement-container'>
           <div>
             <h2 onClick={() => this.handleChange(1)}>+</h2>
             <h2 onClick={() => this.handleChange(-1)}>-</h2>
           </div>
-          <div>
-            <button onClick={() => removeLineItem(item.productId)}>Remove From Cart</button>
-          </div>
         </div>
+            <button onClick={() => removeLineItem(item.productId)}>Remove From Cart</button>
       </div>
     )
   }
