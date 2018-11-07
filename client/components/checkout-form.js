@@ -37,7 +37,7 @@ class CheckoutForm extends Component {
       <div className="checkout">
         <p>Would you like to complete the purchase?</p>
 
-        <CardElement />
+        <CardElement id='card-form' />
         <button className="ui button" type="submit" onClick={this.submit}>
           Send
         </button>
