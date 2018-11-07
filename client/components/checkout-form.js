@@ -1,15 +1,15 @@
-import React, {Component} from 'react'
-import {CardElement, injectStripe} from 'react-stripe-elements'
+import React, { Component } from 'react'
+import { CardElement, injectStripe } from 'react-stripe-elements'
 
 class CheckoutForm extends Component {
   constructor(props) {
     super(props)
-    this.state = {complete: false}
+    this.state = { complete: false }
     this.submit = this.submit.bind(this)
   }
 
   async submit(ev) {
-    let {token} = await this.props.stripe.createToken({name: 'Name'})
+    let { token } = await this.props.stripe.createToken({ name: 'Name' })
 
     console.log('this is token ', token)
     const body = {
@@ -19,16 +19,7 @@ class CheckoutForm extends Component {
       amount: this.props.total
     }
     console.log('this.props.total: ', this.props.total)
-    // let response = await axios.post('api/charge', body)
     let response = this.props.enterStripe(body)
-
-    // console.log('this is response', response)
-    // if (response.status === 200) {
-    //   this.setState({ complete: true });
-    //   console.log("Purchase Complete!")
-    // } else {
-    //   this.props.displayError()
-    // }
   }
 
   render() {
