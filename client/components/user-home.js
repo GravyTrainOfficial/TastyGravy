@@ -21,16 +21,10 @@ export class UserHome extends Component {
   }
 
   render() {
-    const { firstName, lastName, email } = this.props
+    const { firstName, email } = this.props
     return (
       <div>
         <h3>Welcome, {firstName || email}</h3>
-        <p>details about editing user below</p>
-        {!this.state.editing ? (
-          <button onClick={this.handleClick} />
-        ) : (
-            <p>EDITING FORM GOES HERE</p>
-          )}
       </div>
     )
   }

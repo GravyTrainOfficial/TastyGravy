@@ -1,7 +1,6 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {auth} from '../store'
-import {fetchProductData, addProduct} from '../store/products'
+import { connect } from 'react-redux'
+import { fetchProductData, addProduct } from '../store/products'
 
 /**
  * COMPONENT
@@ -35,16 +34,16 @@ class AddProduct extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.setState({errorMessage: ''})
+    this.setState({ errorMessage: '' })
     if (this.isCategoryReady() && this.isUniqueProduct()) {
-      let newProduct = {...this.state}
+      let newProduct = { ...this.state }
       if (newProduct.image_URL === '') {
         delete newProduct.image_URL
       }
       this.props.addProduct(newProduct)
     } else {
       if (!this.isCategoryReady()) {
-        this.setState({errorMessage: 'Enter a category'})
+        this.setState({ errorMessage: 'Enter a category' })
       }
       if (!this.isUniqueProduct()) {
         this.setState({
@@ -138,6 +137,6 @@ const mapState = state => {
   }
 }
 
-const mapDispatch = {fetchProductData, addProduct}
+const mapDispatch = { fetchProductData, addProduct }
 
 export default connect(mapState, mapDispatch)(AddProduct)

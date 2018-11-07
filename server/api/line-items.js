@@ -1,6 +1,5 @@
 const router = require('express').Router()
-const axios = require('axios')
-const { Order, LineItem, Product } = require('../db/models')
+const { LineItem, Product } = require('../db/models')
 module.exports = router
 
 const getCartByUserId = async (id) => {
