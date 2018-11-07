@@ -13,10 +13,6 @@ const Navbar = props => {
         {isLoggedIn ? (
           <div className="ui five item menu">
             {/* The navbar will show these links after you log in */}
-            <Link to="/home">Home</Link>
-            <Link to="/products">Products</Link>
-            <Link to="/cart">My Cart</Link>
-            <Link to="/orderhistory">Order History</Link>
             <Link className="item" to="/home">
               Home
             </Link>
@@ -30,17 +26,25 @@ const Navbar = props => {
               Order History
             </Link>
             {role === 'admin' && <Link to="/addProduct">Add Products</Link>}
-            <a href="#" onClick={handleClick}>
+            <a className="item" href="#" onClick={handleClick}>
               Logout
             </a>
           </div>
         ) : (
-          <div>
+          <div className="ui four item menu">
             {/* The navbar will show these links before you log in */}
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Sign Up</Link>
-            <Link to="/products">Products</Link>
-            <Link to="/cart">My Cart</Link>
+            <Link className="item" to="/login">
+              Login
+            </Link>
+            <Link className="item" to="/signup">
+              Sign Up
+            </Link>
+            <Link className="item" to="/products">
+              Products
+            </Link>
+            <Link className="item" to="/cart">
+              My Cart
+            </Link>
             {/* <Link to="/orderhistory">Order History</Link> */}
           </div>
         )}
