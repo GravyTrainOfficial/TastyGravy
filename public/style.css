@@ -73,20 +73,39 @@ img.single-product-img {
   transform: rotate(-10deg);
 }
 
-#increment-decrement-container,
-#increment-decrement-container,
-#item-preview-container {
+#increment-decrement-container, #item-preview-container {
   text-align: center;
   display: flex;
 }
+
+#item-preview-container {
+  align-items: center;
+  align-content: center;
+}
+
+#item-preview-container>*{
+  max-width: 250px;
+  padding: 0px 10px;
+}
+#item-preview-container>input{
+  width: 50px;
+  height: 50px;
+  margin-left: 50px;
+}
+#item-preview-container>button{
+  max-width: 100px;
+  height: 50px;
+}
+
 
 .item-preview-title {
   width: 400px;
 }
 
 .small-image {
-  width: 100px;
-  height: 100px;
+
+  width:120px;
+  height:100px;
 }
 
 .ui.four.item.menu {
@@ -117,3 +136,4 @@ form.ui.form {
 .googleName {
   justify-content: flex-start;
 }
+
