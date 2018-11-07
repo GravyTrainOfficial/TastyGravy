@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+const Product = require('./index')
 
 const LineItem = db.define('lineitem', {
   quantity: {

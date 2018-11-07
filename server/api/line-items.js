@@ -3,11 +3,124 @@ const axios = require('axios')
 const { Order, LineItem, Product } = require('../db/models')
 module.exports = router
 
-router.get('/', async (req, res, next) => {
+const getCartByUserId = async (id) => {
+  return await LineItem.findAll({
+    where: {
+      userId: id,
+      status: 'cart'
+    },
+    include: [Product]
+  })
+}
+
+const addToCart = async (item, userId) => {
+  return await LineItem.create({
+    ...item,
+    status: 'cart',
+    userId
+  })
+}
+
+const checkQuantity = (newQuantity, args, callback) => {
+  if (newQuantity < 0) return 'forbidden'
+  else if (newQuantity === 0) return 'delete'
+  else return callback(...args)
+}
+
+const postUserItem = async (userId, quantity, product, productId) => {
+  console.log('user is logged in, posting to database')
+  const newItemData = { quantity, productId, userId }
+  // const possibleOldItem = await LineItem.findOne({
+  //   where: {
+  //     productId,
+  //     userId: user.id,
+  //     status: 'cart'
+  //   }
+  // })
+  const possibleOldItem = (await getCartByUserId(userId))
+                            .find(item => item.dataValues.productId === productId)
+  if (possibleOldItem) {
+    console.log('oh no! this already exists! switching to put route...')
+    return editUserItem(possibleOldItem, quantity, product, productId)
+  } 
+
+  return checkQuantity(quantity, [userId, newItemData, product], 
+    async (userId, data, product) => {
+      // const newItem = await LineItem.create({
+      //   ...newItemData,
+      //   status: 'cart',
+      //   userId: req.user.id
+      // })
+      const newItem = await addToCart(data, userId)
+      newItem.dataValues.product = product
+      console.log('successfully created new item: ', newItem.dataValues)
+      return newItem
+    }
+  )
+}
+
+const postGuestItem = async (cart = [], quantity, product, productId) => {
+  console.log('user is not logged in, creating session item')
+  const newItemData = { quantity, product, productId }
+  if (!cart) cart = [] //redundant, just in case
+  const possibleOldItem = cart.find(item => item.productId === productId)
+  if (possibleOldItem) {
+    console.log('oh no! this already exists! switching to put route...')
+    res.json(await axios.put('/api/line-items/', newItemData))
+  }
+  return checkQuantity(quantity, [cart, newItemData], 
+    (cart, newItemData) => {
+      cart.push(newItemData)
+      console.log('created new item data: ', newItemData, 'and pushed to session cart: ', cart)
+      return newItemData
+    }
+  )
+}
+
+const editUserItem = async (oldItem, quantity, product) => {
+  console.log('user is logged in, editing database item')
+  const { dataValues: { id, quantity: oldQuantity } } = oldItem
+  console.log('did the destructuring/finding right and got id and old quantity: ', id, oldQuantity)
+  const newQuantity = oldQuantity + quantity
+  
+  return checkQuantity(newQuantity, [newQuantity, id, product], 
+    async (quantity, id, product) => {
+      const updatedItem = await LineItem.update({ quantity },
+        {
+          where: { id },
+          returning: true
+        })
+      updatedItem[1][0].dataValues.product = product
+      console.log(updatedItem)
+      console.log('successfully updated, array destructured, and assigned product object to the item: ', updatedItem[1][0].dataValues)
+      return updatedItem[1][0]
+    }
+  )
+}
+
+const editGuestItem = async (oldItem, quantity, productId) => {
+  const newQuantity = oldItem.quantity + quantity
+  if (newQuantity < 0) { // If the edit would make the quantity negative
+    console.log('the new quantity would be negative! sending 403...')
+    res.status(403).send() //temporary; probably do more
+  }
+  if (newQuantity === 0) { // If the edit would make the quantity zero
+    console.log('the new quantity would be zero! gonna delete...')
+    res.json(await axios.delete(`/api/line-items/${productId}`))
+  }
+  oldItem.quantity = newQuantity
+  console.log('successfully changed the quantity of itemToUpdate; res.json-ing: ', itemToUpdate)
+  res.json(itemToUpdate)
+}
+
+
+
+
+
+router.get('/', async (req, next) => {
   try {
     console.log(req.user)
     if (req.user && req.user.role === 'admin') {
-      // if (req.user) {
       const allLineItems = await LineItem.findAll({
         include: [{ all: true }]
       })
@@ -32,11 +145,11 @@ router.get('/cart', async (req, res, next) => {
       //   },
       //   include: [Product]
       // })
-      cartItems = await LineItem.findCartByUserId(req.user.id)
+      cartItems = await getCartByUserId(req.user.id)
     } else {
       cartItems = req.session.cart || []
     }
-    res.json(cartItems)
+    return cartItems
   } catch (err) {
     next(err)
   }
@@ -46,36 +159,17 @@ router.post('/', async (req, res, next) => {
   try {
     const { quantity, product, productId } = req.body
     console.log('in line item api post request; creating quantity of ', quantity)
-    if (quantity < 1) res.status(403).send()
+
+    let result
     if (req.user) {
-      console.log('user is logged in, posting to database')
-      const newItemData = { quantity, productId, userId: req.user.id }
-      // const possibleOldItem = await LineItem.findOne({
-      //   where: {
-      //     productId,
-      //     userId: req.user.id,
-      //     status: 'cart'
-      //   }
-      // })
-      const possibleOldItem = (await LineItem.findCartByUserId(req.user.id))
-                                .find(item => item.dataValues.productId === productId)
-      if (possibleOldItem) {
-        console.log('oh no! this already exists! switching to put route...')
-        res.json(await axios.put('/api/line-items/', { ...newItemData, product }))
-      }
-      // const newItem = await LineItem.create({
-      //   ...newItemData,
-      //   status: 'cart',
-      //   userId: req.user.id
-      // })
-      const newItem = await LineItem.addToCart(newItemData, req.user.id)
-      newItem.dataValues.product = product
-      console.log('successfully created new item, res.json-ing: ', newItem.dataValues)
-      res.json(newItem)
+      result = await postUserItem(req.user.id, quantity, product, productId)
     } else {
-      console.log('user is not logged in, going to next route')
-      next()
+      result = await postGuestItem(req.session.cart, quantity, product, productId)
     }
+
+    if (result === 'forbidden') res.status(403).send()
+    else if (result === 'delete') return //DO DELETING
+    else res.json(result)
   } catch (err) {
     next(err)
   }
