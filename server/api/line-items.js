@@ -48,10 +48,7 @@ const editUserItem = async (oldItem, quantity, product) => {
     
     return checkQuantity(newQuantity, async () => {
       const updatedItem = await LineItem.update({ quantity: newQuantity },
-        {
-          where: { id },
-          returning: true
-        })
+        { where: { id }, returning: true })
       updatedItem[1][0].dataValues.product = product
       console.log(updatedItem)
       console.log('successfully updated, array destructured, and assigned product object to the item: ', updatedItem[1][0].dataValues)
