@@ -60,7 +60,7 @@ export class SingleProduct extends Component {
     if (product) {
       return (
         <div>
-          <img src={product.image_URL} />
+          <img className='single-product-img' src={product.image_URL} />
           <h1>{product.name}</h1>
           <p>{product.description}</p>
           <p>{formatPrice(product.price)}</p>

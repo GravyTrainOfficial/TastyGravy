@@ -49,7 +49,7 @@ class ItemPreview extends Component {
     return (
       <div id='item-preview-container'> {/*will be a flexbox!*/}
         <img className='small-image' src={item.product.image_URL} />
-        <div>
+        <div className='item-preview-title'>
           <Link to={`/products/${item.productId}`} ><h1>{item.product.name}</h1></Link>
         </div>
         <div id='stock-price-container'>

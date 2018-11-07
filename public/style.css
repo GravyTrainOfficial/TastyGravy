@@ -36,8 +36,9 @@ form div {
   padding: 10px;
 }
 
-.productImage {
+.productImage, img.single-product-img {
   width: 200px;
+  height:200px;
 }
 
 
@@ -61,15 +62,18 @@ form div {
   transform: rotate(-10deg); 
 } 
 
-#item-preview-container, #increment-decrement-container,  #stock-price-container  {
-  display: flex;
-  flex-wrap: wrap;
-}
 
-#increment-decrement-container, #increment-decrement-container>* {
+
+#increment-decrement-container, #increment-decrement-container, #item-preview-container {
   text-align: center;
+  display:flex;
 }
 
-img {
-  width: 200px
+.item-preview-title {
+  width: 400px;
+}
+
+.small-image {
+  width:100px;
+  height:100px;
 }
