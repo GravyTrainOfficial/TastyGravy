@@ -40,6 +40,7 @@ form div {
   width: 200px;
 }
 
+
 .productName {
   margin-top: 18px;
   z-index: 1000;
@@ -57,9 +58,10 @@ form div {
   -moz-transform: rotate(-10deg);
   -o-transform: rotate(-10deg);
   -ms-transform: rotate(-10deg);
-  transform: rotate(-10deg); } 
+  transform: rotate(-10deg); 
+} 
 
-#item-preview-container, #increment-decrement-container, #stock-price-container {
+#item-preview-container, #increment-decrement-container,  #stock-price-container  {
   display: flex;
   flex-wrap: wrap;
 }

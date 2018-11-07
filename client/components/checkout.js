@@ -38,7 +38,7 @@ class Checkout extends Component {
           this.props.cart.map(item => <ItemPreview key={item.productId} item={item} />)}
         <h3>CART TOTAL: {formatPrice(calculateCartTotal(this.props.cart))}</h3>
         <button type="button" onClick={() => checkout()}>CHECKOUT</button>
-        {this.props.guestEmail ?
+        {this.props.guestEmail || this.props.isLoggedIn ?
           <StripeProvider apiKey="pk_test_qDNHLYG3F1rF307ZNsEV1Bw6">
             <Elements>
               <CheckoutForm displayError={this.displayError} total={calculateCartTotal(this.props.cart)} enterStripe={this.props.enterStripe} />
@@ -59,8 +59,8 @@ const mapState = (state) => {
     cart: state.cartReducer,
     guestEmail: state.checkoutReducer.guestEmail,
     status: state.checkoutReducer.status,
-    order: state.checkoutReducer.order
-
+    order: state.checkoutReducer.order,
+    isLoggedIn: !!state.user.id
   }
 }
 
