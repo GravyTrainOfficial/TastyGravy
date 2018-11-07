@@ -48,9 +48,9 @@ class ItemPreview extends Component {
 
     return (
       <div id='item-preview-container'> {/*will be a flexbox!*/}
-        <div>
+        <img className='small-image' src={item.product.image_URL} />
+        <div className='item-preview-title'>
           <Link to={`/products/${item.productId}`} ><h1>{item.product.name}</h1></Link>
-          <img src={item.product.image_URL} />
         </div>
         <div id='stock-price-container'>
           <p>In Stock: {item.product.inventoryQuantity}</p>
@@ -58,12 +58,16 @@ class ItemPreview extends Component {
           <p>Total: {formatPrice(calculateProductTotal(item))}</p>
         </div>
         <div id='increment-decrement-container'>
-          <input type='number' value={this.state.quantity} min='0' name='quantity' onChange={(event) => this.handleChange(event.target.value - item.quantity)} />
+          <div>
+            <input type='number' value={this.state.quantity} min='0' name='quantity' onChange={(event) => this.handleChange(event.target.value - item.quantity)} />
+          </div>
           <div>
             <h2 onClick={() => this.handleChange(1)}>+</h2>
             <h2 onClick={() => this.handleChange(-1)}>-</h2>
           </div>
-          <button onClick={() => removeLineItem(item.productId)}>Remove From Cart</button>
+          <div>
+            <button onClick={() => removeLineItem(item.productId)}>Remove From Cart</button>
+          </div>
         </div>
       </div>
     )
